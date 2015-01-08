@@ -3,7 +3,7 @@ Buildtime Trend dashboard
 
 Visualise what's trending in your build process
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/buildtimetrend/python-client/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/buildtimetrend/python-client/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/buildtimetrend/dashboard/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/buildtimetrend/dashboard/?branch=master)
 
 
 Bugs and feature requests
