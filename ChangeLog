@@ -1,0 +1,14 @@
+v0.2 (not yet released)
+- issue #19 : update Keen.io charts using query request refresh function
+- issue #26 : add chart displaying builds per time of day or day of week
+- issue #44 : Display buildtime averages of different timeframes in the same chart
+- issue #15 : use Keen.io dashboard template for trends dashboard
+- issue #58 : split project in a client
+(https://github.com/buildtimetrend/python-client), library
+(https://github.com/buildtimetrend/python-lib) and dashboard (current project)
+- rename 'trends' folder to 'dashboard'
+- issue #17 : add parameterized (repo name, interval) build status badge to dashboard
+- issue #18 : link to project website and project repo on dashboard
+
+before v0.2, dashboard was part of the Buildtime Trend client repo. A seperate
+repo was created for the dashboard, see issue #58
