@@ -452,7 +452,7 @@ function updateTitle() {
     }
 
     document.getElementById("title").innerHTML = title;
-    document.getElementsByTagName("title")[0].innerHTML = title;
+    document.getElementsByTagName("title")[0].innerHTML = "Buildtime Trend - " + title;
 }
 
 // Initialize badge url
