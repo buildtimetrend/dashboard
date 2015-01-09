@@ -29,7 +29,7 @@ var CAPTION_LAST_WEEK = "Last week";
 var CAPTION_LAST_MONTH = "Last month";
 var CAPTION_LAST_YEAR = "Last year";
 
-var TIMEZONE_SECS = "0"; // GMT
+var TIMEZONE_SECS = "UTC"; // named timezone or offset in seconds, fe. GMT+1 = 3600
 
 function getUpdatePeriod(period) {
     var keenTimeframe, keenInterval;
