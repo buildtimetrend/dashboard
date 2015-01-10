@@ -1,0 +1,24 @@
+{
+  "name": "buildtimetrend-dashboard",
+  "version": "0.2-dev",
+  "homepage": "https://github.com/buildtimetrend/dashboard",
+  "authors": [
+    "Dieter Adriaenssens <ruleant@users.sourceforge.net>"
+  ],
+  "description": "Dashboard for Buildtime Trend",
+  "main": "index.html",
+  "keywords": [
+    "buildtimetrend",
+    "dashboard",
+    "analytics",
+    "trend"
+  ],
+  "license": "AGPLv3",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
