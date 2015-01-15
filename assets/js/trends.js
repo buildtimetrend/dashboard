@@ -345,18 +345,18 @@ function initCharts() {
                     queryAvgBuildtimeHourLastYear],
                 function()
         {
-            timeframe_captions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
-            index_captions = [];
+            timeframeCaptions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
+            indexCaptions = [];
             // populate array with an entry per hour
             for (i = 0; i < 24; i++) {
-                index_captions[i]= String(i) + ":00";
+                indexCaptions[i]= String(i) + ":00";
             }
 
             chart_data = mergeSeries(
                 this.data,
-                index_captions,
+                indexCaptions,
                 "build.started_at.hour_24",
-                timeframe_captions
+                timeframeCaptions
             );
 
             // draw chart
@@ -430,13 +430,13 @@ function initCharts() {
                     queryAvgBuildtimeWeekDayLastYear],
                 function()
         {
-            timeframe_captions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
-            index_captions = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            timeframeCaptions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
+            indexCaptions = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
             chart_data = mergeSeries(
                 this.data,
-                index_captions,
+                indexCaptions,
                 "build.started_at.day_of_week",
-                timeframe_captions
+                timeframeCaptions
             );
 
             // draw chart
@@ -528,32 +528,32 @@ function htmlEntities(str) {
  * 
  * Parameters :
  * - data : Keen.io query results
- * - index_captions : Captions for the index of the values
- * - value_fieldname : name of the value field in the query result array
- * - series_captions : captions for the data series
+ * - indexCaptions : Captions for the index of the values
+ * - valueFieldname : name of the value field in the query result array
+ * - seriesCaptions : captions for the data series
  */
-function mergeSeries(data, index_captions, value_fieldname, series_captions) {
-    chart_data = [];
+function mergeSeries(data, indexCaptions, valueFieldname, seriesCaptions) {
+    chartData = [];
     // create and populate data array
-    for (i = 0; i < index_captions.length; i++) {
-        chart_data[i]={caption: index_captions[i]};
+    for (i = 0; i < indexCaptions.length; i++) {
+        chartData[i]={caption: indexCaptions[i]};
         // populate all series
-        for (j = 0; j < series_captions.length; j++) {
-            chart_data[i][series_captions[j]] = 0;
+        for (j = 0; j < seriesCaptions.length; j++) {
+            chartData[i][seriesCaptions[j]] = 0;
         }
     }
     // loop over all query result sets
     for (j = 0; j < data.length; j++) {
-        timeframe_result = data[j].result;
-        timeframe_caption = series_captions[j];
+        timeframeResult = data[j].result;
+        timeframeCaption = seriesCaptions[j];
         // copy query data into the populated array
         for (i = 0; i < timeframe_result.length; i++) {
-            index = parseInt(timeframe_result[i][value_fieldname], 10);
-            chart_data[index][timeframe_caption] = timeframe_result[i].result;
+            index = parseInt(timeframeResult[i][valueFieldname], 10);
+            chartData[index][timeframeCaption] = timeframeResult[i].result;
         }
     }
 
-    return chart_data;
+    return chartData;
 }
 
 // initialize page
