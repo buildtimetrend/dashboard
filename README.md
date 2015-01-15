@@ -3,6 +3,7 @@ Buildtime Trend dashboard
 
 Visualise what's trending in your build process
 
+[![Codacy Badge](https://www.codacy.com/project/badge/78c7e443c0af4e68b4ecc491b9fd304e)](https://www.codacy.com/public/ruleant/dashboard)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/buildtimetrend/dashboard/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/buildtimetrend/dashboard/?branch=master)
 
 
