@@ -547,7 +547,7 @@ function mergeSeries(data, indexCaptions, valueFieldname, seriesCaptions) {
         timeframeResult = data[j].result;
         timeframeCaption = seriesCaptions[j];
         // copy query data into the populated array
-        for (i = 0; i < timeframe_result.length; i++) {
+        for (i = 0; i < timeframeResult.length; i++) {
             index = parseInt(timeframeResult[i][valueFieldname], 10);
             chartData[index][timeframeCaption] = timeframeResult[i].result;
         }
