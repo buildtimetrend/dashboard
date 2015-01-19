@@ -352,7 +352,7 @@ function initCharts() {
                 indexCaptions[i]= String(i) + ":00";
             }
 
-            chart_data = mergeSeries(
+            chartData = mergeSeries(
                 this.data,
                 indexCaptions,
                 "build.started_at.hour_24",
@@ -361,7 +361,7 @@ function initCharts() {
 
             // draw chart
             window.chart = new Keen.Visualization(
-                {result: chart_data},
+                {result: chartData},
                 document.getElementById("chart_avg_buildtime_hour"),
                 {
                     chartType: "columnchart",
@@ -432,7 +432,7 @@ function initCharts() {
         {
             timeframeCaptions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
             indexCaptions = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            chart_data = mergeSeries(
+            chartData = mergeSeries(
                 this.data,
                 indexCaptions,
                 "build.started_at.day_of_week",
@@ -441,7 +441,7 @@ function initCharts() {
 
             // draw chart
             window.chart = new Keen.Visualization(
-                {result: chart_data},
+                {result: chartData},
                 document.getElementById("chart_avg_buildtime_weekday"),
                 {
                     chartType: "columnchart",
