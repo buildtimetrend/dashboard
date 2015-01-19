@@ -430,9 +430,9 @@ function initCharts() {
                     queryAvgBuildtimeWeekDayLastYear],
                 function()
         {
-            timeframeCaptions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
-            indexCaptions = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            chartData = mergeSeries(
+            var timeframeCaptions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
+            var indexCaptions = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            var chartData = mergeSeries(
                 this.data,
                 indexCaptions,
                 "build.started_at.day_of_week",
@@ -508,7 +508,7 @@ function initLinks() {
 
     // link to project repo and display icon
     if (config.repoName != null && config.repoName != 'repo_name') {
-        repoUrl = "https://github.com/" + config.repoName;
+        var repoUrl = "https://github.com/" + config.repoName;
         $("#repo-url").attr('href', htmlEntities(repoUrl));
         $("#repo-url").show();
     } else {
@@ -544,11 +544,11 @@ function mergeSeries(data, indexCaptions, valueFieldname, seriesCaptions) {
     }
     // loop over all query result sets
     for (j = 0; j < data.length; j++) {
-        timeframeResult = data[j].result;
-        timeframeCaption = seriesCaptions[j];
+        var timeframeResult = data[j].result;
+        var timeframeCaption = seriesCaptions[j];
         // copy query data into the populated array
         for (i = 0; i < timeframeResult.length; i++) {
-            index = parseInt(timeframeResult[i][valueFieldname], 10);
+            var index = parseInt(timeframeResult[i][valueFieldname], 10);
             chartData[index][timeframeCaption] = timeframeResult[i].result;
         }
     }
