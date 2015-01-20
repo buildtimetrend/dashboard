@@ -531,7 +531,7 @@ function populateProjects() {
 
         for (i = 0; i < config.projectList.length; i++) {
             projectRepo = htmlEntities(config.projectList[i]);
-            projectLink = '<li><a href="../../' + projectRepo + '">'
+            projectLink = '<li><a href="/dashboard/' + projectRepo + '">'
                 + projectRepo + '</a></li>';
             $("#projects ul").append(projectLink);
         }
