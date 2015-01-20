@@ -465,9 +465,9 @@ function updateTitle() {
     var title = 'Buildtime Trends';
 
     // check if config.projectName is set
-    if (!isEmpty(config.projectName) && config.projectName != 'project_name') {
+    if (!isEmpty(config.projectName) && config.projectName !== 'project_name') {
         title = htmlEntities(config.projectName);
-    } else if (!isEmpty(config.repoName) && config.repoName != 'repo_name') {
+    } else if (!isEmpty(config.repoName) && config.repoName !== 'repo_name') {
         title = htmlEntities(config.repoName);
     }
 
@@ -478,21 +478,21 @@ function updateTitle() {
 // Initialize badge url
 function updateBadgeUrl(periodName) {
     // check if config.serviceUrl is set by something else than the default value
-    if (isEmpty(config.serviceUrl) || config.serviceUrl == 'service_url') {
+    if (isEmpty(config.serviceUrl) || config.serviceUrl === 'service_url') {
         config.serviceUrl = 'https://buildtimetrend-service.herokuapp.com/';
     }
 
     var badgeUrl = config.serviceUrl + '/badge/';
 
     // add repo
-    if (!isEmpty(config.repoName) && config.repoName != 'repo_name') {
+    if (!isEmpty(config.repoName) && config.repoName !== 'repo_name') {
         badgeUrl += config.repoName;
 
         var updatePeriod = getUpdatePeriod(periodName);
         var interval = updatePeriod.name;
 
         // add interval
-        if (isEmpty(interval) || interval == 'day') {
+        if (isEmpty(interval) || interval === 'day') {
             badgeUrl += '/latest';
         } else {
             badgeUrl += '/avg/' + interval;
@@ -506,12 +506,12 @@ function updateBadgeUrl(periodName) {
 // Initialize link urls
 function initLinks() {
     // check if config.serviceUrl is set by something else than the default value
-    if (!isEmpty(config.websiteUrl) && config.websiteUrl != 'website_url') {
+    if (!isEmpty(config.websiteUrl) && config.websiteUrl !== 'website_url') {
         $("#title").attr('href', htmlEntities(config.websiteUrl));
     }
 
     // link to project repo and display icon
-    if (!isEmpty(config.repoName) && config.repoName != 'repo_name') {
+    if (!isEmpty(config.repoName) && config.repoName !== 'repo_name') {
         var repoUrl = "https://github.com/" + config.repoName;
         $("#repo-url").attr('href', htmlEntities(repoUrl));
         $("#repo-url").show();
