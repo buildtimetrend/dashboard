@@ -517,6 +517,29 @@ function initLinks() {
     }
 }
 
+// Populate project menu
+function populateProjects() {
+    // check if config.projectList is defined
+    if (config.projectList !== undefined && config.projectList !== null
+        && $.isArray(config.projectList) && config.projectList.length > 0) {
+        var i;
+        var projectRepo, projectLink;
+
+        for (i = 0; i < config.projectList.length; i++) {
+            projectRepo = htmlEntities(config.projectList[i]);
+            projectLink = '<li><a href="../../' + projectRepo + '">'
+                + projectRepo + '</a></li>';
+            $("#projects ul").append(projectLink);
+        }
+
+        // show projects menu
+        $("#projects").show();
+    } else {
+        // hide projects menu
+        $("#projects").hide();
+    }
+}
+
 // escape html characters
 // inspired by http://css-tricks.com/snippets/javascript/htmlentities-for-javascript/
 function htmlEntities(str) {
@@ -561,5 +584,6 @@ $(document).ready(function() {
     updateTitle();
     initLinks();
     updateBadgeUrl();
+    populateProjects();
     initCharts();
 });
