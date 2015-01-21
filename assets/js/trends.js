@@ -526,15 +526,15 @@ function initLinks() {
 // Populate project menu
 function populateProjects() {
     // check if config.projectList is defined
-    if (!isEmpty(config.projectList)
-        && $.isArray(config.projectList) && config.projectList.length > 0) {
+    if (!isEmpty(config.projectList) &&
+      $.isArray(config.projectList) && config.projectList.length > 0) {
         var i;
         var projectRepo, projectLink;
 
         for (i = 0; i < config.projectList.length; i++) {
             projectRepo = htmlEntities(config.projectList[i]);
-            projectLink = '<li><a href="/dashboard/' + projectRepo + '">'
-                + projectRepo + '</a></li>';
+            projectLink = '<li><a href="/dashboard/' + projectRepo + '">' +
+               projectRepo + '</a></li>';
             $("#projects ul").append(projectLink);
         }
 
