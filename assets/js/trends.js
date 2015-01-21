@@ -349,14 +349,16 @@ function initCharts() {
                     queryAvgBuildtimeHourLastYear],
                 function()
         {
-            timeframeCaptions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
-            indexCaptions = [];
+            var timeframeCaptions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
+            var indexCaptions = [];
+            
             // populate array with an entry per hour
+            var i;
             for (i = 0; i < 24; i++) {
                 indexCaptions[i]= String(i) + ":00";
             }
 
-            chartData = mergeSeries(
+            var chartData = mergeSeries(
                 this.data,
                 indexCaptions,
                 "build.started_at.hour_24",
@@ -560,8 +562,9 @@ function htmlEntities(str) {
  * - seriesCaptions : captions for the data series
  */
 function mergeSeries(data, indexCaptions, valueFieldname, seriesCaptions) {
-    chartData = [];
+    var chartData = [];
     // create and populate data array
+    var i, j;
     for (i = 0; i < indexCaptions.length; i++) {
         chartData[i]={caption: indexCaptions[i]};
         // populate all series
