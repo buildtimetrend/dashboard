@@ -533,16 +533,19 @@ function populateProjects() {
 
         for (i = 0; i < config.projectList.length; i++) {
             projectRepo = htmlEntities(config.projectList[i]);
-            projectLink = '<li><a href="/dashboard/' + projectRepo + '">' +
+            projectUrl = "/dashboard/" + projectRepo;
+
+            // add project link to dropdown menu
+            projectLinkDropdown = '<li><a href="' + projectUrl + '">' +
                projectRepo + '</a></li>';
-            $("#projects ul").append(projectLink);
+            $("#projects.dropdown ul").append(projectLinkDropdown);
         }
 
-        // show projects menu
-        $("#projects").show();
+        // show projects dropdown menu
+        $("#projects.dropdown").show();
     } else {
-        // hide projects menu
-        $("#projects").hide();
+        // hide projects dropdown menu
+        $("#projects.dropdown").hide();
     }
 }
 
