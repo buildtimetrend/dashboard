@@ -464,7 +464,7 @@ function initCharts() {
 
 // add project name to title
 function updateTitle() {
-    var title = 'Buildtime Trends';
+    var title = 'Buildtime Trend as a Service';
 
     // check if config.projectName is set
     if (!isEmpty(config.projectName) && config.projectName !== 'project_name') {
