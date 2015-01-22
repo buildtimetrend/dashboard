@@ -105,8 +105,8 @@ function initCharts() {
     // update interval selection box
     $('#intervals').val(updatePeriod.name);
 
-    // hide title
-    document.getElementById("timeframe_title").style.display = "none";
+    // hide timeframe title
+    $('#timeframe_title').hide();
 
     // visualization code goes here
     Keen.ready(function() {
