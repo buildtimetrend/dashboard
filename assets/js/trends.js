@@ -31,8 +31,53 @@ var CAPTION_LAST_YEAR = "Last year";
 
 var TIMEZONE_SECS = "UTC"; // named timezone or offset in seconds, fe. GMT+1 = 3600
 
+/**
+ * Checks if a variable is defined and not null.
+ */
 function isEmpty(varName) {
    return (varName === undefined || varName === null);
+}
+
+/**
+ * Escape html characters
+ * inspired by http://css-tricks.com/snippets/javascript/htmlentities-for-javascript/
+ */
+function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+
+/**
+ * Merge data from several series, with identical X-axis labels
+ *
+ * Parameters :
+ * - data : Keen.io query results
+ * - indexCaptions : Captions for the index of the values
+ * - valueFieldname : name of the value field in the query result array
+ * - seriesCaptions : captions for the data series
+ */
+function mergeSeries(data, indexCaptions, valueFieldname, seriesCaptions) {
+    var chartData = [];
+    // create and populate data array
+    var i, j;
+    for (i = 0; i < indexCaptions.length; i++) {
+        chartData[i]={caption: indexCaptions[i]};
+        // populate all series
+        for (j = 0; j < seriesCaptions.length; j++) {
+            chartData[i][seriesCaptions[j]] = 0;
+        }
+    }
+    // loop over all query result sets
+    for (j = 0; j < data.length; j++) {
+        var timeframeResult = data[j].result;
+        var timeframeCaption = seriesCaptions[j];
+        // copy query data into the populated array
+        for (i = 0; i < timeframeResult.length; i++) {
+            var index = parseInt(timeframeResult[i][valueFieldname], 10);
+            chartData[index][timeframeCaption] = timeframeResult[i].result;
+        }
+    }
+
+    return chartData;
 }
 
 function getUpdatePeriod(period) {
@@ -556,45 +601,6 @@ function populateProjects() {
     }
 }
 
-// escape html characters
-// inspired by http://css-tricks.com/snippets/javascript/htmlentities-for-javascript/
-function htmlEntities(str) {
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-}
-
-/**
- * Merge data from several series, with identical X-axis labels
- * 
- * Parameters :
- * - data : Keen.io query results
- * - indexCaptions : Captions for the index of the values
- * - valueFieldname : name of the value field in the query result array
- * - seriesCaptions : captions for the data series
- */
-function mergeSeries(data, indexCaptions, valueFieldname, seriesCaptions) {
-    var chartData = [];
-    // create and populate data array
-    var i, j;
-    for (i = 0; i < indexCaptions.length; i++) {
-        chartData[i]={caption: indexCaptions[i]};
-        // populate all series
-        for (j = 0; j < seriesCaptions.length; j++) {
-            chartData[i][seriesCaptions[j]] = 0;
-        }
-    }
-    // loop over all query result sets
-    for (j = 0; j < data.length; j++) {
-        var timeframeResult = data[j].result;
-        var timeframeCaption = seriesCaptions[j];
-        // copy query data into the populated array
-        for (i = 0; i < timeframeResult.length; i++) {
-            var index = parseInt(timeframeResult[i][valueFieldname], 10);
-            chartData[index][timeframeCaption] = timeframeResult[i].result;
-        }
-    }
-
-    return chartData;
-}
 
 // initialize page
 $(document).ready(function() {
