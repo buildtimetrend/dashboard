@@ -31,6 +31,11 @@ var CAPTION_LAST_YEAR = "Last year";
 
 var TIMEZONE_SECS = "UTC"; // named timezone or offset in seconds, fe. GMT+1 = 3600
 
+// arrays with queries and query request to update
+var queriesInterval = [];
+var queriesTimeframe = [];
+var queryRequests = [];
+
 /**
  * Checks if a variable is defined and not null.
  */
@@ -111,10 +116,33 @@ function getUpdatePeriod(period) {
     };
 }
 
-// arrays with queries and query request to update
-var queriesInterval = [];
-var queriesTimeframe = [];
-var queryRequests = [];
+// Initialize badge url
+function updateBadgeUrl(periodName) {
+    // check if config.serviceUrl is set by something else than the default value
+    if (isEmpty(config.serviceUrl) || config.serviceUrl === 'service_url') {
+        config.serviceUrl = 'https://buildtimetrend-service.herokuapp.com/';
+    }
+
+    var badgeUrl = config.serviceUrl + '/badge/';
+
+    // add repo
+    if (!isEmpty(config.repoName) && config.repoName !== 'repo_name') {
+        badgeUrl += config.repoName;
+
+        var updatePeriod = getUpdatePeriod(periodName);
+        var interval = updatePeriod.name;
+
+        // add interval
+        if (isEmpty(interval) || interval === 'day') {
+            badgeUrl += '/latest';
+        } else {
+            badgeUrl += '/avg/' + interval;
+        }
+    }
+
+    // change badge url
+    $("#badge-url").attr('src', htmlEntities(badgeUrl));
+}
 
 function updateCharts(periodName) {
     // get Update Period settings
@@ -522,34 +550,6 @@ function updateTitle() {
     document.getElementsByTagName("title")[0].innerHTML = "Buildtime Trend - " + title;
 }
 
-// Initialize badge url
-function updateBadgeUrl(periodName) {
-    // check if config.serviceUrl is set by something else than the default value
-    if (isEmpty(config.serviceUrl) || config.serviceUrl === 'service_url') {
-        config.serviceUrl = 'https://buildtimetrend-service.herokuapp.com/';
-    }
-
-    var badgeUrl = config.serviceUrl + '/badge/';
-
-    // add repo
-    if (!isEmpty(config.repoName) && config.repoName !== 'repo_name') {
-        badgeUrl += config.repoName;
-
-        var updatePeriod = getUpdatePeriod(periodName);
-        var interval = updatePeriod.name;
-
-        // add interval
-        if (isEmpty(interval) || interval === 'day') {
-            badgeUrl += '/latest';
-        } else {
-            badgeUrl += '/avg/' + interval;
-        }
-    }
-
-    // change badge url
-    $("#badge-url").attr('src', htmlEntities(badgeUrl));
-}
-
 // Initialize link urls
 function initLinks() {
     // check if config.serviceUrl is set by something else than the default value
@@ -600,7 +600,6 @@ function populateProjects() {
         $("#projects.dropdown").hide();
     }
 }
-
 
 // initialize page
 $(document).ready(function() {
