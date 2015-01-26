@@ -568,6 +568,18 @@ function initLinks() {
     }
 }
 
+// Display message
+function initMessage() {
+    // add message and display it
+    if (!isEmpty(config.message)) {
+        $("#message").append(htmlEntities(config.message));
+        $("#message").show();
+    } else {
+        // hide message
+        $("#message").hide();
+    }
+}
+
 // Populate project menu
 function populateProjects() {
     // check if config.projectList is defined
@@ -605,6 +617,7 @@ function populateProjects() {
 $(document).ready(function() {
     updateTitle();
     initLinks();
+    initMessage();
     updateBadgeUrl();
     populateProjects();
     initCharts();
