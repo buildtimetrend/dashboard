@@ -181,6 +181,9 @@ function initCharts() {
     // hide timeframe title
     $('#timeframe_title').hide();
 
+    // display charts
+    $('#charts').show();
+
     // visualization code goes here
     Keen.ready(function() {
         /* Total builds */
@@ -620,5 +623,8 @@ $(document).ready(function() {
     initMessage();
     updateBadgeUrl();
     populateProjects();
-    initCharts();
+    if (!isEmpty(config.repoName) &&
+      !isEmpty(keenConfig.projectId) && !isEmpty(keenConfig.readKey)) {
+        initCharts();
+    }
 });
