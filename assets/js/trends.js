@@ -178,9 +178,6 @@ function initCharts() {
     // update interval selection box
     $('#intervals').val(updatePeriod.name);
 
-    // hide timeframe title
-    $('#timeframe_title').hide();
-
     // display charts
     $('#charts').show();
 
