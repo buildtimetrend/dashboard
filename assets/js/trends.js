@@ -116,14 +116,18 @@ function getUpdatePeriod(period) {
     };
 }
 
-// Initialize badge url
-function updateBadgeUrl(periodName) {
+// Get badge url
+function getBadgeUrl() {
     // check if config.serviceUrl is set by something else than the default value
     if (isEmpty(config.serviceUrl) || config.serviceUrl === 'service_url') {
         config.serviceUrl = 'https://buildtimetrend-service.herokuapp.com/';
     }
 
-    var badgeUrl = config.serviceUrl + '/badge/';
+    return config.serviceUrl + '/badge/';
+
+// Initialize badge url
+function updateBadgeUrl(periodName) {
+    var badgeUrl = getBadgeUrl();
 
     // add repo
     if (!isEmpty(config.repoName) && config.repoName !== 'repo_name') {
@@ -586,12 +590,12 @@ function populateProjects() {
     if (!isEmpty(config.projectList) &&
       $.isArray(config.projectList) && config.projectList.length > 0) {
         var i;
-        var projectRepo, projectUrl, projectLinkDropdown, projectLinkOverview;
+        var projectRepo, projectUrl, badgeUrl, projectLinkDropdown, projectLinkOverview;
 
         for (i = 0; i < config.projectList.length; i++) {
             projectRepo = htmlEntities(config.projectList[i]);
             projectUrl = "/dashboard/" + projectRepo;
-            badgeUrl = "/badge/" + projectRepo;
+            badgeUrl = getBadgeUrl() + projectRepo;
 
             // add project link to dropdown menu
             projectLinkDropdown = '<li><a href="' + projectUrl + '">' +
