@@ -124,6 +124,7 @@ function getBadgeUrl() {
     }
 
     return config.serviceUrl + '/badge/';
+}
 
 // Initialize badge url
 function updateBadgeUrl(periodName) {
