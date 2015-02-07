@@ -186,7 +186,7 @@ function initCharts() {
         /* Total builds */
         // create query
         var queryTotalBuilds = new Keen.Query("count", {
-            eventCollection: "builds",
+            eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe
         });
@@ -203,10 +203,10 @@ function initCharts() {
         /* Total builds passed */
         // create query
         var queryTotalBuildsPassed = new Keen.Query("count", {
-            eventCollection: "builds",
+            eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
-            filters: [{"property_name":"build.result","operator":"eq","property_value":"passed"}]
+            filters: [{"property_name":"job.result","operator":"eq","property_value":"passed"}]
         });
         queriesTimeframe.push(queryTotalBuildsPassed);
 
@@ -240,10 +240,10 @@ function initCharts() {
         /* Total builds passed */
         // create query
         var queryTotalBuildsFailed = new Keen.Query("count", {
-            eventCollection: "builds",
+            eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
-            filters: [{"property_name":"build.result","operator":"in","property_value":["failed","errored"]}]
+            filters: [{"property_name":"job.result","operator":"in","property_value":["failed","errored"]}]
         });
         queriesTimeframe.push(queryTotalBuildsFailed);
 
@@ -277,10 +277,10 @@ function initCharts() {
         /* average build time of all stages */
         // create query
         var queryAverageBuildTime = new Keen.Query("average", {
-            eventCollection: "builds",
+            eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
-            targetProperty: "build.duration"
+            targetProperty: "job.duration"
         });
         queriesTimeframe.push(queryAverageBuildTime);
 
@@ -350,8 +350,8 @@ function initCharts() {
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             interval: keenInterval,
-            targetProperty: "build.build",
-            groupBy: "build.branch"
+            targetProperty: "job.build",
+            groupBy: "job.branch"
         });
         queriesTimeframe.push(queryBuilds);
         queriesInterval.push(queryBuilds);
@@ -375,8 +375,8 @@ function initCharts() {
             eventCollection: "build_stages",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
-            targetProperty: "build.build",
-            groupBy: "build.branch"
+            targetProperty: "job.build",
+            groupBy: "job.branch"
         });
         queriesTimeframe.push(queryTotalBuildsBranch);
 
@@ -391,28 +391,28 @@ function initCharts() {
         /* Average buildtime per time of day */
         // create query
         var queryAvgBuildtimeHourLastWeek = new Keen.Query("average", {
-            eventCollection: "builds",
+            eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_WEEK,
-            targetProperty: "build.duration",
-            groupBy: "build.started_at.hour_24",
-            filters: [{"property_name":"build.started_at.hour_24","operator":"exists","property_value":true}]
+            targetProperty: "job.duration",
+            groupBy: "job.started_at.hour_24",
+            filters: [{"property_name":"job.started_at.hour_24","operator":"exists","property_value":true}]
         });
         var queryAvgBuildtimeHourLastMonth = new Keen.Query("average", {
-            eventCollection: "builds",
+            eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_MONTH,
-            targetProperty: "build.duration",
-            groupBy: "build.started_at.hour_24",
-            filters: [{"property_name":"build.started_at.hour_24","operator":"exists","property_value":true}]
+            targetProperty: "job.duration",
+            groupBy: "job.started_at.hour_24",
+            filters: [{"property_name":"job.started_at.hour_24","operator":"exists","property_value":true}]
         });
         var queryAvgBuildtimeHourLastYear = new Keen.Query("average", {
-            eventCollection: "builds",
+            eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_YEAR,
-            targetProperty: "build.duration",
-            groupBy: "build.started_at.hour_24",
-            filters: [{"property_name":"build.started_at.hour_24","operator":"exists","property_value":true}]
+            targetProperty: "job.duration",
+            groupBy: "job.started_at.hour_24",
+            filters: [{"property_name":"job.started_at.hour_24","operator":"exists","property_value":true}]
         });
 
         // generate chart
@@ -434,7 +434,7 @@ function initCharts() {
             var chartData = mergeSeries(
                 this.data,
                 indexCaptions,
-                "build.started_at.hour_24",
+                "job.started_at.hour_24",
                 timeframeCaptions
             );
 
@@ -460,42 +460,42 @@ function initCharts() {
         /* Average buildtime per day of week */
         // create query
         var queryAvgBuildtimeWeekDayLastWeek = new Keen.Query("average", {
-            eventCollection: "builds",
+            eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_WEEK,
-            targetProperty: "build.duration",
-            groupBy: "build.started_at.day_of_week",
+            targetProperty: "job.duration",
+            groupBy: "job.started_at.day_of_week",
             filters: [
                 {
-                    "property_name":"build.started_at.day_of_week",
+                    "property_name":"job.started_at.day_of_week",
                     "operator":"exists",
                     "property_value":true
                 }
             ]
         });
         var queryAvgBuildtimeWeekDayLastMonth = new Keen.Query("average", {
-            eventCollection: "builds",
+            eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_MONTH,
-            targetProperty: "build.duration",
-            groupBy: "build.started_at.day_of_week",
+            targetProperty: "job.duration",
+            groupBy: "job.started_at.day_of_week",
             filters: [
                 {
-                    "property_name":"build.started_at.day_of_week",
+                    "property_name":"job.started_at.day_of_week",
                     "operator":"exists",
                     "property_value":true
                 }
             ]
         });
         var queryAvgBuildtimeWeekDayLastYear = new Keen.Query("average", {
-            eventCollection: "builds",
+            eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_YEAR,
-            targetProperty: "build.duration",
-            groupBy: "build.started_at.day_of_week",
+            targetProperty: "job.duration",
+            groupBy: "job.started_at.day_of_week",
             filters: [
                 {
-                    "property_name":"build.started_at.day_of_week",
+                    "property_name":"job.started_at.day_of_week",
                     "operator":"exists",
                     "property_value":true
                 }
@@ -514,7 +514,7 @@ function initCharts() {
             var chartData = mergeSeries(
                 this.data,
                 indexCaptions,
-                "build.started_at.day_of_week",
+                "job.started_at.day_of_week",
                 timeframeCaptions
             );
 
