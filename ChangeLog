@@ -11,7 +11,6 @@ v0.2 (not yet released)
 - issue #18 : link to project website and project repo on dashboard
 - run queries in GMT timezone
 - schema change : save build job data in build_jobs.job (was builds.build)
-- schema change : use build_substages (for (sub)stage data)
 
 before v0.2, dashboard was part of the Buildtime Trend client repo. A seperate
 repo was created for the dashboard, see issue #58
