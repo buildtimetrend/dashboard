@@ -116,14 +116,19 @@ function getUpdatePeriod(period) {
     };
 }
 
-// Initialize badge url
-function updateBadgeUrl(periodName) {
+// Get badge url
+function getBadgeUrl() {
     // check if config.serviceUrl is set by something else than the default value
     if (isEmpty(config.serviceUrl) || config.serviceUrl === 'service_url') {
-        config.serviceUrl = 'https://buildtimetrend-service.herokuapp.com/';
+        config.serviceUrl = 'https://buildtimetrend-dev.herokuapp.com/';
     }
 
-    var badgeUrl = config.serviceUrl + '/badge/';
+    return config.serviceUrl + '/badge/';
+}
+
+// Initialize badge url
+function updateBadgeUrl(periodName) {
+    var badgeUrl = getBadgeUrl();
 
     // add repo
     if (!isEmpty(config.repoName) && config.repoName !== 'repo_name') {
@@ -299,7 +304,7 @@ function initCharts() {
         /* average stage duration */
         // create query
         var queryStageDuration = new Keen.Query("average", {
-            eventCollection: "build_stages",
+            eventCollection: "build_substages",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             interval: keenInterval,
@@ -326,7 +331,7 @@ function initCharts() {
         /* Stage duration fraction */
         // create query
         var queryStageFraction = new Keen.Query("average", {
-            eventCollection: "build_stages",
+            eventCollection: "build_substages",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             targetProperty: "stage.duration",
@@ -346,7 +351,7 @@ function initCharts() {
         /* Builds */
         // create query
         var queryBuilds = new Keen.Query("count_unique", {
-            eventCollection: "build_stages",
+            eventCollection: "build_substages",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             interval: keenInterval,
@@ -372,7 +377,7 @@ function initCharts() {
         /* Builds per branch */
         // create query
         var queryTotalBuildsBranch = new Keen.Query("count_unique", {
-            eventCollection: "build_stages",
+            eventCollection: "build_substages",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             targetProperty: "job.build",
@@ -586,12 +591,12 @@ function populateProjects() {
     if (!isEmpty(config.projectList) &&
       $.isArray(config.projectList) && config.projectList.length > 0) {
         var i;
-        var projectRepo, projectUrl, projectLinkDropdown, projectLinkOverview;
+        var projectRepo, projectUrl, badgeUrl, projectLinkDropdown, projectLinkOverview;
 
         for (i = 0; i < config.projectList.length; i++) {
             projectRepo = htmlEntities(config.projectList[i]);
             projectUrl = "/dashboard/" + projectRepo;
-            badgeUrl = "/badge/" + projectRepo;
+            badgeUrl = getBadgeUrl() + projectRepo;
 
             // add project link to dropdown menu
             projectLinkDropdown = '<li><a href="' + projectUrl + '">' +
