@@ -120,7 +120,7 @@ function getUpdatePeriod(period) {
 function getBadgeUrl() {
     // check if config.serviceUrl is set by something else than the default value
     if (isEmpty(config.serviceUrl) || config.serviceUrl === 'service_url') {
-        config.serviceUrl = 'https://buildtimetrend-dev.herokuapp.com/';
+        config.serviceUrl = 'https://buildtimetrend.herokuapp.com/';
     }
 
     return config.serviceUrl + '/badge/';
@@ -304,7 +304,7 @@ function initCharts() {
         /* average stage duration */
         // create query
         var queryStageDuration = new Keen.Query("average", {
-            eventCollection: "build_substages",
+            eventCollection: "build_stages",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             interval: keenInterval,
@@ -331,7 +331,7 @@ function initCharts() {
         /* Stage duration fraction */
         // create query
         var queryStageFraction = new Keen.Query("average", {
-            eventCollection: "build_substages",
+            eventCollection: "build_stages",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             targetProperty: "stage.duration",
@@ -351,7 +351,7 @@ function initCharts() {
         /* Builds */
         // create query
         var queryBuilds = new Keen.Query("count_unique", {
-            eventCollection: "build_substages",
+            eventCollection: "build_stages",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             interval: keenInterval,
@@ -377,7 +377,7 @@ function initCharts() {
         /* Builds per branch */
         // create query
         var queryTotalBuildsBranch = new Keen.Query("count_unique", {
-            eventCollection: "build_substages",
+            eventCollection: "build_stages",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             targetProperty: "job.build",
