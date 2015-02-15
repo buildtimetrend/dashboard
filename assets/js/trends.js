@@ -351,7 +351,7 @@ function initCharts() {
         /* Builds */
         // create query
         var queryBuilds = new Keen.Query("count_unique", {
-            eventCollection: "build_stages",
+            eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             interval: keenInterval,
@@ -377,7 +377,7 @@ function initCharts() {
         /* Builds per branch */
         // create query
         var queryTotalBuildsBranch = new Keen.Query("count_unique", {
-            eventCollection: "build_stages",
+            eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             targetProperty: "job.build",
