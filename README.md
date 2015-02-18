@@ -3,9 +3,59 @@ Buildtime Trend dashboard
 
 Visualise what's trending in your build process
 
+[![Buildtime Trend dashboard](http://img.shields.io/badge/release-v0.2-blue.svg)](https://github.com/buildtimetrend//dashboard/releases/latest)
+[![Buildtime Trend dashboard (dev)](http://img.shields.io/badge/dev-v0.3.dev-blue.svg)](https://github.com/buildtimetrend/dashboard/zipball/master)
 [![Codacy Badge](https://www.codacy.com/project/badge/78c7e443c0af4e68b4ecc491b9fd304e)](https://www.codacy.com/public/ruleant/dashboard)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/buildtimetrend/dashboard/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/buildtimetrend/dashboard/?branch=master)
 
+## Description
+
+Dashboard with charts and trends of build data gathered by [Python Client](https://github.com/buildtimetrend/python-client) or [Buildtime Trend as a Service](https://github.com/buildtimetrend/service).
+This dashboard is part of Buildtime Trend as a Service, it is deployed by the Python Client, or it can be used stand alone.
+
+## Available charts and metrics
+  - number of builds, successful and failed
+  - average build duration
+  - chart with duration of individual build stages
+  - chart with builds per branch
+  - charts with build duration per time of day/day of week
+
+You can [see it in action](http://buildtimetrend.herokuapp.com/dashboard/buildtimetrend/python-lib/index.html)!
+
+## How to get it?
+
+The [latest version](https://github.com/buildtimetrend/dashboard/releases/latest) is available for download as zip and tarball on GitHub. Unzip and copy to the desired directory.
+
+If you prefer to use git, several options are available :
+
+- development version : `git clone https://github.com/buildtimetrend/dashboard.git`
+- latest release : `git clone https://github.com/buildtimetrend/dashboard.git --branch release`
+- a specific release : `git clone https://github.com/buildtimetrend/dashboard.git --branch v0.2`
+
+## Usage
+
+The dashboard is hosted on [Buildtime Trend as a Service](http://buildtimetrend.herokuapp.com/dashboard/).
+When you setup the Python Client as part of your build process, it will [deploy the dashboard to the github pages of your project](https://github.com/buildtimetrend/python-client#integrate-with-travis-ci).
+
+To install a standalone version :
+
+- download the project and copy the project to a folder on your website, see [How to get it?](#how-to-get-it)
+- copy `config_sample.js` to `config.js` and adjust it to your needs :
+
+```JavaScript
+ keenConfig = {
+    projectId: "keen_project_id", // required
+    readKey: "keen_read_key" // required
+};
+
+var config = {
+    projectName: "project_name", // descriptive project name (used in the title), optional
+    repoName: "repo_name", // repo name, fe. "buildtimetrend/python-client"
+    serviceUrl: "service_url", // url to Buildtime Trend as a Service, fe. https://buildtimetrend-dev.herokuapp.com/, optional
+    websiteUrl: "website_url", // url to project website, optional
+    projectList: [] // list of repoNames of other projects hosted on the same website, optional
+};
+```
 
 Bugs and feature requests
 -------------------------
