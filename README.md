@@ -20,6 +20,16 @@ This dashboard is part of Buildtime Trend as a Service, it is deployed by the Py
 
 You can [see it in action](http://buildtimetrend.herokuapp.com/dashboard/buildtimetrend/python-lib/index.html)!
 
+## How to get it?
+
+The [latest version](https://github.com/buildtimetrend/dashboard/releases/latest) is available for download as zip and tarball on GitHub. Unzip and copy to the desired directory.
+
+If you prefer to use git, several options are available :
+
+- development version : `git clone https://github.com/buildtimetrend/dashboard.git`
+- latest release : `git clone https://github.com/buildtimetrend/dashboard.git --branch release`
+- a specific release : `git clone https://github.com/buildtimetrend/dashboard.git --branch v0.2`
+
 ## Usage
 
 The dashboard is hosted on [Buildtime Trend as a Service](http://buildtimetrend.herokuapp.com/dashboard/).
