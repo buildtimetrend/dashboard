@@ -1,6 +1,6 @@
 {
   "name": "buildtimetrend-dashboard",
-  "version": "0.2",
+  "version": "0.3.dev1",
   "homepage": "https://github.com/buildtimetrend/dashboard",
   "authors": [
     "Dieter Adriaenssens <ruleant@users.sourceforge.net>"
