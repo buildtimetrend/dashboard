@@ -37,8 +37,7 @@ When you setup the Python Client as part of your build process, it will [deploy 
 
 To install a standalone version :
 
-- download the project
-- copy the project to a folder on your website
+- download the project and copy the project to a folder on your website, see [How to get it?](#how-to-get-it)
 - copy `config_sample.js` to `config.js` and adjust it to your needs :
 
 ```JavaScript
