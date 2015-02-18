@@ -22,8 +22,8 @@ You can [see it in action](http://buildtimetrend.herokuapp.com/dashboard/buildti
 
 ## Usage
 
-The dashboard is hosted on Buildtime Trend as a Service.
-When you setup the Python Client as parrt of your build process, it will deploy the dashboard to the github pages of your project.
+The dashboard is hosted on [Buildtime Trend as a Service](http://buildtimetrend.herokuapp.com/dashboard/).
+When you setup the Python Client as part of your build process, it will [deploy the dashboard to the github pages of your project](https://github.com/buildtimetrend/python-client#integrate-with-travis-ci).
 
 To install a standalone version :
 
