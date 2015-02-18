@@ -3,6 +3,8 @@ Buildtime Trend dashboard
 
 Visualise what's trending in your build process
 
+[![Buildtime Trend dashboard](http://img.shields.io/badge/release-v0.2-blue.svg)](https://github.com/buildtimetrend//dashboard/releases/latest)
+[![Buildtime Trend dashboard (dev)](http://img.shields.io/badge/dev-v0.3.dev-blue.svg)](https://github.com/buildtimetrend/dashboard/zipball/master)
 [![Codacy Badge](https://www.codacy.com/project/badge/78c7e443c0af4e68b4ecc491b9fd304e)](https://www.codacy.com/public/ruleant/dashboard)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/buildtimetrend/dashboard/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/buildtimetrend/dashboard/?branch=master)
 
