@@ -393,7 +393,7 @@ function initCharts() {
         });
         queryRequests.push(requestTotalBuildsBranch);
 
-        /* Builds */
+        /* Build job result */
         // create query
         var queryJobResult = new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
@@ -418,6 +418,25 @@ function initCharts() {
             });
         });
         queryRequests.push(requestJobResult);
+
+        /* Failed build jobs per branch */
+        // create query
+        var queryTotalBuildsBranch = new Keen.Query("count_unique", {
+            eventCollection: "build_jobs",
+            timezone: TIMEZONE_SECS,
+            timeframe: keenTimeframe,
+            targetProperty: "job.job",
+            groupBy: "job.branch"
+        });
+        queriesTimeframe.push(queryTotalBuildsBranch);
+
+        // draw chart
+        var requestTotalBuildsBranch = client.run(queryTotalBuildsBranch, function() {
+            this.draw(document.getElementById("chart_jobs_result_branch"), {
+                title: "Failed build jobs per branch"
+            });
+        });
+        queryRequests.push(requestTotalBuildsBranch);
 
         /* Average buildtime per time of day */
         // create query
