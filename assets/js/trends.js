@@ -393,6 +393,51 @@ function initCharts() {
         });
         queryRequests.push(requestTotalBuildsBranch);
 
+        /* Build job result */
+        // create query
+        var queryJobResult = new Keen.Query("count_unique", {
+            eventCollection: "build_jobs",
+            timezone: TIMEZONE_SECS,
+            timeframe: keenTimeframe,
+            interval: keenInterval,
+            targetProperty: "job.job",
+            groupBy: "job.result"
+        });
+        queriesTimeframe.push(queryJobResult);
+        queriesInterval.push(queryJobResult);
+
+        // draw chart
+        var requestJobResult = client.run(queryJobResult, function() {
+            this.draw(document.getElementById("chart_jobs_result"), {
+                chartType: "columnchart",
+                title: "Build job results",
+                chartOptions: {
+                    isStacked: true,
+                    vAxis: {title: "build job count"}
+                }
+            });
+        });
+        queryRequests.push(requestJobResult);
+
+        /* Failed build jobs per branch */
+        // create query
+        var queryTotalBuildsBranch = new Keen.Query("count_unique", {
+            eventCollection: "build_jobs",
+            timezone: TIMEZONE_SECS,
+            timeframe: keenTimeframe,
+            targetProperty: "job.job",
+            groupBy: "job.branch"
+        });
+        queriesTimeframe.push(queryTotalBuildsBranch);
+
+        // draw chart
+        var requestTotalBuildsBranch = client.run(queryTotalBuildsBranch, function() {
+            this.draw(document.getElementById("chart_jobs_result_branch"), {
+                title: "Failed build jobs per branch"
+            });
+        });
+        queryRequests.push(requestTotalBuildsBranch);
+
         /* Average buildtime per time of day */
         // create query
         var queryAvgBuildtimeHourLastWeek = new Keen.Query("average", {
