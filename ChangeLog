@@ -1,4 +1,5 @@
 v0.3 (not yet released)
+- issue #21 : add charts with build job results
 
 v0.2 (released on 18Feb2015)
 - issue #19 : update Keen.io charts using query request refresh function
