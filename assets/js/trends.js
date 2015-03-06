@@ -393,6 +393,32 @@ function initCharts() {
         });
         queryRequests.push(requestTotalBuildsBranch);
 
+        /* Builds */
+        // create query
+        var queryJobResult = new Keen.Query("count_unique", {
+            eventCollection: "build_jobs",
+            timezone: TIMEZONE_SECS,
+            timeframe: keenTimeframe,
+            interval: keenInterval,
+            targetProperty: "job.job",
+            groupBy: "job.result"
+        });
+        queriesTimeframe.push(queryJobResult);
+        queriesInterval.push(queryJobResult);
+
+        // draw chart
+        var requestJobResult = client.run(queryJobResult, function() {
+            this.draw(document.getElementById("chart_jobs_result"), {
+                chartType: "columnchart",
+                title: "Build job results",
+                chartOptions: {
+                    isStacked: true,
+                    vAxis: {title: "build job count"}
+                }
+            });
+        });
+        queryRequests.push(requestJobResult);
+
         /* Average buildtime per time of day */
         // create query
         var queryAvgBuildtimeHourLastWeek = new Keen.Query("average", {
