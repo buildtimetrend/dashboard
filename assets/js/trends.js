@@ -426,7 +426,8 @@ function initCharts() {
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             targetProperty: "job.job",
-            groupBy: "job.branch"
+            groupBy: "job.branch",
+            filters: [{"property_name":"job.result","operator":"eq","property_value":"failed"}]
         });
         queriesTimeframe.push(queryTotalBuildsBranch);
 
