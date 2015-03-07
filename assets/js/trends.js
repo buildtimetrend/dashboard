@@ -419,7 +419,8 @@ function initCharts() {
         });
         queryRequests.push(requestJobResult);
 
-        /* Failed build jobs per branch */
+        /* Build job result per branch */
+
         // create query
         var queryJobResultBranch = new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
@@ -434,10 +435,29 @@ function initCharts() {
         // draw chart
         var requestJobResultBranch = client.run(queryJobResultBranch, function() {
             this.draw(document.getElementById("chart_jobs_result_branch"), {
-                title: "Failed build jobs per branch"
+                title: "Build job result per branch"
             });
         });
         queryRequests.push(requestJobResultBranch);
+
+        // Attach events to toggle buttons
+        document.getElementById("result_passed").addEventListener("click", function() {
+            queryJobResultBranch.set({filters: [
+                {"property_name":"job.result","operator":"eq","property_value":"passed"}]});
+            requestJobResultBranch.refresh();
+        });
+
+        document.getElementById("result_failed").addEventListener("click", function() {
+            queryJobResultBranch.set({filters: [
+                {"property_name":"job.result","operator":"eq","property_value":"failed"}]});
+            requestJobResultBranch.refresh();
+        });
+
+        document.getElementById("result_errored").addEventListener("click", function() {
+            queryJobResultBranch.set({filters: [
+                {"property_name":"job.result","operator":"eq","property_value":"errored"}]});
+            requestJobResultBranch.refresh();
+        });
 
         /* Average buildtime per time of day */
         // create query
