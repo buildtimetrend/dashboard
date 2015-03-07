@@ -421,7 +421,7 @@ function initCharts() {
 
         /* Failed build jobs per branch */
         // create query
-        var queryTotalBuildsBranch = new Keen.Query("count_unique", {
+        var queryJobResultBranch = new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
@@ -429,15 +429,15 @@ function initCharts() {
             groupBy: "job.branch",
             filters: [{"property_name":"job.result","operator":"eq","property_value":"failed"}]
         });
-        queriesTimeframe.push(queryTotalBuildsBranch);
+        queriesTimeframe.push(queryJobResultBranch);
 
         // draw chart
-        var requestTotalBuildsBranch = client.run(queryTotalBuildsBranch, function() {
+        var requestJobResultBranch = client.run(queryJobResultBranch, function() {
             this.draw(document.getElementById("chart_jobs_result_branch"), {
                 title: "Failed build jobs per branch"
             });
         });
-        queryRequests.push(requestTotalBuildsBranch);
+        queryRequests.push(requestJobResultBranch);
 
         /* Average buildtime per time of day */
         // create query
