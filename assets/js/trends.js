@@ -116,6 +116,19 @@ function getUpdatePeriod(period) {
     };
 }
 
+// Get Build job result filter
+function getBuildJobResultFilter(result) {
+    if (isEmpty(result)) {
+        result = "failed";
+    }
+
+    return {
+        "property_name": "job.result",
+        "operator": "eq",
+        "property_value": result
+    }
+}
+
 // Get badge url
 function getBadgeUrl() {
     // check if config.serviceUrl is set by something else than the default value
@@ -428,7 +441,7 @@ function initCharts() {
             timeframe: keenTimeframe,
             targetProperty: "job.job",
             groupBy: "job.branch",
-            filters: [{"property_name":"job.result","operator":"eq","property_value":"failed"}]
+            filters: [getBuildJobResultFilter("failed")]
         });
         queriesTimeframe.push(queryJobResultBranch);
 
@@ -442,20 +455,17 @@ function initCharts() {
 
         // Attach events to toggle buttons
         document.getElementById("result_passed").addEventListener("click", function() {
-            queryJobResultBranch.set({filters: [
-                {"property_name":"job.result","operator":"eq","property_value":"passed"}]});
+            queryJobResultBranch.set({filters: [getBuildJobResultFilter("passed")]});
             requestJobResultBranch.refresh();
         });
 
         document.getElementById("result_failed").addEventListener("click", function() {
-            queryJobResultBranch.set({filters: [
-                {"property_name":"job.result","operator":"eq","property_value":"failed"}]});
+            queryJobResultBranch.set({filters: [getBuildJobResultFilter("failed")]});
             requestJobResultBranch.refresh();
         });
 
         document.getElementById("result_errored").addEventListener("click", function() {
-            queryJobResultBranch.set({filters: [
-                {"property_name":"job.result","operator":"eq","property_value":"errored"}]});
+            queryJobResultBranch.set({filters: [getBuildJobResultFilter("errored")]});
             requestJobResultBranch.refresh();
         });
 
