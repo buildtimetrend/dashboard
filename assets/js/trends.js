@@ -116,6 +116,48 @@ function getUpdatePeriod(period) {
     };
 }
 
+// Get Build job result filter
+function getBuildJobResultFilter(result) {
+    if (isEmpty(result)) {
+        result = "failed";
+    }
+
+    return {
+        "property_name": "job.result",
+        "operator": "eq",
+        "property_value": result
+    }
+}
+
+// Set option buttons for Build job result filter
+function setBuildJobResultButton(result) {
+    if (isEmpty(result)) {
+        result = "failed";
+    }
+
+    var classButtonNormal = "btn btn-primary";
+    var classButtonSelected = "btn btn-success";
+
+    switch (result) {
+    default:
+    case "failed":
+        document.getElementById("result_passed").className = classButtonNormal;
+        document.getElementById("result_failed").className = classButtonSelected;
+        document.getElementById("result_errored").className = classButtonNormal;
+        break;
+    case "passed":
+        document.getElementById("result_passed").className = classButtonSelected;
+        document.getElementById("result_failed").className = classButtonNormal;
+        document.getElementById("result_errored").className = classButtonNormal;
+        break;
+    case "errored":
+        document.getElementById("result_passed").className = classButtonNormal;
+        document.getElementById("result_failed").className = classButtonNormal;
+        document.getElementById("result_errored").className = classButtonSelected;
+        break;
+    }
+}
+
 // Get badge url
 function getBadgeUrl() {
     // check if config.serviceUrl is set by something else than the default value
@@ -419,25 +461,48 @@ function initCharts() {
         });
         queryRequests.push(requestJobResult);
 
-        /* Failed build jobs per branch */
+        /* Build job result per branch */
+
+        // set default button
+        setBuildJobResultButton("failed");
+
         // create query
-        var queryTotalBuildsBranch = new Keen.Query("count_unique", {
+        var queryJobResultBranch = new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             targetProperty: "job.job",
             groupBy: "job.branch",
-            filters: [{"property_name":"job.result","operator":"eq","property_value":"failed"}]
+            filters: [getBuildJobResultFilter("failed")]
         });
-        queriesTimeframe.push(queryTotalBuildsBranch);
+        queriesTimeframe.push(queryJobResultBranch);
 
         // draw chart
-        var requestTotalBuildsBranch = client.run(queryTotalBuildsBranch, function() {
+        var requestJobResultBranch = client.run(queryJobResultBranch, function() {
             this.draw(document.getElementById("chart_jobs_result_branch"), {
-                title: "Failed build jobs per branch"
+                title: "Build job result per branch"
             });
         });
-        queryRequests.push(requestTotalBuildsBranch);
+        queryRequests.push(requestJobResultBranch);
+
+        // Attach events to toggle buttons
+        document.getElementById("result_passed").addEventListener("click", function() {
+            setBuildJobResultButton("passed");
+            queryJobResultBranch.set({filters: [getBuildJobResultFilter("passed")]});
+            requestJobResultBranch.refresh();
+        });
+
+        document.getElementById("result_failed").addEventListener("click", function() {
+            setBuildJobResultButton("failed");
+            queryJobResultBranch.set({filters: [getBuildJobResultFilter("failed")]});
+            requestJobResultBranch.refresh();
+        });
+
+        document.getElementById("result_errored").addEventListener("click", function() {
+            setBuildJobResultButton("errored");
+            queryJobResultBranch.set({filters: [getBuildJobResultFilter("errored")]});
+            requestJobResultBranch.refresh();
+        });
 
         /* Average buildtime per time of day */
         // create query
