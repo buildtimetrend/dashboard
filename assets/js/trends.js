@@ -129,6 +129,35 @@ function getBuildJobResultFilter(result) {
     }
 }
 
+// Set option buttons for Build job result filter
+function setBuildJobResultButton(result) {
+    if (isEmpty(result)) {
+        result = "failed";
+    }
+
+    var classButtonNormal = "btn btn-primary";
+    var classButtonSelected = "btn btn-success";
+
+    switch (result) {
+    default:
+    case "failed":
+        document.getElementById("result_passed").className = classButtonNormal;
+        document.getElementById("result_failed").className = classButtonSelected;
+        document.getElementById("result_errored").className = classButtonNormal;
+        break;
+    case "passed":
+        document.getElementById("result_passed").className = classButtonSelected;
+        document.getElementById("result_failed").className = classButtonNormal;
+        document.getElementById("result_errored").className = classButtonNormal;
+        break;
+    case "errored":
+        document.getElementById("result_passed").className = classButtonNormal;
+        document.getElementById("result_failed").className = classButtonNormal;
+        document.getElementById("result_errored").className = classButtonSelected;
+        break;
+    }
+}
+
 // Get badge url
 function getBadgeUrl() {
     // check if config.serviceUrl is set by something else than the default value
@@ -434,6 +463,9 @@ function initCharts() {
 
         /* Build job result per branch */
 
+        // set default button
+        setBuildJobResultButton("failed");
+
         // create query
         var queryJobResultBranch = new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
@@ -455,16 +487,19 @@ function initCharts() {
 
         // Attach events to toggle buttons
         document.getElementById("result_passed").addEventListener("click", function() {
+            setBuildJobResultButton("passed");
             queryJobResultBranch.set({filters: [getBuildJobResultFilter("passed")]});
             requestJobResultBranch.refresh();
         });
 
         document.getElementById("result_failed").addEventListener("click", function() {
+            setBuildJobResultButton("failed");
             queryJobResultBranch.set({filters: [getBuildJobResultFilter("failed")]});
             requestJobResultBranch.refresh();
         });
 
         document.getElementById("result_errored").addEventListener("click", function() {
+            setBuildJobResultButton("errored");
             queryJobResultBranch.set({filters: [getBuildJobResultFilter("errored")]});
             requestJobResultBranch.refresh();
         });
