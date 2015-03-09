@@ -240,10 +240,21 @@ function initCharts() {
         queriesTimeframe.push(queryTotalBuilds);
 
         // draw chart
-        var requestTotalBuilds = client.run(queryTotalBuilds, function() {
-            this.draw(document.getElementById("metric_total_builds"), {
-                title: "Total build jobs", width: "200"
-            });
+        var chartTotalBuilds = new Keen.Dataviz()
+            .el(document.getElementById("metric_total_builds"))
+            .prepare();
+
+        var requestTotalBuilds = client.run(queryTotalBuilds, function(err, res){
+            if (err) {
+            // Display the API error
+            chartTotalBuilds.error(err.message);
+            } else {
+                chartTotalBuilds
+                    .parseRequest(this)
+                    .title("Total build jobs")
+                    .width("200")
+                    .render();
+            }
         });
         queryRequests.push(requestTotalBuilds);
 
