@@ -130,32 +130,31 @@ function getBuildJobResultFilter(result) {
 }
 
 // Set option buttons for Build job result filter
-function setBuildJobResultButton(result) {
-    if (isEmpty(result)) {
-        result = "failed";
-    }
-
+function setBuildJobResultButton(button) {
     var classButtonNormal = "btn btn-primary";
     var classButtonSelected = "btn btn-success";
+    var buttonPrefix = "result_";
 
-    switch (result) {
-    default:
-    case "failed":
-        document.getElementById("result_passed").className = classButtonNormal;
-        document.getElementById("result_failed").className = classButtonSelected;
-        document.getElementById("result_errored").className = classButtonNormal;
-        break;
-    case "passed":
-        document.getElementById("result_passed").className = classButtonSelected;
-        document.getElementById("result_failed").className = classButtonNormal;
-        document.getElementById("result_errored").className = classButtonNormal;
-        break;
-    case "errored":
-        document.getElementById("result_passed").className = classButtonNormal;
-        document.getElementById("result_failed").className = classButtonNormal;
-        document.getElementById("result_errored").className = classButtonSelected;
-        break;
+    // list of allowed buttons and default values
+    var buttons = {
+        "passed": classButtonNormal,
+        "failed": classButtonNormal,
+        "errored": classButtonNormal
+    };
+
+    // check if button is defined or exists in list of buttons
+    // use default button, if not
+    if (isEmpty(button) || !(button in buttons)) {
+        button = "failed";
     }
+
+    // set active button
+    buttons[button] = classButtonSelected;
+
+    // apply classes to button divs
+    $.each(buttons, function(key, value) {
+        $("#" + buttonPrefix + key).attr('class', value);
+    });
 }
 
 // Get badge url
