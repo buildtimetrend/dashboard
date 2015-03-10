@@ -126,7 +126,7 @@ function getBuildJobResultFilter(result) {
         "property_name": "job.result",
         "operator": "eq",
         "property_value": result
-    }
+    };
 }
 
 // Set option buttons for Build job result filter
