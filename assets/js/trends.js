@@ -485,23 +485,19 @@ function initCharts() {
         queryRequests.push(requestJobResultBranch);
 
         // Attach events to toggle buttons
-        document.getElementById("result_passed").addEventListener("click", function() {
-            setBuildJobResultButton("passed");
-            queryJobResultBranch.set({filters: [getBuildJobResultFilter("passed")]});
-            requestJobResultBranch.refresh();
-        });
+        function attachEventResultButton(button) {
+            var buttonPrefix = "result_";
 
-        document.getElementById("result_failed").addEventListener("click", function() {
-            setBuildJobResultButton("failed");
-            queryJobResultBranch.set({filters: [getBuildJobResultFilter("failed")]});
-            requestJobResultBranch.refresh();
-        });
+            document.getElementById(buttonPrefix + button).addEventListener("click", function() {
+                setBuildJobResultButton(button);
+                queryJobResultBranch.set({filters: [getBuildJobResultFilter(button)]});
+                requestJobResultBranch.refresh();
+            });
+        }
 
-        document.getElementById("result_errored").addEventListener("click", function() {
-            setBuildJobResultButton("errored");
-            queryJobResultBranch.set({filters: [getBuildJobResultFilter("errored")]});
-            requestJobResultBranch.refresh();
-        });
+        attachEventResultButton("passed");
+        attachEventResultButton("failed");
+        attachEventResultButton("errored");
 
         /* Average buildtime per time of day */
         // create query
