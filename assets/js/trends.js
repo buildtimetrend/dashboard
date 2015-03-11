@@ -34,8 +34,14 @@ var TIMEZONE_SECS = "UTC"; // named timezone or offset in seconds, fe. GMT+1 = 3
 var CLASS_BUTTON_NORMAL = "btn btn-primary";
 var CLASS_BUTTON_ACTIVE = "btn btn-success";
 
+// Build result button constants
 var BUTTON_RESULT_PREFIX = "result_";
 var BUTTON_RESULT_DEFAULT = "failed";
+var BUTTONS_RESULT = {
+    "passed": CLASS_BUTTON_NORMAL,
+    "failed": CLASS_BUTTON_NORMAL,
+    "errored": CLASS_BUTTON_NORMAL
+};
 
 // arrays with queries and query request to update
 var queriesInterval = [];
@@ -140,12 +146,8 @@ function setBuildJobResultButton(button) {
     var buttonPrefix = BUTTON_RESULT_PREFIX;
     var buttonDefault = BUTTON_RESULT_DEFAULT;
 
-    // list of allowed buttons and default values
-    var buttons = {
-        "passed": CLASS_BUTTON_NORMAL,
-        "failed": CLASS_BUTTON_NORMAL,
-        "errored": CLASS_BUTTON_NORMAL
-    };
+    // shallow copy list of allowed buttons and default values
+    var buttons = JSON.parse(JSON.stringify(BUTTONS_RESULT));
 
     // check if button is defined or exists in list of buttons
     // use default button, if not
