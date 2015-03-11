@@ -31,6 +31,9 @@ var CAPTION_LAST_YEAR = "Last year";
 
 var TIMEZONE_SECS = "UTC"; // named timezone or offset in seconds, fe. GMT+1 = 3600
 
+var CLASS_BUTTON_NORMAL = "btn btn-primary";
+var CLASS_BUTTON_ACTIVE = "btn btn-success";
+
 // arrays with queries and query request to update
 var queriesInterval = [];
 var queriesTimeframe = [];
@@ -131,15 +134,13 @@ function getBuildJobResultFilter(result) {
 
 // Set option buttons for Build job result filter
 function setBuildJobResultButton(button) {
-    var classButtonNormal = "btn btn-primary";
-    var classButtonSelected = "btn btn-success";
     var buttonPrefix = "result_";
 
     // list of allowed buttons and default values
     var buttons = {
-        "passed": classButtonNormal,
-        "failed": classButtonNormal,
-        "errored": classButtonNormal
+        "passed": CLASS_BUTTON_NORMAL,
+        "failed": CLASS_BUTTON_NORMAL,
+        "errored": CLASS_BUTTON_NORMAL
     };
 
     // check if button is defined or exists in list of buttons
@@ -149,7 +150,7 @@ function setBuildJobResultButton(button) {
     }
 
     // set active button
-    buttons[button] = classButtonSelected;
+    buttons[button] = CLASS_BUTTON_ACTIVE;
 
     // apply classes to button divs
     $.each(buttons, function(key, value) {
