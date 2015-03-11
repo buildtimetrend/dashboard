@@ -34,6 +34,8 @@ var TIMEZONE_SECS = "UTC"; // named timezone or offset in seconds, fe. GMT+1 = 3
 var CLASS_BUTTON_NORMAL = "btn btn-primary";
 var CLASS_BUTTON_ACTIVE = "btn btn-success";
 
+var BUTTON_RESULT_PREFIX = "result_";
+
 // arrays with queries and query request to update
 var queriesInterval = [];
 var queriesTimeframe = [];
@@ -134,7 +136,7 @@ function getBuildJobResultFilter(result) {
 
 // Set option buttons for Build job result filter
 function setBuildJobResultButton(button) {
-    var buttonPrefix = "result_";
+    var buttonPrefix = BUTTON_RESULT_PREFIX;
 
     // list of allowed buttons and default values
     var buttons = {
@@ -487,7 +489,7 @@ function initCharts() {
 
         // Attach events to toggle buttons
         function attachEventResultButton(button) {
-            var buttonPrefix = "result_";
+            var buttonPrefix = BUTTON_RESULT_PREFIX;
 
             document.getElementById(buttonPrefix + button).addEventListener("click", function() {
                 setBuildJobResultButton(button);
