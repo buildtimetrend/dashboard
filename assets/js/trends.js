@@ -35,6 +35,7 @@ var CLASS_BUTTON_NORMAL = "btn btn-primary";
 var CLASS_BUTTON_ACTIVE = "btn btn-success";
 
 var BUTTON_RESULT_PREFIX = "result_";
+var BUTTON_RESULT_DEFAULT = "failed";
 
 // arrays with queries and query request to update
 var queriesInterval = [];
@@ -124,7 +125,7 @@ function getUpdatePeriod(period) {
 // Get Build job result filter
 function getBuildJobResultFilter(result) {
     if (isEmpty(result)) {
-        result = "failed";
+        result = BUTTON_RESULT_DEFAULT;
     }
 
     return {
@@ -137,6 +138,7 @@ function getBuildJobResultFilter(result) {
 // Set option buttons for Build job result filter
 function setBuildJobResultButton(button) {
     var buttonPrefix = BUTTON_RESULT_PREFIX;
+    var buttonDefault = BUTTON_RESULT_DEFAULT;
 
     // list of allowed buttons and default values
     var buttons = {
@@ -148,7 +150,7 @@ function setBuildJobResultButton(button) {
     // check if button is defined or exists in list of buttons
     // use default button, if not
     if (isEmpty(button) || !(button in buttons)) {
-        button = "failed";
+        button = buttonDefault;
     }
 
     // set active button
@@ -466,7 +468,7 @@ function initCharts() {
         /* Build job result per branch */
 
         // set default button
-        setBuildJobResultButton("failed");
+        setBuildJobResultButton(BUTTON_RESULT_DEFAULT);
 
         // create query
         var queryJobResultBranch = new Keen.Query("count_unique", {
@@ -475,7 +477,7 @@ function initCharts() {
             timeframe: keenTimeframe,
             targetProperty: "job.job",
             groupBy: "job.branch",
-            filters: [getBuildJobResultFilter("failed")]
+            filters: [getBuildJobResultFilter(BUTTON_RESULT_DEFAULT)]
         });
         queriesTimeframe.push(queryJobResultBranch);
 
@@ -490,6 +492,10 @@ function initCharts() {
         // Attach events to toggle buttons
         function attachEventResultButton(button) {
             var buttonPrefix = BUTTON_RESULT_PREFIX;
+
+            if (isEmpty(button)) {
+                button = BUTTON_RESULT_DEFAULT;
+            }
 
             document.getElementById(buttonPrefix + button).addEventListener("click", function() {
                 setBuildJobResultButton(button);
