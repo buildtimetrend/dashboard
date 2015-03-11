@@ -506,9 +506,10 @@ function initCharts() {
             });
         }
 
-        attachEventResultButton("passed");
-        attachEventResultButton("failed");
-        attachEventResultButton("errored");
+        // loop over list of buttons to attach click events
+        $.each(BUTTONS_RESULT, function(key, value) {
+            attachEventResultButton(key);
+        });
 
         /* Average buildtime per time of day */
         // create query
