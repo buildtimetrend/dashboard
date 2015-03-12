@@ -462,6 +462,11 @@ function initCharts() {
                 chartOptions: {
                     isStacked: true,
                     vAxis: {title: "build job count"}
+                },
+                colorMapping: {
+                    "passed": "green",
+                    "failed": "red",
+                    "errored": "yellow"
                 }
             });
         });
