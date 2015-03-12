@@ -349,14 +349,26 @@ function initCharts() {
         queriesTimeframe.push(queryAverageBuildTime);
 
         // draw chart
-        var requestAverageBuildTime = client.run(queryAverageBuildTime, function() {
-            this.draw(document.getElementById("metric_average_build_time"), {
-                title: "Average job duration",
-                width: "250",
+        var chartAverageBuildTime = new Keen.Dataviz()
+            .el(document.getElementById("metric_average_build_time"))
+            .width("250")
+            .attributes({
                 chartOptions: {
                     suffix: "s"
                 }
-            });
+            })
+           .prepare();
+
+        var requestAverageBuildTime = client.run(queryAverageBuildTime, function(err, res) {
+            if (err) {
+                // Display the API error
+                chartAverageBuildTime.error(err.message);
+            } else {
+                chartAverageBuildTime
+                    .parseRequest(this)
+                    .title("Average job duration")
+                    .render();
+            }
         });
         queryRequests.push(requestAverageBuildTime);
 
@@ -375,15 +387,28 @@ function initCharts() {
         queriesInterval.push(queryStageDuration);
 
         // draw chart
-        var requestStageDuration = client.run(queryStageDuration, function() {
-            this.draw(document.getElementById("chart_stage_duration"), {
-                chartType: "columnchart",
-                title: "Average build stage duration",
+        var chartStageDuration = new Keen.Dataviz()
+            .el(document.getElementById("chart_stage_duration"))
+            .chartType("columnchart")
+            .height("400")
+            .attributes({
                 chartOptions: {
                     isStacked: true,
                     vAxis: {title: "duration [s]"}
                 }
-            });
+            })
+            .prepare();
+
+        var requestStageDuration = client.run(queryStageDuration, function(err, res) {
+            if (err) {
+                // Display the API error
+                chartStageDuration.error(err.message);
+            } else {
+                chartStageDuration
+                    .parseRequest(this)
+                    .title("Average build stage duration")
+                    .render();
+            }
         });
         queryRequests.push(requestStageDuration);
 
@@ -400,10 +425,21 @@ function initCharts() {
         queriesTimeframe.push(queryStageFraction);
 
         // draw chart
-        var requestStageFraction = client.run(queryStageFraction, function() {
-            this.draw(document.getElementById("chart_stage_fraction"), {
-                title: "Build stage fraction of total build duration"
-            });
+        var chartStageFraction = new Keen.Dataviz()
+            .el(document.getElementById("chart_stage_fraction"))
+            .height("400")
+            .prepare();
+
+        var requestStageFraction = client.run(queryStageFraction, function(err, res) {
+            if (err) {
+                // Display the API error
+                chartStageFraction.error(err.message);
+            } else {
+                chartStageFraction
+                    .parseRequest(this)
+                    .title("Build stage fraction of total build duration")
+                    .render();
+            }
         });
         queryRequests.push(requestStageFraction);
 
