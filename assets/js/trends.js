@@ -31,6 +31,18 @@ var CAPTION_LAST_YEAR = "Last year";
 
 var TIMEZONE_SECS = "UTC"; // named timezone or offset in seconds, fe. GMT+1 = 3600
 
+var CLASS_BUTTON_NORMAL = "btn btn-primary";
+var CLASS_BUTTON_ACTIVE = "btn btn-success";
+
+// Build result button constants
+var BUTTON_RESULT_PREFIX = "result_";
+var BUTTON_RESULT_DEFAULT = "failed";
+var BUTTONS_RESULT = {
+    "passed": CLASS_BUTTON_NORMAL,
+    "failed": CLASS_BUTTON_NORMAL,
+    "errored": CLASS_BUTTON_NORMAL
+};
+
 // arrays with queries and query request to update
 var queriesInterval = [];
 var queriesTimeframe = [];
@@ -119,43 +131,37 @@ function getUpdatePeriod(period) {
 // Get Build job result filter
 function getBuildJobResultFilter(result) {
     if (isEmpty(result)) {
-        result = "failed";
+        result = BUTTON_RESULT_DEFAULT;
     }
 
     return {
         "property_name": "job.result",
         "operator": "eq",
         "property_value": result
-    }
+    };
 }
 
 // Set option buttons for Build job result filter
-function setBuildJobResultButton(result) {
-    if (isEmpty(result)) {
-        result = "failed";
+function setBuildJobResultButton(button) {
+    var buttonPrefix = BUTTON_RESULT_PREFIX;
+    var buttonDefault = BUTTON_RESULT_DEFAULT;
+
+    // shallow copy list of allowed buttons and default values
+    var buttons = JSON.parse(JSON.stringify(BUTTONS_RESULT));
+
+    // check if button is defined or exists in list of buttons
+    // use default button, if not
+    if (isEmpty(button) || !(button in buttons)) {
+        button = buttonDefault;
     }
 
-    var classButtonNormal = "btn btn-primary";
-    var classButtonSelected = "btn btn-success";
+    // set active button
+    buttons[button] = CLASS_BUTTON_ACTIVE;
 
-    switch (result) {
-    default:
-    case "failed":
-        document.getElementById("result_passed").className = classButtonNormal;
-        document.getElementById("result_failed").className = classButtonSelected;
-        document.getElementById("result_errored").className = classButtonNormal;
-        break;
-    case "passed":
-        document.getElementById("result_passed").className = classButtonSelected;
-        document.getElementById("result_failed").className = classButtonNormal;
-        document.getElementById("result_errored").className = classButtonNormal;
-        break;
-    case "errored":
-        document.getElementById("result_passed").className = classButtonNormal;
-        document.getElementById("result_failed").className = classButtonNormal;
-        document.getElementById("result_errored").className = classButtonSelected;
-        break;
-    }
+    // apply classes to button divs
+    $.each(buttons, function(key, value) {
+        $("#" + buttonPrefix + key).attr('class', value);
+    });
 }
 
 // Get badge url
@@ -467,6 +473,11 @@ function initCharts() {
                 chartOptions: {
                     isStacked: true,
                     vAxis: {title: "build job count"}
+                },
+                colorMapping: {
+                    "passed": "green",
+                    "failed": "red",
+                    "errored": "yellow"
                 }
             });
         });
@@ -475,7 +486,7 @@ function initCharts() {
         /* Build job result per branch */
 
         // set default button
-        setBuildJobResultButton("failed");
+        setBuildJobResultButton(BUTTON_RESULT_DEFAULT);
 
         // create query
         var queryJobResultBranch = new Keen.Query("count_unique", {
@@ -484,7 +495,7 @@ function initCharts() {
             timeframe: keenTimeframe,
             targetProperty: "job.job",
             groupBy: "job.branch",
-            filters: [getBuildJobResultFilter("failed")]
+            filters: [getBuildJobResultFilter(BUTTON_RESULT_DEFAULT)]
         });
         queriesTimeframe.push(queryJobResultBranch);
 
@@ -497,22 +508,23 @@ function initCharts() {
         queryRequests.push(requestJobResultBranch);
 
         // Attach events to toggle buttons
-        document.getElementById("result_passed").addEventListener("click", function() {
-            setBuildJobResultButton("passed");
-            queryJobResultBranch.set({filters: [getBuildJobResultFilter("passed")]});
-            requestJobResultBranch.refresh();
-        });
+        function attachEventResultButton(button) {
+            var buttonPrefix = BUTTON_RESULT_PREFIX;
 
-        document.getElementById("result_failed").addEventListener("click", function() {
-            setBuildJobResultButton("failed");
-            queryJobResultBranch.set({filters: [getBuildJobResultFilter("failed")]});
-            requestJobResultBranch.refresh();
-        });
+            if (isEmpty(button)) {
+                button = BUTTON_RESULT_DEFAULT;
+            }
 
-        document.getElementById("result_errored").addEventListener("click", function() {
-            setBuildJobResultButton("errored");
-            queryJobResultBranch.set({filters: [getBuildJobResultFilter("errored")]});
-            requestJobResultBranch.refresh();
+            document.getElementById(buttonPrefix + button).addEventListener("click", function() {
+                setBuildJobResultButton(button);
+                queryJobResultBranch.set({filters: [getBuildJobResultFilter(button)]});
+                requestJobResultBranch.refresh();
+            });
+        }
+
+        // loop over list of buttons to attach click events
+        $.each(BUTTONS_RESULT, function(key, value) {
+            attachEventResultButton(key);
         });
 
         /* Average buildtime per time of day */
