@@ -457,15 +457,28 @@ function initCharts() {
         queriesInterval.push(queryBuilds);
 
         // draw chart
-        var requestBuilds = client.run(queryBuilds, function() {
-            this.draw(document.getElementById("chart_builds"), {
-                chartType: "columnchart",
-                title: "Builds per branch",
+        var chartBuilds = new Keen.Dataviz()
+            .el(document.getElementById("chart_builds"))
+            .chartType("columnchart")
+            .height("400")
+            .attributes({
                 chartOptions: {
                     isStacked: true,
                     vAxis: {title: "build count"}
                 }
-            });
+            })
+            .prepare();
+
+        var requestBuilds = client.run(queryBuilds, function(err, res) {
+            if (err) {
+                // Display the API error
+                chartBuilds.error(err.message);
+            } else {
+                chartBuilds
+                    .parseRequest(this)
+                    .title("Builds per branch")
+                    .render();
+            }
         });
         queryRequests.push(requestBuilds);
 
@@ -481,10 +494,21 @@ function initCharts() {
         queriesTimeframe.push(queryTotalBuildsBranch);
 
         // draw chart
-        var requestTotalBuildsBranch = client.run(queryTotalBuildsBranch, function() {
-            this.draw(document.getElementById("chart_total_builds_branch"), {
-                title: "Builds per branch (%)"
-            });
+        var chartTotalBuildsBranch = new Keen.Dataviz()
+            .el(document.getElementById("chart_total_builds_branch"))
+            .height("400")
+            .prepare();
+
+        var requestTotalBuildsBranch = client.run(queryTotalBuildsBranch, function(err, res) {
+            if (err) {
+                // Display the API error
+                chartTotalBuildsBranch.error(err.message);
+            } else {
+                chartTotalBuildsBranch
+                    .parseRequest(this)
+                    .title("Builds per branch (%)")
+                    .render();
+            }
         });
         queryRequests.push(requestTotalBuildsBranch);
 
@@ -502,10 +526,11 @@ function initCharts() {
         queriesInterval.push(queryJobResult);
 
         // draw chart
-        var requestJobResult = client.run(queryJobResult, function() {
-            this.draw(document.getElementById("chart_jobs_result"), {
-                chartType: "columnchart",
-                title: "Build job results",
+        var chartJobResult = new Keen.Dataviz()
+            .el(document.getElementById("chart_jobs_result"))
+            .chartType("columnchart")
+            .height("400")
+            .attributes({
                 chartOptions: {
                     isStacked: true,
                     vAxis: {title: "build job count"}
@@ -515,7 +540,19 @@ function initCharts() {
                     "failed": "red",
                     "errored": "yellow"
                 }
-            });
+            })
+            .prepare();
+
+        var requestJobResult = client.run(queryJobResult, function(err, res) {
+            if (err) {
+                // Display the API error
+                chartJobResult.error(err.message);
+            } else {
+                chartJobResult
+                    .parseRequest(this)
+                    .title("Build job results")
+                    .render();
+            }
         });
         queryRequests.push(requestJobResult);
 
@@ -536,10 +573,21 @@ function initCharts() {
         queriesTimeframe.push(queryJobResultBranch);
 
         // draw chart
-        var requestJobResultBranch = client.run(queryJobResultBranch, function() {
-            this.draw(document.getElementById("chart_jobs_result_branch"), {
-                title: "Build job result per branch"
-            });
+        var chartJobResultBranch = new Keen.Dataviz()
+            .el(document.getElementById("chart_jobs_result_branch"))
+            .height("400")
+            .prepare();
+
+        var requestJobResultBranch = client.run(queryJobResultBranch, function(err, res) {
+            if (err) {
+                // Display the API error
+                chartJobResultBranch.error(err.message);
+            } else {
+                chartJobResultBranch
+                    .parseRequest(this)
+                    .title("Build job result per branch")
+                    .render();
+            }
         });
         queryRequests.push(requestJobResultBranch);
 
