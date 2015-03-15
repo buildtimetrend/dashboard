@@ -141,6 +141,18 @@ function getBuildJobResultFilter(result) {
     };
 }
 
+// Get Build job result title
+function getBuildJobResultTitle(result) {
+    if (isEmpty(result)) {
+        result = BUTTON_RESULT_DEFAULT;
+    }
+
+    // Capitalize first character
+    result = result.substring(0,1).toUpperCase() + result.substring(1);
+
+    return result + " build jobs per branch"
+}
+
 // Set option buttons for Build job result filter
 function setBuildJobResultButton(button) {
     var buttonPrefix = BUTTON_RESULT_PREFIX;
@@ -594,7 +606,7 @@ function initCharts() {
         var chartJobResultBranch = new Keen.Dataviz()
             .el(document.getElementById("chart_jobs_result_branch"))
             .height("400")
-            .title("Failed build job results per branch")
+            .title(getBuildJobResultTitle(BUTTON_RESULT_DEFAULT))
             .prepare();
 
         var requestJobResultBranch = client.run(queryJobResultBranch, function(err, res) {
@@ -620,7 +632,7 @@ function initCharts() {
             document.getElementById(buttonPrefix + button).addEventListener("click", function() {
                 setBuildJobResultButton(button);
                 queryJobResultBranch.set({filters: [getBuildJobResultFilter(button)]});
-                chartJobResultBranch.title(button + " build job results per branch")
+                chartJobResultBranch.title(getBuildJobResultTitle(button))
                 requestJobResultBranch.refresh();
             });
         }
