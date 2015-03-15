@@ -766,34 +766,45 @@ function initCharts() {
             ]
         });
 
+        // create chart
+        var chartAvgBuildtimeWeekDay = new Keen.Dataviz()
+            .el(document.getElementById("chart_avg_buildtime_weekday"))
+            .chartType("columnchart")
+            .title("Average buildtime per day of week")
+            .height("400")
+            .attributes({
+                chartOptions: {
+                    vAxis: { title: "duration [s]" },
+                    hAxis: { title: "Day of week" }
+                }
+            })
+            .prepare();
+
         // generate chart
         var requestAvgBuildtimeWeekDay = client.run(
                 [queryAvgBuildtimeWeekDayLastWeek,
                     queryAvgBuildtimeWeekDayLastMonth,
                     queryAvgBuildtimeWeekDayLastYear],
-                function()
+                function(err, res)
         {
-            var timeframeCaptions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
-            var indexCaptions = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            var chartData = mergeSeries(
-                this.data,
-                indexCaptions,
-                "job.started_at.day_of_week",
-                timeframeCaptions
-            );
+            if (err) {
+                // Display the API error
+                chartAvgBuildtimeWeekDay.error(err.message);
+            } else {
+                var timeframeCaptions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
+                var indexCaptions = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-            // draw chart
-            window.chart = new Keen.Visualization(
-                {result: chartData},
-                document.getElementById("chart_avg_buildtime_weekday"),
-                {
-                    chartType: "columnchart",
-                    title: "Average buildtime per day of week",
-                    chartOptions: {
-                        vAxis: { title: "duration [s]" },
-                        hAxis: { title: "Day of week" }
-                }
-            });
+                var chartData = mergeSeries(
+                    res,
+                    indexCaptions,
+                    "job.started_at.day_of_week",
+                    timeframeCaptions
+                );
+
+                chartAvgBuildtimeWeekDay
+                    .parseRawData({result : chartData})
+                    .render();
+            }
         });
         queryRequests.push(requestAvgBuildtimeWeekDay);
     });
