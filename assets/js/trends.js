@@ -274,34 +274,43 @@ function initCharts() {
         });
         queriesTimeframe.push(queryTotalBuildsPassed);
 
+        // create chart
+        var chartTotalBuildsPassed = new Keen.Dataviz()
+            .el(document.getElementById("metric_total_builds_passed"))
+            .title("Build jobs passed")
+            .width("200")
+            .prepare();
+
         // combine queries for conditional coloring of TotalBuildspassed
-        var colorBuildsPassed = client.run([queryTotalBuilds, queryTotalBuildsPassed], function(result){
-            var chartColor = ["green"];
-            var totalBuilds = result[0].result;
-            var totalBuildsPassed = result[1].result;
+        var colorBuildsPassed = client.run([queryTotalBuilds, queryTotalBuildsPassed], function(err, res){
+            if (err) {
+                // Display the API error
+                chartTotalBuildsPassed.error(err.message);
+            } else {
+                var chartColor = ["green"];
+                var totalBuilds = res[0].result;
+                var totalBuildsPassed = res[1].result;
 
-            if (totalBuilds === totalBuildsPassed) {
-                chartColor = ["green"];
-            } else if (totalBuilds > 0) {
-                if ((totalBuildsPassed / totalBuilds) >= 0.75) {
-                    chartColor = ["orange"];
-                } else {
-                    chartColor = ["red"];
+                if (totalBuilds === totalBuildsPassed) {
+                    chartColor = ["green"];
+                } else if (totalBuilds > 0) {
+                    if ((totalBuildsPassed / totalBuilds) >= 0.75) {
+                        chartColor = ["orange"];
+                    } else {
+                        chartColor = ["red"];
+                    }
                 }
+
+                // draw chart
+                chartTotalBuildsPassed
+                    .parseRawData({result: totalBuildsPassed})
+                    .colors(chartColor)
+                    .render();
             }
-
-            // draw chart
-            client.draw(queryTotalBuildsPassed, document.getElementById("metric_total_builds_passed"),
-                {
-                    title: "Build jobs passed",
-                    colors: chartColor,
-                    width: "200"
-                }
-            );
         });
         queryRequests.push(colorBuildsPassed);
 
-        /* Total builds passed */
+        /* Total builds failed */
         // create query
         var queryTotalBuildsFailed = new Keen.Query("count", {
             eventCollection: "build_jobs",
@@ -311,30 +320,39 @@ function initCharts() {
         });
         queriesTimeframe.push(queryTotalBuildsFailed);
 
+        // create chart
+        var chartTotalBuildsFailed = new Keen.Dataviz()
+            .el(document.getElementById("metric_total_builds_failed"))
+            .title("Build jobs failed")
+            .width("200")
+            .prepare();
+
         // combine queries for conditional coloring of TotalBuildsfailed
-        var colorBuildsFailed = client.run([queryTotalBuilds, queryTotalBuildsFailed], function(result){
-            var chartColor = ["green"];
-            var totalBuilds = result[0].result;
-            var totalBuildsFailed = result[1].result;
+        var colorBuildsFailed = client.run([queryTotalBuilds, queryTotalBuildsFailed], function(err, res){
+            if (err) {
+                // Display the API error
+                chartTotalBuildsPassed.error(err.message);
+            } else {
+                var chartColor = ["green"];
+                var totalBuilds = res[0].result;
+                var totalBuildsFailed = res[1].result;
 
-            if (totalBuildsFailed === 0) {
-                chartColor = ["green"];
-            } else if (totalBuilds > 0) {
-                if ((totalBuildsFailed / totalBuilds) <= 0.25) {
-                    chartColor = ["orange"];
-                } else {
-                    chartColor = ["red"];
+                if (totalBuildsFailed === 0) {
+                    chartColor = ["green"];
+                } else if (totalBuilds > 0) {
+                    if ((totalBuildsFailed / totalBuilds) <= 0.25) {
+                        chartColor = ["orange"];
+                    } else {
+                        chartColor = ["red"];
+                    }
                 }
+
+                // draw chart
+                chartTotalBuildsFailed
+                    .parseRawData({result: totalBuildsFailed})
+                    .colors(chartColor)
+                    .render();
             }
-
-            // draw chart
-            client.draw(queryTotalBuildsFailed, document.getElementById("metric_total_builds_failed"),
-                {
-                    title: "Build jobs failed",
-                    colors: chartColor,
-                    width: "200"
-                }
-            );
         });
         queryRequests.push(colorBuildsFailed);
 
