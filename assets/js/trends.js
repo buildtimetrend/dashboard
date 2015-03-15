@@ -594,6 +594,7 @@ function initCharts() {
         var chartJobResultBranch = new Keen.Dataviz()
             .el(document.getElementById("chart_jobs_result_branch"))
             .height("400")
+            .title("Failed build job results per branch")
             .prepare();
 
         var requestJobResultBranch = client.run(queryJobResultBranch, function(err, res) {
@@ -603,7 +604,6 @@ function initCharts() {
             } else {
                 chartJobResultBranch
                     .parseRequest(this)
-                    .title("Build job result per branch")
                     .render();
             }
         });
@@ -620,6 +620,7 @@ function initCharts() {
             document.getElementById(buttonPrefix + button).addEventListener("click", function() {
                 setBuildJobResultButton(button);
                 queryJobResultBranch.set({filters: [getBuildJobResultFilter(button)]});
+                chartJobResultBranch.title(button + " build job results per branch")
                 requestJobResultBranch.refresh();
             });
         }
