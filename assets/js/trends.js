@@ -669,37 +669,14 @@ function initCharts() {
             filters: [{"property_name":"job.started_at.hour_24","operator":"exists","property_value":true}]
         });
 
-        // generate chart
-        var requestAvgBuildtimeHour = client.run(
-                [queryAvgBuildtimeHourLastWeek,
-                    queryAvgBuildtimeHourLastMonth,
-                    queryAvgBuildtimeHourLastYear],
-                function()
-        {
-            var timeframeCaptions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
-            var indexCaptions = [];
-            
-            // populate array with an entry per hour
-            var i;
-            for (i = 0; i < 24; i++) {
-                indexCaptions[i]= String(i) + ":00";
-            }
-
-            var chartData = mergeSeries(
-                this.data,
-                indexCaptions,
-                "job.started_at.hour_24",
-                timeframeCaptions
-            );
-
-            // draw chart
-            window.chart = new Keen.Visualization(
-                {result: chartData},
-                document.getElementById("chart_avg_buildtime_hour"),
-                {
-                    chartType: "columnchart",
-                    title: "Average buildtime per time of day",
-                    chartOptions: {
+        // create chart
+        var chartAvgBuildtimeHour = new Keen.Dataviz()
+            .el(document.getElementById("chart_avg_buildtime_hour"))
+            .chartType("columnchart")
+            .title("Average buildtime per time of day")
+            .height("400")
+            .attributes({
+                chartOptions: {
                     vAxis: { title: "duration [s]" },
                     hAxis: {
                         title: "Time of day [24-hour format, UTC]",
@@ -707,7 +684,40 @@ function initCharts() {
                         slantedTextAngle: "90"
                     }
                 }
-            });
+            })
+            .prepare();
+
+        // generate chart
+        var requestAvgBuildtimeHour = client.run(
+                [queryAvgBuildtimeHourLastWeek,
+                    queryAvgBuildtimeHourLastMonth,
+                    queryAvgBuildtimeHourLastYear],
+                function(err, res)
+        {
+            if (err) {
+                // Display the API error
+                chartAvgBuildtimeHour.error(err.message);
+            } else {
+                var timeframeCaptions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
+                var indexCaptions = [];
+
+                // populate array with an entry per hour
+                var i;
+                for (i = 0; i < 24; i++) {
+                    indexCaptions[i]= String(i) + ":00";
+                }
+
+                var chartData = mergeSeries(
+                    res,
+                    indexCaptions,
+                    "job.started_at.hour_24",
+                    timeframeCaptions
+                );
+
+                chartAvgBuildtimeHour
+                    .parseRawData({result : chartData})
+                    .render();
+            }
         });
         queryRequests.push(requestAvgBuildtimeHour);
 
