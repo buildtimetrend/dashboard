@@ -150,7 +150,7 @@ function getBuildJobResultTitle(result) {
     // Capitalize first character
     result = result.substring(0,1).toUpperCase() + result.substring(1);
 
-    return result + " build jobs per branch"
+    return result + " build jobs per branch";
 }
 
 // Set option buttons for Build job result filter
@@ -632,7 +632,7 @@ function initCharts() {
             document.getElementById(buttonPrefix + button).addEventListener("click", function() {
                 setBuildJobResultButton(button);
                 queryJobResultBranch.set({filters: [getBuildJobResultFilter(button)]});
-                chartJobResultBranch.title(getBuildJobResultTitle(button))
+                chartJobResultBranch.title(getBuildJobResultTitle(button));
                 requestJobResultBranch.refresh();
             });
         }
