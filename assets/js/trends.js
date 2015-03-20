@@ -128,52 +128,54 @@ function getUpdatePeriod(period) {
     };
 }
 
-// Get Build job result filter
-function getBuildJobResultFilter(result) {
-    if (isEmpty(result)) {
-        result = BUTTON_RESULT_DEFAULT;
+// Build Job result class
+var BuildJobResultClass = {
+    currentResult: BUTTON_RESULT_DEFAULT,
+    // Get Build job result filter
+    getFilter: function (result) {
+        if (isEmpty(result)) {
+            result = this.currentResult;
+        }
+
+        return {
+            "property_name": "job.result",
+            "operator": "eq",
+            "property_value": result
+        };
+    },
+    // Get Build job result title
+    getTitle: function (result) {
+        if (isEmpty(result)) {
+            result = this.currentResult;
+        }
+
+        // Capitalize first character
+        result = result.substring(0,1).toUpperCase() + result.substring(1);
+
+        return result + " build jobs per branch"
+    },
+    // Set option buttons for Build job result filter
+    setResultButton: function (button) {
+        var buttonPrefix = BUTTON_RESULT_PREFIX;
+        var buttonDefault = BUTTON_RESULT_DEFAULT;
+
+        // shallow copy list of allowed buttons and default values
+        var buttons = JSON.parse(JSON.stringify(BUTTONS_RESULT));
+
+        // check if button is defined or exists in list of buttons
+        // use default button, if not
+        if (isEmpty(button) || !(button in buttons)) {
+            button = buttonDefault;
+        }
+
+        // set active button
+        buttons[button] = CLASS_BUTTON_ACTIVE;
+
+        // apply classes to button divs
+        $.each(buttons, function(key, value) {
+            $("#" + buttonPrefix + key).attr('class', value);
+        });
     }
-
-    return {
-        "property_name": "job.result",
-        "operator": "eq",
-        "property_value": result
-    };
-}
-
-// Get Build job result title
-function getBuildJobResultTitle(result) {
-    if (isEmpty(result)) {
-        result = BUTTON_RESULT_DEFAULT;
-    }
-
-    // Capitalize first character
-    result = result.substring(0,1).toUpperCase() + result.substring(1);
-
-    return result + " build jobs per branch";
-}
-
-// Set option buttons for Build job result filter
-function setBuildJobResultButton(button) {
-    var buttonPrefix = BUTTON_RESULT_PREFIX;
-    var buttonDefault = BUTTON_RESULT_DEFAULT;
-
-    // shallow copy list of allowed buttons and default values
-    var buttons = JSON.parse(JSON.stringify(BUTTONS_RESULT));
-
-    // check if button is defined or exists in list of buttons
-    // use default button, if not
-    if (isEmpty(button) || !(button in buttons)) {
-        button = buttonDefault;
-    }
-
-    // set active button
-    buttons[button] = CLASS_BUTTON_ACTIVE;
-
-    // apply classes to button divs
-    $.each(buttons, function(key, value) {
-        $("#" + buttonPrefix + key).attr('class', value);
-    });
 }
 
 // Get badge url
@@ -589,7 +591,7 @@ function initCharts() {
         /* Build job result per branch */
 
         // set default button
-        setBuildJobResultButton(BUTTON_RESULT_DEFAULT);
+        BuildJobResultClass.setResultButton(BUTTON_RESULT_DEFAULT);
 
         // create query
         var queryJobResultBranch = new Keen.Query("count_unique", {
@@ -598,7 +600,7 @@ function initCharts() {
             timeframe: keenTimeframe,
             targetProperty: "job.job",
             groupBy: "job.branch",
-            filters: [getBuildJobResultFilter(BUTTON_RESULT_DEFAULT)]
+            filters: [BuildJobResultClass.getFilter(BUTTON_RESULT_DEFAULT)]
         });
         queriesTimeframe.push(queryJobResultBranch);
 
@@ -606,7 +608,7 @@ function initCharts() {
         var chartJobResultBranch = new Keen.Dataviz()
             .el(document.getElementById("chart_jobs_result_branch"))
             .height("400")
-            .title(getBuildJobResultTitle(BUTTON_RESULT_DEFAULT))
+            .title(BuildJobResultClass.getTitle(BUTTON_RESULT_DEFAULT))
             .prepare();
 
         var requestJobResultBranch = client.run(queryJobResultBranch, function(err, res) {
@@ -630,9 +632,9 @@ function initCharts() {
             }
 
             document.getElementById(buttonPrefix + button).addEventListener("click", function() {
-                setBuildJobResultButton(button);
-                queryJobResultBranch.set({filters: [getBuildJobResultFilter(button)]});
-                chartJobResultBranch.title(getBuildJobResultTitle(button));
+                BuildJobResultClass.setResultButton(button);
+                queryJobResultBranch.set({filters: [BuildJobResultClass.getFilter(button)]});
+                chartJobResultBranch.title(BuildJobResultClass.getTitle(button));
                 requestJobResultBranch.refresh();
             });
         }
