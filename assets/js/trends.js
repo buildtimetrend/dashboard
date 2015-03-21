@@ -43,6 +43,12 @@ var BUTTONS_RESULT = {
     "errored": CLASS_BUTTON_NORMAL
 };
 
+// use Keen JS API default colors :
+// https://github.com/keen/keen-js/blob/master/src/dataviz/dataviz.js#L48
+var GREEN = '#73d483';
+var RED = '#fe6672';
+var YELLOW = '#eeb058';
+
 // arrays with queries and query request to update
 var queriesInterval = [];
 var queriesTimeframe = [];
@@ -299,17 +305,17 @@ function initCharts() {
                 // Display the API error
                 chartTotalBuildsPassed.error(err.message);
             } else {
-                var chartColor = ["green"];
+                var chartColor = [GREEN];
                 var totalBuilds = res[0].result;
                 var totalBuildsPassed = res[1].result;
 
                 if (totalBuilds === totalBuildsPassed) {
-                    chartColor = ["green"];
+                    chartColor = [GREEN];
                 } else if (totalBuilds > 0) {
                     if ((totalBuildsPassed / totalBuilds) >= 0.75) {
-                        chartColor = ["orange"];
+                        chartColor = [YELLOW];
                     } else {
-                        chartColor = ["red"];
+                        chartColor = [RED];
                     }
                 }
 
@@ -345,17 +351,17 @@ function initCharts() {
                 // Display the API error
                 chartTotalBuildsPassed.error(err.message);
             } else {
-                var chartColor = ["green"];
+                var chartColor = [GREEN];
                 var totalBuilds = res[0].result;
                 var totalBuildsFailed = res[1].result;
 
                 if (totalBuildsFailed === 0) {
-                    chartColor = ["green"];
+                    chartColor = [GREEN];
                 } else if (totalBuilds > 0) {
                     if ((totalBuildsFailed / totalBuilds) <= 0.25) {
-                        chartColor = ["orange"];
+                        chartColor = [YELLOW];
                     } else {
-                        chartColor = ["red"];
+                        chartColor = [RED];
                     }
                 }
 
@@ -566,9 +572,9 @@ function initCharts() {
                     vAxis: {title: "build job count"}
                 },
                 colorMapping: {
-                    "passed": "green",
-                    "failed": "red",
-                    "errored": "yellow"
+                    "passed": GREEN,
+                    "failed": RED,
+                    "errored": YELLOW
                 }
             })
             .prepare();
