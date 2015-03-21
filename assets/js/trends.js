@@ -150,9 +150,9 @@ var BuildJobResultClass = {
     // Get Build job result title
     getTitle: function () {
         // Capitalize first character
-        capResult= this.currentResult.substring(0,1).toUpperCase() + this.currentResult.substring(1);
+        var capResult = this.currentResult.substring(0,1).toUpperCase() + this.currentResult.substring(1);
 
-        return capResult + " build jobs per branch"
+        return capResult + " build jobs per branch";
     },
     // Set option buttons for Build job result filter
     setResultButton: function () {
@@ -170,7 +170,7 @@ var BuildJobResultClass = {
             $("#" + buttonPrefix + key).attr('class', value);
         });
     }
-}
+};
 
 // Get badge url
 function getBadgeUrl() {
