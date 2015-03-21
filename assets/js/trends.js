@@ -64,6 +64,13 @@ function htmlEntities(str) {
 }
 
 /**
+ * Capitalize first character of a string
+ */
+function firstCharUpperCase(str) {
+    return str.substring(0,1).toUpperCase() + str.substring(1);
+}
+
+/**
  * Merge data from several series, with identical X-axis labels
  *
  * Parameters :
@@ -149,10 +156,7 @@ var BuildJobResultClass = {
     },
     // Get Build job result title
     getTitle: function () {
-        // Capitalize first character
-        var capResult = this.currentResult.substring(0,1).toUpperCase() + this.currentResult.substring(1);
-
-        return capResult + " build jobs per branch";
+        return firstCharUpperCase(this.currentResult) + " build jobs per branch";
     },
     // Set option buttons for Build job result filter
     setResultButton: function () {
