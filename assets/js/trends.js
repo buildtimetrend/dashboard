@@ -49,6 +49,10 @@ var BUTTONS_GROUPBY = {
     "branch": CLASS_BUTTON_NORMAL,
     "matrix": CLASS_BUTTON_NORMAL
 };
+var BUTTONS_GROUPBY_QUERY = {
+    "branch": "job.branch",
+    "matrix": "job.build_matrix.summary"
+};
 
 // use Keen JS API default colors :
 // https://github.com/keen/keen-js/blob/master/src/dataviz/dataviz.js#L48
@@ -175,6 +179,10 @@ var BuildJobResultClass = {
             "operator": "eq",
             "property_value": this.currentResult
         };
+    },
+    // Get Build job result query GroupBy parameter
+    getQueryGroupBy: function () {
+        return BUTTONS_GROUPBY_QUERY[this.currentGroupBy];
     },
     // Get Build job result title
     getTitle: function () {
@@ -620,7 +628,7 @@ function initCharts() {
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             targetProperty: "job.job",
-            groupBy: "job.branch",
+            groupBy: BuildJobResultClass.getQueryGroupBy(),
             filters: [BuildJobResultClass.getFilter()]
         });
         queriesTimeframe.push(queryJobResultBranch);
@@ -655,7 +663,10 @@ function initCharts() {
             document.getElementById(buttonPrefix + button).addEventListener("click", function() {
                 BuildJobResultClass.setResult(button);
                 BuildJobResultClass.setResultButton();
-                queryJobResultBranch.set({filters: [BuildJobResultClass.getFilter()]});
+                queryJobResultBranch.set({
+                    groupBy: BuildJobResultClass.getQueryGroupBy(),
+                    filters: [BuildJobResultClass.getFilter()]
+                });
                 chartJobResultBranch.title(BuildJobResultClass.getTitle());
                 requestJobResultBranch.refresh();
             });
