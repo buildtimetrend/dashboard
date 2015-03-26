@@ -42,6 +42,13 @@ var BUTTONS_RESULT = {
     "failed": CLASS_BUTTON_NORMAL,
     "errored": CLASS_BUTTON_NORMAL
 };
+// Groupby button constants
+var BUTTON_GROUPBY_PREFIX = "groupby_";
+var BUTTON_GROUPBY_DEFAULT = "branch";
+var BUTTONS_GROUPBY = {
+    "branch": CLASS_BUTTON_NORMAL,
+    "matrix": CLASS_BUTTON_NORMAL
+};
 
 // use Keen JS API default colors :
 // https://github.com/keen/keen-js/blob/master/src/dataviz/dataviz.js#L48
@@ -145,11 +152,20 @@ function getUpdatePeriod(period) {
 var BuildJobResultClass = {
     currentResult: BUTTON_RESULT_DEFAULT,
     allowedResults: BUTTONS_RESULT,
+    currentGroupBy: BUTTON_GROUPBY_DEFAULT,
+    allowedGroupBy: BUTTONS_GROUPBY,
     setResult: function (result) {
         // check if button is defined or exists in list of buttons
         // use default button, if not
         if (!isEmpty(result) && (result in this.allowedResults)) {
             this.currentResult = result;
+        }
+    },
+    setGroupBy: function (groupBy) {
+        // check if button is defined or exists in list of buttons
+        // use default button, if not
+        if (!isEmpty(groupBy) && (result in this.allowedGroupBy)) {
+            this.currentGroupBy = groupBy;
         }
     },
     // Get Build job result filter
@@ -162,7 +178,8 @@ var BuildJobResultClass = {
     },
     // Get Build job result title
     getTitle: function () {
-        return firstCharUpperCase(this.currentResult) + " build jobs per branch";
+        return firstCharUpperCase(this.currentResult) +
+            " build jobs grouped by " + this.currentGroupBy;
     },
     // Set option buttons for Build job result filter
     setResultButton: function () {
