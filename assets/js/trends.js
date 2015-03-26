@@ -206,15 +206,19 @@ var BuildJobResultClass = {
         var buttonPrefix = BUTTON_RESULT_PREFIX;
         var button = this.currentResult;
 
-        // shallow copy list of allowed buttons and default values
-        var buttons = JSON.parse(JSON.stringify(BUTTONS_RESULT));
+        // loop over all allowed buttons and set button class
+        $.each(this.allowedResults, function(key, value) {
+            var buttonClass;
 
-        // set active button
-        buttons[button] = CLASS_BUTTON_ACTIVE;
+            // set active button
+            if (key == button) {
+                buttonClass = CLASS_BUTTON_ACTIVE;
+            } else {
+                buttonClass = CLASS_BUTTON_NORMAL;
+            }
 
-        // apply classes to button divs
-        $.each(buttons, function(key, value) {
-            $("#" + buttonPrefix + key).attr('class', value);
+            // apply classes to button divs
+            $("#" + buttonPrefix + key).attr('class', buttonClass);
         });
     }
 };
