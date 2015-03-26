@@ -173,12 +173,14 @@ var BuildJobResultClass = {
         }
     },
     // Get Build job result filter
-    getFilter: function () {
-        return {
+    getFilters: function () {
+        var filters = [];
+        filters.push({
             "property_name": "job.result",
             "operator": "eq",
             "property_value": this.currentResult
-        };
+        });
+        return filters;
     },
     // Get Build job result query GroupBy parameter
     getQueryGroupBy: function () {
@@ -629,7 +631,7 @@ function initCharts() {
             timeframe: keenTimeframe,
             targetProperty: "job.job",
             groupBy: BuildJobResultClass.getQueryGroupBy(),
-            filters: [BuildJobResultClass.getFilter()]
+            filters: BuildJobResultClass.getFilters()
         });
         queriesTimeframe.push(queryJobResultBranch);
 
@@ -665,7 +667,7 @@ function initCharts() {
                 BuildJobResultClass.setResultButton();
                 queryJobResultBranch.set({
                     groupBy: BuildJobResultClass.getQueryGroupBy(),
-                    filters: [BuildJobResultClass.getFilter()]
+                    filters: BuildJobResultClass.getFilters()
                 });
                 chartJobResultBranch.title(BuildJobResultClass.getTitle());
                 requestJobResultBranch.refresh();
