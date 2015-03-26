@@ -180,6 +180,16 @@ var BuildJobResultClass = {
             "operator": "eq",
             "property_value": this.currentResult
         });
+
+        // only group records that have the build_matrix field
+        if (this.currentGroupBy == "matrix") {
+            filters.push({
+                "property_name": this.getQueryGroupBy(),
+                "operator":"exists",
+                "property_value":true
+            });
+        }
+
         return filters;
     },
     // Get Build job result query GroupBy parameter
