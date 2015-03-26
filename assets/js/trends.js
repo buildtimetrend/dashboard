@@ -38,20 +38,16 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
 var BUTTON_RESULT_PREFIX = "result_";
 var BUTTON_RESULT_DEFAULT = "failed";
 var BUTTONS_RESULT = {
-    "passed": CLASS_BUTTON_NORMAL,
-    "failed": CLASS_BUTTON_NORMAL,
-    "errored": CLASS_BUTTON_NORMAL
+    "passed": {},
+    "failed": {},
+    "errored": {}
 };
 // Groupby button constants
 var BUTTON_GROUPBY_PREFIX = "groupby_";
 var BUTTON_GROUPBY_DEFAULT = "branch";
 var BUTTONS_GROUPBY = {
-    "branch": CLASS_BUTTON_NORMAL,
-    "matrix": CLASS_BUTTON_NORMAL
-};
-var BUTTONS_GROUPBY_QUERY = {
-    "branch": "job.branch",
-    "matrix": "job.build_matrix.summary"
+    "branch": {"queryField": "job.branch"},
+    "matrix": {"queryField": "job.build_matrix.summary"}
 };
 
 // use Keen JS API default colors :
@@ -194,7 +190,7 @@ var BuildJobResultClass = {
     },
     // Get Build job result query GroupBy parameter
     getQueryGroupByField: function () {
-        return BUTTONS_GROUPBY_QUERY[this.currentGroupBy];
+        return this.allowedGroupBy[this.currentGroupBy]["queryField"];
     },
     // Get Build job result title
     getTitle: function () {
