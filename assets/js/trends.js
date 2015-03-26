@@ -184,7 +184,7 @@ var BuildJobResultClass = {
         // only group records that have the build_matrix field
         if (this.currentGroupBy == "matrix") {
             filters.push({
-                "property_name": this.getQueryGroupBy(),
+                "property_name": this.getQueryGroupByField(),
                 "operator":"exists",
                 "property_value":true
             });
@@ -193,7 +193,7 @@ var BuildJobResultClass = {
         return filters;
     },
     // Get Build job result query GroupBy parameter
-    getQueryGroupBy: function () {
+    getQueryGroupByField: function () {
         return BUTTONS_GROUPBY_QUERY[this.currentGroupBy];
     },
     // Get Build job result title
@@ -640,7 +640,7 @@ function initCharts() {
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             targetProperty: "job.job",
-            groupBy: BuildJobResultClass.getQueryGroupBy(),
+            groupBy: BuildJobResultClass.getQueryGroupByField(),
             filters: BuildJobResultClass.getFilters()
         });
         queriesTimeframe.push(queryJobResultBranch);
@@ -676,7 +676,7 @@ function initCharts() {
                 BuildJobResultClass.setResult(button);
                 BuildJobResultClass.setResultButton();
                 queryJobResultBranch.set({
-                    groupBy: BuildJobResultClass.getQueryGroupBy(),
+                    groupBy: BuildJobResultClass.getQueryGroupByField(),
                     filters: BuildJobResultClass.getFilters()
                 });
                 chartJobResultBranch.title(BuildJobResultClass.getTitle());
