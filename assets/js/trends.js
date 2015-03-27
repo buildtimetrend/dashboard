@@ -178,7 +178,7 @@ var BuildJobResultClass = {
         });
 
         // only group records that have the build_matrix field
-        if (this.currentGroupBy == "matrix") {
+        if (this.currentGroupBy === "matrix") {
             filters.push({
                 "property_name": this.getQueryGroupByField(),
                 "operator":"exists",
@@ -207,7 +207,7 @@ var BuildJobResultClass = {
             var buttonClass;
 
             // set active button
-            if (key == button) {
+            if (key === button) {
                 buttonClass = CLASS_BUTTON_ACTIVE;
             } else {
                 buttonClass = CLASS_BUTTON_NORMAL;
