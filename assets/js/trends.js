@@ -190,7 +190,7 @@ var BuildJobResultClass = {
     },
     // Get Build job result query GroupBy parameter
     getQueryGroupByField: function () {
-        return this.allowedGroupBy[this.currentGroupBy]["queryField"];
+        return this.allowedGroupBy[this.currentGroupBy].queryField;
     },
     // Get Build job result title
     getTitle: function () {
