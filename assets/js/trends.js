@@ -44,7 +44,7 @@ var BUTTONS_RESULT = {
 };
 // Groupby button constants
 var BUTTON_GROUPBY_PREFIX = "groupby_";
-var BUTTON_GROUPBY_DEFAULT = "branch";
+var BUTTON_GROUPBY_DEFAULT = "matrix";
 var BUTTONS_GROUPBY = {
     "branch": {"queryField": "job.branch"},
     "matrix": {"queryField": "job.build_matrix.summary"}
@@ -164,7 +164,7 @@ var BuildJobResultClass = {
     setGroupBy: function (groupBy) {
         // check if button is defined or exists in list of buttons
         // use default button, if not
-        if (!isEmpty(groupBy) && (result in this.allowedGroupBy)) {
+        if (!isEmpty(groupBy) && (groupBy in this.allowedGroupBy)) {
             this.currentGroupBy = groupBy;
         }
     },
@@ -203,6 +203,14 @@ var BuildJobResultClass = {
             this.allowedResults,
             this.currentResult,
             BUTTON_RESULT_PREFIX
+        );
+    },
+    // Set option buttons for Build job group by filter
+    setGroupByButton: function () {
+        this.setButton(
+            this.allowedGroupBy,
+            this.currentGroupBy,
+            BUTTON_GROUPBY_PREFIX
         );
     },
     // Set option buttons classes
@@ -638,6 +646,7 @@ function initCharts() {
 
         // set default button
         BuildJobResultClass.setResultButton();
+        BuildJobResultClass.setGroupByButton();
 
         // create query
         var queryJobResultBranch = new Keen.Query("count_unique", {
@@ -692,6 +701,31 @@ function initCharts() {
         // loop over list of buttons to attach click events
         $.each(BUTTONS_RESULT, function(key, value) {
             attachEventResultButton(key);
+        });
+
+        // Attach events to toggle buttons
+        function attachEventGroupByButton(button) {
+            var buttonPrefix = BUTTON_GROUPBY_PREFIX;
+
+            if (isEmpty(button)) {
+                button = BUTTON_GROUPBY_DEFAULT;
+            }
+
+            document.getElementById(buttonPrefix + button).addEventListener("click", function() {
+                BuildJobResultClass.setGroupBy(button);
+                BuildJobResultClass.setGroupByButton();
+                queryJobResultBranch.set({
+                    groupBy: BuildJobResultClass.getQueryGroupByField(),
+                    filters: BuildJobResultClass.getFilters()
+                });
+                chartJobResultBranch.title(BuildJobResultClass.getTitle());
+                requestJobResultBranch.refresh();
+            });
+        }
+
+        // loop over list of buttons to attach click events
+        $.each(BUTTONS_GROUPBY, function(key, value) {
+            attachEventGroupByButton(key);
         });
 
         /* Average buildtime per time of day */
