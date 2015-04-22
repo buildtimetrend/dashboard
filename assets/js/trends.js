@@ -199,15 +199,20 @@ var BuildJobResultClass = {
     },
     // Set option buttons for Build job result filter
     setResultButton: function () {
-        var buttonPrefix = BUTTON_RESULT_PREFIX;
-        var button = this.currentResult;
-
+        this.setButton(
+            this.allowedResults,
+            this.currentResult,
+            BUTTON_RESULT_PREFIX
+        );
+    },
+    // Set option buttons classes
+    setButton: function (buttons, activeButton, buttonPrefix) {
         // loop over all allowed buttons and set button class
-        $.each(this.allowedResults, function(key, value) {
+        $.each(buttons, function(key, value) {
             var buttonClass;
 
             // set active button
-            if (key === button) {
+            if (key === activeButton) {
                 buttonClass = CLASS_BUTTON_ACTIVE;
             } else {
                 buttonClass = CLASS_BUTTON_NORMAL;
