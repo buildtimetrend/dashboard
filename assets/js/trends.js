@@ -46,8 +46,14 @@ var BUTTONS_RESULT = {
 var BUTTON_GROUPBY_PREFIX = "groupby_";
 var BUTTON_GROUPBY_DEFAULT = "matrix";
 var BUTTONS_GROUPBY = {
-    "branch": {"queryField": "job.branch"},
-    "matrix": {"queryField": "job.build_matrix.summary"}
+    "branch": {
+        "queryField": "job.branch",
+        "caption": "branch name",
+    },
+    "matrix": {
+        "queryField": "job.build_matrix.summary",
+        "caption": "build env parameters",
+    }
 };
 
 // use Keen JS API default colors :
@@ -195,7 +201,8 @@ var BuildJobResultClass = {
     // Get Build job result title
     getTitle: function () {
         return firstCharUpperCase(this.currentResult) +
-            " build jobs grouped by " + this.currentGroupBy;
+            " build jobs grouped by " +
+            BUTTONS_GROUPBY[this.currentGroupBy].caption;
     },
     // Set option buttons for Build job result filter
     setResultButton: function () {
