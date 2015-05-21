@@ -154,6 +154,70 @@ function getUpdatePeriod(period) {
     };
 }
 
+// Selection button class
+var ButtonClass = {
+    buttonList: {
+        "button1": {},
+        "button2": {}
+    },
+    defaultButton: "button1",
+    currentButton: "button1",
+    buttonPrefix: "",
+    setCurrentButton: function (button) {
+        // check if button is defined or exists in list of buttons
+        if (!isEmpty(button) && (button in this.buttonList)) {
+            this.currentButton = button;
+        }
+
+        // use default button, if not
+        if (isEmpty(this.currentButton) || !(button in this.buttonList)) {
+            this.currentButton = this.defaultButton;
+        }
+    },
+    // Get button caption
+    getButtonCaption: function(button) {
+        if (isEmpty(button)) {
+            button = this.currentButton;
+        }
+
+        return this.buttonList[button].caption;
+    },
+    // Set option buttons classes
+    formatButtons: function() {
+        // loop over all allowed buttons and set button class
+        $.each(this.buttonList, function(key, value) {
+            var buttonClass;
+
+            // set active button
+            if (key === this.currentButton) {
+                buttonClass = CLASS_BUTTON_ACTIVE;
+            } else {
+                buttonClass = CLASS_BUTTON_NORMAL;
+            }
+
+            // apply classes to button divs
+            $("#" + this.buttonPrefix + key).attr('class', buttonClass);
+        });
+    },
+    // Attach events to toggle buttons
+    attachButtonEvent : function(button) {
+        if (isEmpty(button)) {
+            button = this.defaultButton;
+        }
+
+        document.getElementById(this.buttonPrefix + button).addEventListener("click", function() {
+            this.setCurrentButton(button);
+            this.formatButtons();
+        });
+    },
+    // loop over list of buttons to attach click events
+    initButtons: function() {
+        $.each(this.buttonList, function(key, value) {
+            this.attachButtonEvent(key);
+        });
+    }
+};
+
 // Build Job result class
 var BuildJobResultClass = {
     currentResult: BUTTON_RESULT_DEFAULT,
