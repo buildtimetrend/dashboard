@@ -34,6 +34,24 @@ var TIMEZONE_SECS = "UTC"; // named timezone or offset in seconds, fe. GMT+1 = 3
 var CLASS_BUTTON_NORMAL = "btn btn-primary";
 var CLASS_BUTTON_ACTIVE = "btn btn-success";
 
+// Timeframe button constants
+var BUTTON_TIMEFRAME_PREFIX = "timeframe_";
+var BUTTON_TIMEFRAME_DEFAULT = "week";
+var BUTTONS_TIMEFRAME = {
+    "day": {
+        "caption": "Day"
+    },
+    "week": {
+        "caption": "Week"
+    },
+    "month": {
+        "caption": "Month"
+    },
+    "year": {
+        "caption": "Year"
+    }
+};
+
 // Build result button constants
 var BUTTON_RESULT_PREFIX = "result_";
 var BUTTON_RESULT_DEFAULT = "failed";
@@ -48,11 +66,11 @@ var BUTTON_GROUPBY_DEFAULT = "matrix";
 var BUTTONS_GROUPBY = {
     "branch": {
         "queryField": "job.branch",
-        "caption": "branch name",
+        "caption": "branch name"
     },
     "matrix": {
         "queryField": "job.build_matrix.summary",
-        "caption": "build env parameters",
+        "caption": "build env parameters"
     }
 };
 
@@ -155,15 +173,15 @@ function getUpdatePeriod(period) {
 }
 
 // Selection button class
-var ButtonClass = {
-    buttonList: {
+function ButtonClass() {
+    this.buttonList =  {
         "button1": {},
         "button2": {}
-    },
-    defaultButton: "button1",
-    currentButton: "button1",
-    buttonPrefix: "",
-    setCurrentButton: function (button) {
+    };
+    this.defaultButton = "button1";
+    this.currentButton =  "button1";
+    this.buttonPrefix = "";
+    this.setCurrentButton = function (button) {
         // check if button is defined or exists in list of buttons
         if (!isEmpty(button) && (button in this.buttonList)) {
             this.currentButton = button;
@@ -173,34 +191,37 @@ var ButtonClass = {
         if (isEmpty(this.currentButton) || !(button in this.buttonList)) {
             this.currentButton = this.defaultButton;
         }
-    },
+    };
     // Get button caption
-    getButtonCaption: function(button) {
+    this.getButtonCaption = function(button) {
         if (isEmpty(button)) {
             button = this.currentButton;
         }
 
         return this.buttonList[button].caption;
-    },
+    };
     // Set option buttons classes
-    formatButtons: function() {
+    this.formatButtons =  function() {
         // loop over all allowed buttons and set button class
-        $.each(this.buttonList, function(key, value) {
+        //$.each(this.buttonList, function(key, value) {
+        keys = Object.keys(this.buttonList);
+        for (i = 0; i < keys.length; i++) {
+
             var buttonClass;
 
             // set active button
-            if (key === this.currentButton) {
+            if (keys[i] === this.currentButton) {
                 buttonClass = CLASS_BUTTON_ACTIVE;
             } else {
                 buttonClass = CLASS_BUTTON_NORMAL;
             }
 
             // apply classes to button divs
-            $("#" + this.buttonPrefix + key).attr('class', buttonClass);
-        });
-    },
+            $("#" + this.buttonPrefix + keys[i]).attr('class', buttonClass);
+        }
+    };
     // Attach events to toggle buttons
-    attachButtonEvent : function(button) {
+    this.attachButtonEvent = function(button) {
         if (isEmpty(button)) {
             button = this.defaultButton;
         }
@@ -209,14 +230,21 @@ var ButtonClass = {
             this.setCurrentButton(button);
             this.formatButtons();
         });
-    },
+    };
     // loop over list of buttons to attach click events
-    initButtons: function() {
-        $.each(this.buttonList, function(key, value) {
-            this.attachButtonEvent(key);
-        });
-    }
+    this.initButtons = function() {
+        //$.each(this.buttonList, function(key, value) {
+        keys = Object.keys(this.buttonList);
+        for (i = 0; i < keys.length; i++) {
+            this.attachButtonEvent(keys[i]);
+        }
+    };
 };
+
+var TimeFrameButtons = new ButtonClass();
+TimeFrameButtons.buttonList = BUTTONS_TIMEFRAME;
+TimeFrameButtons.defaultButton = BUTTON_TIMEFRAME_DEFAULT;
+TimeFrameButtons.buttonPrefix = BUTTON_TIMEFRAME_PREFIX;
 
 // Build Job result class
 var BuildJobResultClass = {
@@ -363,6 +391,10 @@ function updateCharts(periodName) {
 function initCharts() {
     // get Update Period settings
     var updatePeriod = getUpdatePeriod();
+
+    TimeFrameButtons.setCurrentButton();
+    TimeFrameButtons.initButtons();
+    TimeFrameButtons.formatButtons();
 
     var keenTimeframe = updatePeriod.keenTimeframe;
     var keenInterval = updatePeriod.keenInterval;
