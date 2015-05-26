@@ -173,14 +173,14 @@ function getUpdatePeriod(period) {
 }
 
 // Selection button class
-function ButtonClass() {
-    this.buttonList =  {
+function ButtonClass(buttonList, defaultButton, buttonPrefix) {
+    this.buttonList = isEmpty(buttonList) ? {
         "button1": {},
         "button2": {}
-    };
-    this.defaultButton = "button1";
-    this.currentButton =  "button1";
-    this.buttonPrefix = "";
+    } : buttonList;
+    this.defaultButton = isEmpty(defaultButton) ? "button1" : defaultButton;
+    this.currentButton = this.defaultButton;
+    this.buttonPrefix = isEmpty(buttonPrefix) ? "" : buttonPrefix;
     this.setCurrentButton = function (button) {
         // check if button is defined or exists in list of buttons
         if (!isEmpty(button) && (button in this.buttonList)) {
@@ -243,10 +243,11 @@ function ButtonClass() {
     };
 };
 
-var TimeFrameButtons = new ButtonClass();
-TimeFrameButtons.buttonList = BUTTONS_TIMEFRAME;
-TimeFrameButtons.defaultButton = BUTTON_TIMEFRAME_DEFAULT;
-TimeFrameButtons.buttonPrefix = BUTTON_TIMEFRAME_PREFIX;
+var TimeFrameButtons = new ButtonClass(
+    BUTTONS_TIMEFRAME,
+    BUTTON_TIMEFRAME_DEFAULT,
+    BUTTON_TIMEFRAME_PREFIX
+);
 
 // Build Job result class
 var BuildJobResultClass = {
