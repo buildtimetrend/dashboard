@@ -203,9 +203,8 @@ function ButtonClass() {
     // Set option buttons classes
     this.formatButtons =  function() {
         // loop over all allowed buttons and set button class
-        //$.each(this.buttonList, function(key, value) {
-        keys = Object.keys(this.buttonList);
-        for (i = 0; i < keys.length; i++) {
+        var keys = Object.keys(this.buttonList);
+        for (var i = 0; i < keys.length; i++) {
 
             var buttonClass;
 
