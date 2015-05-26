@@ -233,9 +233,8 @@ function ButtonClass() {
     };
     // loop over list of buttons to attach click events
     this.initButtons = function() {
-        //$.each(this.buttonList, function(key, value) {
-        keys = Object.keys(this.buttonList);
-        for (i = 0; i < keys.length; i++) {
+        var keys = Object.keys(this.buttonList);
+        for (var i = 0; i < keys.length; i++) {
             this.attachButtonEvent(keys[i]);
         }
     };
