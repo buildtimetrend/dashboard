@@ -226,9 +226,13 @@ function ButtonClass() {
             button = this.defaultButton;
         }
 
+        // assign classInstance 'this' to a local variable because 'this' is
+        // redeclared in the scope of the following anonymous function
+        var classInstance = this;
+
         document.getElementById(this.buttonPrefix + button).addEventListener("click", function() {
-            this.setCurrentButton(button);
-            this.formatButtons();
+            classInstance.setCurrentButton(button);
+            classInstance.formatButtons();
         });
     };
     // loop over list of buttons to attach click events
