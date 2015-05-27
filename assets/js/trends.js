@@ -229,7 +229,7 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
         // redeclared in the scope of the following anonymous function
         var classInstance = this;
 
-        document.getElementById(this.buttonPrefix + button).addEventListener("click", function() {
+        $("#" + this.buttonPrefix + button).click(function() {
             classInstance.setCurrentButton(button);
             classInstance.formatButtons();
         });
@@ -792,7 +792,7 @@ function initCharts() {
                 button = BUTTON_RESULT_DEFAULT;
             }
 
-            document.getElementById(buttonPrefix + button).addEventListener("click", function() {
+            $("#" + buttonPrefix + button).click(function() {
                 BuildJobResultClass.setResult(button);
                 BuildJobResultClass.setResultButton();
                 queryJobResultBranch.set({
@@ -817,7 +817,7 @@ function initCharts() {
                 button = BUTTON_GROUPBY_DEFAULT;
             }
 
-            document.getElementById(buttonPrefix + button).addEventListener("click", function() {
+            $("#" + buttonPrefix + button).click(function() {
                 BuildJobResultClass.setGroupBy(button);
                 BuildJobResultClass.setGroupByButton();
                 queryJobResultBranch.set({
