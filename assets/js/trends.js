@@ -201,7 +201,7 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
         return this.buttonList[button].caption;
     };
     // Set option buttons classes
-    this.formatButtons =  function() {
+    this.formatButtons = function() {
         // loop over all allowed buttons and set button class
         var keys = Object.keys(this.buttonList);
         for (var i = 0; i < keys.length; i++) {
@@ -240,6 +240,8 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
         for (var i = 0; i < keys.length; i++) {
             this.attachButtonEvent(keys[i]);
         }
+
+        this.formatButtons();
     };
 };
 
@@ -397,7 +399,6 @@ function initCharts() {
 
     TimeFrameButtons.setCurrentButton();
     TimeFrameButtons.initButtons();
-    TimeFrameButtons.formatButtons();
 
     var keenTimeframe = updatePeriod.keenTimeframe;
     var keenInterval = updatePeriod.keenInterval;
