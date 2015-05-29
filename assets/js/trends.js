@@ -178,16 +178,35 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
         "button1": {},
         "button2": {}
     } : buttonList;
-    this.defaultButton = isEmpty(defaultButton) ? "button1" : defaultButton;
-    this.currentButton = this.defaultButton;
     this.buttonPrefix = isEmpty(buttonPrefix) ? "" : buttonPrefix;
+
+    // Set default button
+    this.setDefaultButton = function (button) {
+        var buttonNames = Object.keys(this.buttonList);
+        if (buttonNames.length > 0) {
+            // check if button is defined or exists in list of buttons
+            if (!isEmpty(button) && (button in this.buttonList)) {
+                this.defaultButton = button;
+            } else {
+                this.defaultButton = buttonNames[0];
+            }
+        } else {
+            this.defaultButton = "";
+        }
+
+        return this.defaultButton;
+    };
+    this.defaultButton = this.setDefaultButton(defaultButton);
+    this.currentButton = this.defaultButton;
+
+    // Set current button
     this.setCurrentButton = function (button) {
-        // check if button is defined or exists in list of buttons
+        // check if button is defined and exists in list of buttons
         if (!isEmpty(button) && (button in this.buttonList)) {
             this.currentButton = button;
         }
 
-        // use default button, if not
+        // use default button, if button is not defined
         if (isEmpty(this.currentButton) || !(button in this.buttonList)) {
             this.currentButton = this.defaultButton;
         }
