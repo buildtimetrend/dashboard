@@ -256,6 +256,11 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
         $("#" + this.buttonPrefix + button).click(function() {
             classInstance.setCurrentButton(button);
             classInstance.formatButtons();
+
+            // execute custom click event
+            if ("onClick" in classInstance.buttonList[button]) {
+                classInstance.buttonList[button].onClick();
+            }
         });
     };
     // loop over list of buttons to attach click events
