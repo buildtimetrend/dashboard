@@ -39,16 +39,20 @@ var BUTTON_TIMEFRAME_PREFIX = "timeframe_";
 var BUTTON_TIMEFRAME_DEFAULT = "week";
 var BUTTONS_TIMEFRAME = {
     "day": {
-        "caption": "Day"
+        "caption": "Day",
+        "onClick": function() { updateCharts("day"); }
     },
     "week": {
-        "caption": "Week"
+        "caption": "Week",
+        "onClick": function() { updateCharts("week"); }
     },
     "month": {
-        "caption": "Month"
+        "caption": "Month",
+        "onClick": function() { updateCharts("month"); }
     },
     "year": {
-        "caption": "Year"
+        "caption": "Year",
+        "onClick": function() { updateCharts("year"); }
     }
 };
 
