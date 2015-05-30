@@ -222,20 +222,19 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
     // Set option buttons classes
     this.formatButtons = function() {
         // loop over all allowed buttons and set button class
-        var keys = Object.keys(this.buttonList);
-        for (var i = 0; i < keys.length; i++) {
-
+        var buttonNames = Object.keys(this.buttonList);
+        for (var i = 0; i < buttonNames.length; i++) {
             var buttonClass;
 
             // set active button
-            if (keys[i] === this.currentButton) {
+            if (buttonNames[i] === this.currentButton) {
                 buttonClass = CLASS_BUTTON_ACTIVE;
             } else {
                 buttonClass = CLASS_BUTTON_NORMAL;
             }
 
             // apply classes to button divs
-            $("#" + this.buttonPrefix + keys[i]).attr('class', buttonClass);
+            $("#" + this.buttonPrefix + buttonNames[i]).attr('class', buttonClass);
         }
     };
     // Attach events to toggle buttons
@@ -255,9 +254,9 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
     };
     // loop over list of buttons to attach click events
     this.initButtons = function() {
-        var keys = Object.keys(this.buttonList);
-        for (var i = 0; i < keys.length; i++) {
-            this.attachButtonEvent(keys[i]);
+        var buttonNames = Object.keys(this.buttonList);
+        for (var i = 0; i < buttonNames.length; i++) {
+            this.attachButtonEvent(buttonNames[i]);
         }
 
         this.formatButtons();
