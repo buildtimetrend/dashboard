@@ -217,7 +217,13 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
             button = this.currentButton;
         }
 
-        return this.buttonList[button].caption;
+        // return caption, if it is defined
+        if ("caption" in this.buttonList[button]) {
+            return this.buttonList[button].caption;
+        // else, return button name
+        } else {
+            return button;
+        }
     };
     // Set option buttons classes
     this.formatButtons = function() {
