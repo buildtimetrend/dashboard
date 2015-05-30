@@ -256,7 +256,12 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
     this.initButtons = function() {
         var buttonNames = Object.keys(this.buttonList);
         for (var i = 0; i < buttonNames.length; i++) {
-            this.attachButtonEvent(buttonNames[i]);
+            var button  = buttonNames[i];
+
+            this.attachButtonEvent(button);
+
+            $("#" + this.buttonPrefix + button)
+                .html(this.getButtonCaption(button));
         }
 
         this.formatButtons();
