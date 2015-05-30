@@ -2,6 +2,7 @@ v0.3 (not yet released)
 - issue #21 : add charts with build job results
 - issue #52 : upgrade to Keen JS API 3.2
 - issue #23 : add charts with build job results grouped by branch or by build environment parameters
+- issue #70 : use bootstrap buttons and ButtonClass on dashboard to select timeframe
 
 v0.2 (released on 18Feb2015)
 - issue #19 : update Keen.io charts using query request refresh function
