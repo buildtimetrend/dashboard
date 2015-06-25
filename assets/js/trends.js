@@ -89,6 +89,7 @@ var queriesInterval = [];
 var queriesTimeframe = [];
 var queryRequests = [];
 
+var keenMaxAge = 300;
 /**
  * Checks if a variable is defined and not null.
  */
@@ -454,7 +455,8 @@ function initCharts() {
         var queryTotalBuilds = new Keen.Query("count", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
-            timeframe: keenTimeframe
+            timeframe: keenTimeframe,
+            maxAge: keenMaxAge
         });
         queriesTimeframe.push(queryTotalBuilds);
 
@@ -483,6 +485,7 @@ function initCharts() {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
+            maxAge: keenMaxAge,
             filters: [{"property_name":"job.result","operator":"eq","property_value":"passed"}]
         });
         queriesTimeframe.push(queryTotalBuildsPassed);
@@ -529,6 +532,7 @@ function initCharts() {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
+            maxAge: keenMaxAge,
             filters: [{"property_name":"job.result","operator":"in","property_value":["failed","errored"]}]
         });
         queriesTimeframe.push(queryTotalBuildsFailed);
@@ -575,6 +579,7 @@ function initCharts() {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
+            maxAge: keenMaxAge,
             targetProperty: "job.duration"
         });
         queriesTimeframe.push(queryAverageBuildTime);
@@ -610,6 +615,7 @@ function initCharts() {
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             interval: keenInterval,
+            maxAge: keenMaxAge,
             targetProperty: "stage.duration",
             groupBy: "stage.name",
             filters: [{"property_name":"stage.name","operator":"exists","property_value":true}]
@@ -649,6 +655,7 @@ function initCharts() {
             eventCollection: "build_stages",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
+            maxAge: keenMaxAge,
             targetProperty: "stage.duration",
             groupBy: "stage.name",
             filters: [{"property_name":"stage.name","operator":"exists","property_value":true}]
@@ -681,6 +688,7 @@ function initCharts() {
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             interval: keenInterval,
+            maxAge: keenMaxAge,
             targetProperty: "job.build",
             groupBy: "job.branch"
         });
@@ -719,6 +727,7 @@ function initCharts() {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
+            maxAge: keenMaxAge,
             targetProperty: "job.build",
             groupBy: "job.branch"
         });
@@ -750,6 +759,7 @@ function initCharts() {
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             interval: keenInterval,
+            maxAge: keenMaxAge,
             targetProperty: "job.job",
             groupBy: "job.result"
         });
@@ -798,6 +808,7 @@ function initCharts() {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
+            maxAge: keenMaxAge,
             targetProperty: "job.job",
             groupBy: BuildJobResultClass.getQueryGroupByField(),
             filters: BuildJobResultClass.getFilters()
@@ -879,6 +890,7 @@ function initCharts() {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_WEEK,
+            maxAge: keenMaxAge,
             targetProperty: "job.duration",
             groupBy: "job.started_at.hour_24",
             filters: [{"property_name":"job.started_at.hour_24","operator":"exists","property_value":true}]
@@ -887,6 +899,7 @@ function initCharts() {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_MONTH,
+            maxAge: keenMaxAge,
             targetProperty: "job.duration",
             groupBy: "job.started_at.hour_24",
             filters: [{"property_name":"job.started_at.hour_24","operator":"exists","property_value":true}]
@@ -895,6 +908,7 @@ function initCharts() {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_YEAR,
+            maxAge: keenMaxAge,
             targetProperty: "job.duration",
             groupBy: "job.started_at.hour_24",
             filters: [{"property_name":"job.started_at.hour_24","operator":"exists","property_value":true}]
@@ -958,6 +972,7 @@ function initCharts() {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_WEEK,
+            maxAge: keenMaxAge,
             targetProperty: "job.duration",
             groupBy: "job.started_at.day_of_week",
             filters: [
@@ -972,6 +987,7 @@ function initCharts() {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_MONTH,
+            maxAge: keenMaxAge,
             targetProperty: "job.duration",
             groupBy: "job.started_at.day_of_week",
             filters: [
@@ -986,6 +1002,7 @@ function initCharts() {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_YEAR,
+            maxAge: keenMaxAge,
             targetProperty: "job.duration",
             groupBy: "job.started_at.day_of_week",
             filters: [
