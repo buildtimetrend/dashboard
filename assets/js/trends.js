@@ -89,7 +89,6 @@ var queriesInterval = [];
 var queriesTimeframe = [];
 var queryRequests = [];
 
-var keenMaxAge = 300;
 /**
  * Checks if a variable is defined and not null.
  */
@@ -147,33 +146,38 @@ function mergeSeries(data, indexCaptions, valueFieldname, seriesCaptions) {
 }
 
 function getUpdatePeriod(period) {
-    var keenTimeframe, keenInterval;
+    var keenTimeframe, keenInterval, keenMaxAge;
 
     switch (period) {
     case "day":
         keenTimeframe = "today";
         keenInterval = "hourly";
+        keenMaxAge = 300; // 5 min
         break;
     default:
         period = "week";
     case "week":
         keenTimeframe = TIMEFRAME_LAST_WEEK;
         keenInterval = "daily";
+        keenMaxAge = 300; // 5 min
         break;
     case "month":
         keenTimeframe = TIMEFRAME_LAST_MONTH;
         keenInterval = "daily";
+        keenMaxAge = 300; // 5 min
         break;
     case "year":
         keenTimeframe = TIMEFRAME_LAST_YEAR;
         keenInterval = "weekly";
+        keenMaxAge = 300; // 5 min
         break;
     }
 
     return {
         name: period,
         keenTimeframe: keenTimeframe,
-        keenInterval: keenInterval
+        keenInterval: keenInterval,
+        keenMaxAge: keenMaxAge
     };
 }
 
@@ -423,7 +427,9 @@ function updateCharts(periodName) {
 
     // update all timeframe based queries
     for (i = 0; i < queriesTimeframe.length; i++) {
-        queriesTimeframe[i].set({timeframe: updatePeriod.keenTimeframe});
+        queriesTimeframe[i].set({
+            timeframe: updatePeriod.keenTimeframe,
+            maxAge: updatePeriod.keenMaxAge});
     }
 
     // refresh all updated query requests
@@ -439,6 +445,7 @@ function initCharts() {
     TimeFrameButtons.setCurrentButton();
     TimeFrameButtons.initButtons();
 
+    var keenMaxAge = updatePeriod.keenMaxAge;
     var keenTimeframe = updatePeriod.keenTimeframe;
     var keenInterval = updatePeriod.keenInterval;
 
