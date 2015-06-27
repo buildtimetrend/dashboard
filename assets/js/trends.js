@@ -152,24 +152,24 @@ function getUpdatePeriod(period) {
     case "day":
         keenTimeframe = "today";
         keenInterval = "hourly";
-        keenMaxAge = 300; // 5 min
+        keenMaxAge = 3600; // 1 hour
         break;
     default:
         period = "week";
     case "week":
         keenTimeframe = TIMEFRAME_LAST_WEEK;
         keenInterval = "daily";
-        keenMaxAge = 300; // 5 min
+        keenMaxAge = 24 * 3600; // 1 day
         break;
     case "month":
         keenTimeframe = TIMEFRAME_LAST_MONTH;
         keenInterval = "daily";
-        keenMaxAge = 300; // 5 min
+        keenMaxAge = 24 * 3600; // 1 day
         break;
     case "year":
         keenTimeframe = TIMEFRAME_LAST_YEAR;
         keenInterval = "weekly";
-        keenMaxAge = 300; // 5 min
+        keenMaxAge = 7 * 24 * 3600; // 1 week
         break;
     }
 
