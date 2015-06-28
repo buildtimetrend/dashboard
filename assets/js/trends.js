@@ -181,7 +181,37 @@ function getUpdatePeriod(period) {
     };
 }
 
-// Selection button class
+/**
+ * Selection button class.
+ *
+ * This class makes a group of Bootstrap buttons interactive :
+ *  - all buttons are colourcoded : the active button is formated with
+ *    CLASS_BUTTON_ACTIVE (default : "btn btn-success"),
+ *    the others are formatted with CLASS_BUTTON_NORMAL (default: "btn btn-primary")
+ *  - on initialisation, the default button is activated,
+ *    and a custom caption is applied (see `caption`)
+ *  - when another button is clicked, the active button is
+ *    changed to that button and the button formatting is updated.
+ *  - `ButtonClass.currentButton` holds the current active button value
+ *  - a custom click event can be attached to each button (see `onClick`)
+ *
+ * Usage:
+ *
+ * var TimeFrameButtons = new ButtonClass(
+ *   {
+ *     "button1": {
+ *        "caption": "First Button",
+ *        "onClick": function() { someAction(); }
+ *     },
+ *     "button2": {
+ *       "caption": "Second Button",
+ *       "onClick": function() { otherAction(); }
+ *     }
+ *   },
+ *   BUTTON_TIMEFRAME_DEFAULT,
+ *   BUTTON_TIMEFRAME_PREFIX
+ * );
+ */
 function ButtonClass(buttonList, defaultButton, buttonPrefix) {
     this.buttonList = isEmpty(buttonList) ? {
         "button1": {},
