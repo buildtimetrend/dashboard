@@ -73,11 +73,11 @@ var BUTTON_GROUPBY_DEFAULT = "matrix";
 var BUTTONS_GROUPBY = {
     "branch": {
         "queryField": "job.branch",
-        "caption": "branch name"
+        "titleCaption": "branch name"
     },
     "matrix": {
         "queryField": "job.build_matrix.summary",
-        "caption": "build env parameters"
+        "titleCaption": "build env parameters"
     }
 };
 
@@ -210,7 +210,7 @@ var BuildJobResultClass = {
     getTitle: function () {
         return firstCharUpperCase(this.currentResult) +
             " build jobs grouped by " +
-            BUTTONS_GROUPBY[this.currentGroupBy].caption;
+            BUTTONS_GROUPBY[this.currentGroupBy].titleCaption;
     },
     // Set option buttons for Build job result filter
     setResultButton: function () {
