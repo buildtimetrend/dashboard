@@ -159,4 +159,4 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
 
         this.formatButtons();
     };
-};
+}
