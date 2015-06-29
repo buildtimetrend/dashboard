@@ -81,10 +81,14 @@ var BUTTON_GROUPBY_PREFIX = "groupby_";
 var BUTTON_GROUPBY_DEFAULT = "matrix";
 var BUTTONS_GROUPBY = {
     "branch": {
+        "caption": "Branch",
+        "onClick": function() { onClickResultButton(); },
         "queryField": "job.branch",
         "titleCaption": "branch name"
     },
     "matrix": {
+        "caption": "Build matrix",
+        "onClick": function() { onClickResultButton(); },
         "queryField": "job.build_matrix.summary",
         "titleCaption": "build env parameters"
     }
@@ -178,15 +182,11 @@ var BuildJobResultClass = {
         BUTTON_RESULT_DEFAULT,
         BUTTON_RESULT_PREFIX
     ),
-    currentGroupBy: BUTTON_GROUPBY_DEFAULT,
-    allowedGroupBy: BUTTONS_GROUPBY,
-    setGroupBy: function (groupBy) {
-        // check if button is defined or exists in list of buttons
-        // use default button, if not
-        if (!isEmpty(groupBy) && (groupBy in this.allowedGroupBy)) {
-            this.currentGroupBy = groupBy;
-        }
-    },
+    groupByButtons: new ButtonClass(
+        BUTTONS_GROUPBY,
+        BUTTON_GROUPBY_DEFAULT,
+        BUTTON_GROUPBY_PREFIX
+    ),
     // Get Build job result filter
     getFilters: function () {
         var filters = [];
@@ -197,7 +197,7 @@ var BuildJobResultClass = {
         });
 
         // only group records that have the build_matrix field
-        if (this.currentGroupBy === "matrix") {
+        if (this.groupByButtons.currentButton === "matrix") {
             filters.push({
                 "property_name": this.getQueryGroupByField(),
                 "operator":"exists",
@@ -209,38 +209,13 @@ var BuildJobResultClass = {
     },
     // Get Build job result query GroupBy parameter
     getQueryGroupByField: function () {
-        return this.allowedGroupBy[this.currentGroupBy].queryField;
+        return this.groupByButtons.buttonList[this.groupByButtons.currentButton].queryField;
     },
     // Get Build job result title
     getTitle: function () {
         return firstCharUpperCase(this.resultButtons.currentButton) +
             " build jobs grouped by " +
-            BUTTONS_GROUPBY[this.currentGroupBy].titleCaption;
-    },
-    // Set option buttons for Build job group by filter
-    setGroupByButton: function () {
-        this.setButton(
-            this.allowedGroupBy,
-            this.currentGroupBy,
-            BUTTON_GROUPBY_PREFIX
-        );
-    },
-    // Set option buttons classes
-    setButton: function (buttons, activeButton, buttonPrefix) {
-        // loop over all allowed buttons and set button class
-        $.each(buttons, function(key, value) {
-            var buttonClass;
-
-            // set active button
-            if (key === activeButton) {
-                buttonClass = CLASS_BUTTON_ACTIVE;
-            } else {
-                buttonClass = CLASS_BUTTON_NORMAL;
-            }
-
-            // apply classes to button divs
-            $("#" + buttonPrefix + key).attr('class', buttonClass);
-        });
+            this.groupByButtons.buttonList[this.groupByButtons.currentButton].titleCaption;
     }
 };
 
@@ -253,7 +228,6 @@ function onClickResultButton() {
     chartJobResultBranch.title(BuildJobResultClass.getTitle());
     requestJobResultBranch.refresh();
 }
-
 
 // Get badge url
 function getBadgeUrl() {
@@ -685,7 +659,8 @@ function initCharts() {
         // set default button
         BuildJobResultClass.resultButtons.setCurrentButton();
         BuildJobResultClass.resultButtons.initButtons();
-        BuildJobResultClass.setGroupByButton();
+        BuildJobResultClass.groupByButtons.setCurrentButton();
+        BuildJobResultClass.groupByButtons.initButtons();
 
         // create query
         queryJobResultBranch = new Keen.Query("count_unique", {
@@ -717,31 +692,6 @@ function initCharts() {
             }
         });
         queryRequests.push(requestJobResultBranch);
-
-        // Attach events to toggle buttons
-        function attachEventGroupByButton(button) {
-            var buttonPrefix = BUTTON_GROUPBY_PREFIX;
-
-            if (isEmpty(button)) {
-                button = BUTTON_GROUPBY_DEFAULT;
-            }
-
-            $("#" + buttonPrefix + button).click(function() {
-                BuildJobResultClass.setGroupBy(button);
-                BuildJobResultClass.setGroupByButton();
-                queryJobResultBranch.set({
-                    groupBy: BuildJobResultClass.getQueryGroupByField(),
-                    filters: BuildJobResultClass.getFilters()
-                });
-                chartJobResultBranch.title(BuildJobResultClass.getTitle());
-                requestJobResultBranch.refresh();
-            });
-        }
-
-        // loop over list of buttons to attach click events
-        $.each(BUTTONS_GROUPBY, function(key, value) {
-            attachEventGroupByButton(key);
-        });
 
         /* Average buildtime per time of day */
         // create query
