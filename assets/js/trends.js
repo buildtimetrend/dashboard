@@ -31,9 +31,6 @@ var CAPTION_LAST_YEAR = "Last year";
 
 var TIMEZONE_SECS = "UTC"; // named timezone or offset in seconds, fe. GMT+1 = 3600
 
-var CLASS_BUTTON_NORMAL = "btn btn-primary";
-var CLASS_BUTTON_ACTIVE = "btn btn-success";
-
 // Timeframe button constants
 var BUTTON_TIMEFRAME_PREFIX = "timeframe_";
 var BUTTON_TIMEFRAME_DEFAULT = "week";
@@ -55,6 +52,12 @@ var BUTTONS_TIMEFRAME = {
         "onClick": function() { updateCharts("year"); }
     }
 };
+
+var TimeFrameButtons = new ButtonClass(
+    BUTTONS_TIMEFRAME,
+    BUTTON_TIMEFRAME_DEFAULT,
+    BUTTON_TIMEFRAME_PREFIX
+);
 
 // Build result button constants
 var BUTTON_RESULT_PREFIX = "result_";
@@ -88,28 +91,6 @@ var YELLOW = '#eeb058';
 var queriesInterval = [];
 var queriesTimeframe = [];
 var queryRequests = [];
-
-/**
- * Checks if a variable is defined and not null.
- */
-function isEmpty(varName) {
-   return (varName === undefined || varName === null);
-}
-
-/**
- * Escape html characters
- * inspired by http://css-tricks.com/snippets/javascript/htmlentities-for-javascript/
- */
-function htmlEntities(str) {
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-}
-
-/**
- * Capitalize first character of a string
- */
-function firstCharUpperCase(str) {
-    return str.substring(0,1).toUpperCase() + str.substring(1);
-}
 
 /**
  * Merge data from several series, with identical X-axis labels
@@ -180,149 +161,6 @@ function getUpdatePeriod(period) {
         keenMaxAge: keenMaxAge
     };
 }
-
-/**
- * Selection button class.
- *
- * This class makes a group of Bootstrap buttons interactive :
- *  - all buttons are colourcoded : the active button is formated with
- *    CLASS_BUTTON_ACTIVE (default : "btn btn-success"),
- *    the others are formatted with CLASS_BUTTON_NORMAL (default: "btn btn-primary")
- *  - on initialisation, the default button is activated,
- *    and a custom caption is applied (see `caption`)
- *  - when another button is clicked, the active button is
- *    changed to that button and the button formatting is updated.
- *  - `ButtonClass.currentButton` holds the current active button value
- *  - a custom click event can be attached to each button (see `onClick`)
- *
- * Usage:
- *
- * var TimeFrameButtons = new ButtonClass(
- *   {
- *     "button1": {
- *        "caption": "First Button",
- *        "onClick": function() { someAction(); }
- *     },
- *     "button2": {
- *       "caption": "Second Button",
- *       "onClick": function() { otherAction(); }
- *     }
- *   },
- *   BUTTON_TIMEFRAME_DEFAULT,
- *   BUTTON_TIMEFRAME_PREFIX
- * );
- */
-function ButtonClass(buttonList, defaultButton, buttonPrefix) {
-    this.buttonList = isEmpty(buttonList) ? {
-        "button1": {},
-        "button2": {}
-    } : buttonList;
-    this.buttonPrefix = isEmpty(buttonPrefix) ? "" : buttonPrefix;
-
-    // Set default button
-    this.setDefaultButton = function (button) {
-        var buttonNames = Object.keys(this.buttonList);
-        if (buttonNames.length > 0) {
-            // check if button is defined or exists in list of buttons
-            if (!isEmpty(button) && (button in this.buttonList)) {
-                this.defaultButton = button;
-            } else {
-                this.defaultButton = buttonNames[0];
-            }
-        } else {
-            this.defaultButton = "";
-        }
-
-        return this.defaultButton;
-    };
-    this.defaultButton = this.setDefaultButton(defaultButton);
-    this.currentButton = this.defaultButton;
-
-    // Set current button
-    this.setCurrentButton = function (button) {
-        // check if button is defined and exists in list of buttons
-        if (!isEmpty(button) && (button in this.buttonList)) {
-            this.currentButton = button;
-        }
-
-        // use default button, if button is not defined
-        if (isEmpty(this.currentButton) || !(button in this.buttonList)) {
-            this.currentButton = this.defaultButton;
-        }
-    };
-    // Get button caption
-    this.getButtonCaption = function(button) {
-        if (isEmpty(button)) {
-            button = this.currentButton;
-        }
-
-        // return caption, if it is defined
-        if ("caption" in this.buttonList[button]) {
-            return this.buttonList[button].caption;
-        // else, return button name
-        } else {
-            return button;
-        }
-    };
-    // Set option buttons classes
-    this.formatButtons = function() {
-        // loop over all allowed buttons and set button class
-        var buttonNames = Object.keys(this.buttonList);
-        for (var i = 0; i < buttonNames.length; i++) {
-            var buttonClass;
-
-            // set active button
-            if (buttonNames[i] === this.currentButton) {
-                buttonClass = CLASS_BUTTON_ACTIVE;
-            } else {
-                buttonClass = CLASS_BUTTON_NORMAL;
-            }
-
-            // apply classes to button divs
-            $("#" + this.buttonPrefix + buttonNames[i]).attr('class', buttonClass);
-        }
-    };
-    // Attach events to toggle buttons
-    this.attachButtonEvent = function(button) {
-        if (isEmpty(button)) {
-            button = this.defaultButton;
-        }
-
-        // assign classInstance 'this' to a local variable because 'this' is
-        // redeclared in the scope of the following anonymous function
-        var classInstance = this;
-
-        $("#" + this.buttonPrefix + button).click(function() {
-            classInstance.setCurrentButton(button);
-            classInstance.formatButtons();
-
-            // execute custom click event
-            if ("onClick" in classInstance.buttonList[button]) {
-                classInstance.buttonList[button].onClick();
-            }
-        });
-    };
-    // loop over list of buttons to attach click events
-    this.initButtons = function() {
-        var buttonNames = Object.keys(this.buttonList);
-        for (var i = 0; i < buttonNames.length; i++) {
-            var button  = buttonNames[i];
-
-            this.attachButtonEvent(button);
-
-            $("#" + this.buttonPrefix + button)
-                .html(this.getButtonCaption(button));
-        }
-
-        this.formatButtons();
-    };
-};
-
-var TimeFrameButtons = new ButtonClass(
-    BUTTONS_TIMEFRAME,
-    BUTTON_TIMEFRAME_DEFAULT,
-    BUTTON_TIMEFRAME_PREFIX
-);
 
 // Build Job result class
 var BuildJobResultClass = {
