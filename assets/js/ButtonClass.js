@@ -40,7 +40,16 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  *
  * Usage:
  *
- * var TimeFrameButtons = new ButtonClass(
+ * Create the html :
+ *
+ * <div class="btn-group-xs">
+ *   <button type="button" id="prefix_button1" class="btn btn-default">Button1</button>
+ *   <button type="button" id="prefix_button2" class="btn btn-default">Button2</button>
+ * </div>
+ *
+ * Create a class instance :
+ *
+ * var buttons = new ButtonClass(
  *   {
  *     "button1": {
  *        "caption": "First Button",
@@ -51,9 +60,19 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  *       "onClick": function() { otherAction(); }
  *     }
  *   },
- *   BUTTON_TIMEFRAME_DEFAULT,
- *   BUTTON_TIMEFRAME_PREFIX
+ *   DEFAULT_BUTTON, // should match one of the buttons in the list,
+ *                   // otherwise the first one is used.
+ *   "prefix_"
  * );
+ *
+ * Initialise the buttons :
+ *
+ * buttons.setCurrentButton();
+ * buttons.initButtons();
+ *
+ * Get the currently active button :
+ *
+ * buttons.currentButton;
  */
 function ButtonClass(buttonList, defaultButton, buttonPrefix) {
     this.buttonList = isEmpty(buttonList) ? {
