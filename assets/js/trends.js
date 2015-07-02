@@ -299,9 +299,6 @@ function initCharts() {
     var keenTimeframe = updatePeriod.keenTimeframe;
     var keenInterval = updatePeriod.keenInterval;
 
-    // update interval selection box
-    $('#intervals').val(updatePeriod.name);
-
     // display charts
     $('#charts').show();
 
