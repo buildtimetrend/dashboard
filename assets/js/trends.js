@@ -21,19 +21,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-BUTTONS_TIMEFRAME["day"]["onClick"] = function() {
+BUTTONS_TIMEFRAME.day.onClick = function() {
     updateCharts("day");
     updateBadgeUrl("day");
 };
-BUTTONS_TIMEFRAME["week"]["onClick"] = function() {
+BUTTONS_TIMEFRAME.week.onClick = function() {
     updateCharts("week");
     updateBadgeUrl("week");
 };
-BUTTONS_TIMEFRAME["month"]["onClick"] = function() {
+BUTTONS_TIMEFRAME.month.onClick = function() {
     updateCharts("month");
     updateBadgeUrl("month");
 };
-BUTTONS_TIMEFRAME["year"]["onClick"] = function() {
+BUTTONS_TIMEFRAME.year.onClick = function() {
     updateCharts("year");
     updateBadgeUrl("year");
 };
