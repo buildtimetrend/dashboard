@@ -128,3 +128,12 @@ function populateProjects() {
         $("#projects.dropdown").hide();
     }
 }
+
+// Get badge url
+function getBadgeUrl() {
+    // check if config.serviceUrl is set by something else than the default value
+    if (isEmpty(config.serviceUrl) || config.serviceUrl === 'service_url') {
+        config.serviceUrl = 'https://buildtimetrend.herokuapp.com/';
+    }
+    return config.serviceUrl + '/badge/';
+}
