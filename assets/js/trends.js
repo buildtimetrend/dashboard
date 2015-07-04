@@ -148,13 +148,13 @@ var BuildJobResultClass = {
     },
     // Get Build job result query GroupBy parameter
     getQueryGroupByField: function () {
-        return this.groupByButtons.buttonList[this.groupByButtons.currentButton].queryField;
+        return this.groupByButtons.getCurrentButton().queryField;
     },
     // Get Build job result title
     getTitle: function () {
         return firstCharUpperCase(this.resultButtons.currentButton) +
             " build jobs grouped by " +
-            this.groupByButtons.buttonList[this.groupByButtons.currentButton].titleCaption;
+            this.groupByButtons.getCurrentButton().titleCaption;
     }
 };
 
