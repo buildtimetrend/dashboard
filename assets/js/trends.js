@@ -22,19 +22,19 @@
  */
 
 BUTTONS_TIMEFRAME.day.onClick = function() {
-    updateCharts("day");
+    updateCharts();
     updateBadgeUrl("day");
 };
 BUTTONS_TIMEFRAME.week.onClick = function() {
-    updateCharts("week");
+    updateCharts();
     updateBadgeUrl("week");
 };
 BUTTONS_TIMEFRAME.month.onClick = function() {
-    updateCharts("month");
+    updateCharts();
     updateBadgeUrl("month");
 };
 BUTTONS_TIMEFRAME.year.onClick = function() {
-    updateCharts("year");
+    updateCharts();
     updateBadgeUrl("year");
 };
 
