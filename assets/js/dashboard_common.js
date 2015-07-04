@@ -80,6 +80,9 @@ function getUpdatePeriod() {
     return TimeFrameButtons.getCurrentButton();
 }
 
+/**
+ * Refresh charts with interval and timeframe selected by TimeFrameButtons.
+ */
 function updateCharts() {
     // get Update Period settings
     var updatePeriod = getUpdatePeriod();
