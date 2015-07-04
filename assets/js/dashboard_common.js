@@ -37,20 +37,32 @@ var BUTTON_TIMEFRAME_DEFAULT = "week";
 var BUTTONS_TIMEFRAME = {
     "day": {
         "caption": "Day",
-        "onClick": function() { updateCharts("day"); }
+        "onClick": function() { updateCharts("day"); },
+        "keenTimeframe": "today",
+        "keenInterval": "hourly",
+        "keenMaxAge": 3600 // 1 hour
     },
     "week": {
         "caption": "Week",
-        "onClick": function() { updateCharts("week"); }
+        "onClick": function() { updateCharts("week"); },
+        "keenTimeframe": TIMEFRAME_LAST_WEEK,
+        "keenInterval": "daily",
+        "keenMaxAge": 24 * 3600 // 1 day
     },
     "month": {
         "caption": "Month",
-        "onClick": function() { updateCharts("month"); }
+        "onClick": function() { updateCharts("month"); },
+        "keenTimeframe": TIMEFRAME_LAST_MONTH,
+        "keenInterval": "daily",
+        "keenMaxAge": 24 * 3600 // 1 day
     },
     "year": {
         "caption": "Year",
-        "onClick": function() { updateCharts("year"); }
-    }
+        "onClick": function() { updateCharts("year"); },
+        "keenTimeframe": TIMEFRAME_LAST_YEAR,
+        "keenInterval": "weekly",
+        "keenMaxAge": 7 * 24 * 3600 // 1 week
+   }
 };
 
 var TimeFrameButtons = new ButtonClass(
@@ -64,45 +76,13 @@ var queriesInterval = [];
 var queriesTimeframe = [];
 var queryRequests = [];
 
-function getUpdatePeriod(period) {
-    var keenTimeframe, keenInterval, keenMaxAge;
-
-    switch (period) {
-    case "day":
-        keenTimeframe = "today";
-        keenInterval = "hourly";
-        keenMaxAge = 3600; // 1 hour
-        break;
-    default:
-        period = "week";
-    case "week":
-        keenTimeframe = TIMEFRAME_LAST_WEEK;
-        keenInterval = "daily";
-        keenMaxAge = 24 * 3600; // 1 day
-        break;
-    case "month":
-        keenTimeframe = TIMEFRAME_LAST_MONTH;
-        keenInterval = "daily";
-        keenMaxAge = 24 * 3600; // 1 day
-        break;
-    case "year":
-        keenTimeframe = TIMEFRAME_LAST_YEAR;
-        keenInterval = "weekly";
-        keenMaxAge = 7 * 24 * 3600; // 1 week
-        break;
-    }
-
-    return {
-        name: period,
-        keenTimeframe: keenTimeframe,
-        keenInterval: keenInterval,
-        keenMaxAge: keenMaxAge
-    };
+function getUpdatePeriod() {
+    return TimeFrameButtons.getCurrentButton();
 }
 
-function updateCharts(periodName) {
+function updateCharts() {
     // get Update Period settings
-    var updatePeriod = getUpdatePeriod(periodName);
+    var updatePeriod = getUpdatePeriod();
 
     var i;
 

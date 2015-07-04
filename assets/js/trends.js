@@ -186,7 +186,7 @@ function updateBadgeUrl(periodName) {
     if (!isEmpty(config.repoName) && config.repoName !== 'repo_name') {
         badgeUrl += config.repoName;
 
-        var updatePeriod = getUpdatePeriod(periodName);
+        var updatePeriod = getUpdatePeriod();
         var interval = updatePeriod.name;
 
         // add interval
