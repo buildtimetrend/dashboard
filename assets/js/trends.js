@@ -205,8 +205,8 @@ function initCharts() {
     // get Update Period settings
     var updatePeriod = getUpdatePeriod();
 
-    TimeFrameButtons.setCurrentButton();
-    TimeFrameButtons.initButtons();
+    timeframeButtons.setCurrentButton();
+    timeframeButtons.initButtons();
 
     var keenMaxAge = updatePeriod.keenMaxAge;
     var keenTimeframe = updatePeriod.keenTimeframe;

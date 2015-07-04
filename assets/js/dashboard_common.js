@@ -65,7 +65,7 @@ var BUTTONS_TIMEFRAME = {
    }
 };
 
-var TimeFrameButtons = new ButtonClass(
+var timeframeButtons = new ButtonClass(
     BUTTONS_TIMEFRAME,
     BUTTON_TIMEFRAME_DEFAULT,
     BUTTON_TIMEFRAME_PREFIX
@@ -77,11 +77,11 @@ var queriesTimeframe = [];
 var queryRequests = [];
 
 function getUpdatePeriod() {
-    return TimeFrameButtons.getCurrentButton();
+    return timeframeButtons.getCurrentButton();
 }
 
 /**
- * Refresh charts with interval and timeframe selected by TimeFrameButtons.
+ * Refresh charts with interval and timeframe selected by timeframeButtons.
  */
 function updateCharts() {
     // get Update Period settings
