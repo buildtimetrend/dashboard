@@ -23,19 +23,19 @@
 
 BUTTONS_TIMEFRAME.day.onClick = function() {
     updateCharts();
-    updateBadgeUrl("day");
+    updateBadgeUrl();
 };
 BUTTONS_TIMEFRAME.week.onClick = function() {
     updateCharts();
-    updateBadgeUrl("week");
+    updateBadgeUrl();
 };
 BUTTONS_TIMEFRAME.month.onClick = function() {
     updateCharts();
-    updateBadgeUrl("month");
+    updateBadgeUrl();
 };
 BUTTONS_TIMEFRAME.year.onClick = function() {
     updateCharts();
-    updateBadgeUrl("year");
+    updateBadgeUrl();
 };
 
 
@@ -179,7 +179,7 @@ function getBadgeUrl() {
 }
 
 // Initialize badge url
-function updateBadgeUrl(periodName) {
+function updateBadgeUrl() {
     var badgeUrl = getBadgeUrl();
 
     // add repo
