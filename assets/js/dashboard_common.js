@@ -37,28 +37,24 @@ var BUTTON_TIMEFRAME_DEFAULT = "week";
 var BUTTONS_TIMEFRAME = {
     "day": {
         "caption": "Day",
-        "onClick": function() { updateCharts(); },
         "keenTimeframe": "today",
         "keenInterval": "hourly",
         "keenMaxAge": 3600 // 1 hour
     },
     "week": {
         "caption": "Week",
-        "onClick": function() { updateCharts(); },
         "keenTimeframe": TIMEFRAME_LAST_WEEK,
         "keenInterval": "daily",
         "keenMaxAge": 24 * 3600 // 1 day
     },
     "month": {
         "caption": "Month",
-        "onClick": function() { updateCharts(); },
         "keenTimeframe": TIMEFRAME_LAST_MONTH,
         "keenInterval": "daily",
         "keenMaxAge": 24 * 3600 // 1 day
     },
     "year": {
         "caption": "Year",
-        "onClick": function() { updateCharts(); },
         "keenTimeframe": TIMEFRAME_LAST_YEAR,
         "keenInterval": "weekly",
         "keenMaxAge": 7 * 24 * 3600 // 1 week
@@ -70,6 +66,7 @@ var timeframeButtons = new ButtonClass(
     BUTTON_TIMEFRAME_DEFAULT,
     BUTTON_TIMEFRAME_PREFIX
 );
+timeframeButtons.onClick = function() { updateCharts(); };
 
 // arrays with queries and query request to update
 var queriesInterval = [];

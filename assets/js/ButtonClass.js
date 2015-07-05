@@ -67,12 +67,18 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  *
  * Initialise the buttons :
  *
- * buttons.setCurrentButton();
  * buttons.initButtons();
  *
  * Get the currently active button :
  *
  * buttons.currentButton;
+ *
+ * Define a custom onClick event that is executed when any button is clicked:
+ *
+ * buttons.onclick = function() { anyAction(); };
+ *
+ * Remark : if an onClick event is defined for a specific button, that action is
+ * executed after the general onClick event is executed.
  */
 function ButtonClass(buttonList, defaultButton, buttonPrefix) {
     this.buttonList = isEmpty(buttonList) ? {
@@ -80,6 +86,7 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
         "button2": {}
     } : buttonList;
     this.buttonPrefix = isEmpty(buttonPrefix) ? "" : buttonPrefix;
+    this.onClick = "";
 
     // Set default button
     this.setDefaultButton = function (button) {
@@ -117,7 +124,7 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
         var buttonData = this.buttonList[this.currentButton];
         buttonData.name = this.currentButton;
         return buttonData;
-    }
+    };
     // Get button caption
     this.getButtonCaption = function(button) {
         if (isEmpty(button)) {
@@ -164,7 +171,12 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
             classInstance.setCurrentButton(button);
             classInstance.formatButtons();
 
-            // execute custom click event
+            // execute custom click events
+            // general event (for all buttons)
+            if (!isEmpty(classInstance.onClick)) {
+                classInstance.onClick();
+            }
+            // specific button event
             if ("onClick" in classInstance.buttonList[button]) {
                 classInstance.buttonList[button].onClick();
             }
@@ -172,6 +184,8 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
     };
     // loop over list of buttons to attach click events
     this.initButtons = function() {
+        this.setCurrentButton();
+
         var buttonNames = Object.keys(this.buttonList);
         for (var i = 0; i < buttonNames.length; i++) {
             var button  = buttonNames[i];

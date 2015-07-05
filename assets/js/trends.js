@@ -21,23 +21,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-BUTTONS_TIMEFRAME.day.onClick = function() {
+// define the general onClick event for timeframeButtons instance
+timeframeButtons.onClick = function() {
     updateCharts();
     updateBadgeUrl();
 };
-BUTTONS_TIMEFRAME.week.onClick = function() {
-    updateCharts();
-    updateBadgeUrl();
-};
-BUTTONS_TIMEFRAME.month.onClick = function() {
-    updateCharts();
-    updateBadgeUrl();
-};
-BUTTONS_TIMEFRAME.year.onClick = function() {
-    updateCharts();
-    updateBadgeUrl();
-};
-
 
 // Build result button constants
 var BUTTON_RESULT_PREFIX = "result_";
@@ -45,15 +33,12 @@ var BUTTON_RESULT_DEFAULT = "failed";
 var BUTTONS_RESULT = {
     "passed": {
         "caption": "Passed",
-        "onClick": function() { onClickResultButton(); }
     },
     "failed": {
         "caption": "Failed",
-        "onClick": function() { onClickResultButton(); }
     },
     "errored": {
         "caption": "Errored",
-        "onClick": function() { onClickResultButton(); }
     }
 };
 // Groupby button constants
@@ -62,13 +47,11 @@ var BUTTON_GROUPBY_DEFAULT = "matrix";
 var BUTTONS_GROUPBY = {
     "branch": {
         "caption": "Branch",
-        "onClick": function() { onClickResultButton(); },
         "queryField": "job.branch",
         "titleCaption": "branch name"
     },
     "matrix": {
         "caption": "Build matrix",
-        "onClick": function() { onClickResultButton(); },
         "queryField": "job.build_matrix.summary",
         "titleCaption": "build env parameters"
     }
@@ -115,7 +98,7 @@ function mergeSeries(data, indexCaptions, valueFieldname, seriesCaptions) {
 }
 
 // Build Job result class
-var BuildJobResultClass = {
+var buildJobResultButtons = {
     resultButtons: new ButtonClass(
         BUTTONS_RESULT,
         BUTTON_RESULT_DEFAULT,
@@ -126,6 +109,13 @@ var BuildJobResultClass = {
         BUTTON_GROUPBY_DEFAULT,
         BUTTON_GROUPBY_PREFIX
     ),
+    // initialize class instance
+    init: function() {
+        this.resultButtons.onClick = function() { onClickResultButton(); };
+        this.resultButtons.initButtons();
+        this.groupByButtons.onClick = function() { onClickResultButton(); };
+        this.groupByButtons.initButtons();
+    },
     // Get Build job result filter
     getFilters: function () {
         var filters = [];
@@ -161,10 +151,10 @@ var BuildJobResultClass = {
 var queryJobResultBranch, chartJobResultBranch, requestJobResultBranch;
 function onClickResultButton() {
     queryJobResultBranch.set({
-        groupBy: BuildJobResultClass.getQueryGroupByField(),
-        filters: BuildJobResultClass.getFilters()
+        groupBy: buildJobResultButtons.getQueryGroupByField(),
+        filters: buildJobResultButtons.getFilters()
     });
-    chartJobResultBranch.title(BuildJobResultClass.getTitle());
+    chartJobResultBranch.title(buildJobResultButtons.getTitle());
     requestJobResultBranch.refresh();
 }
 
@@ -195,7 +185,7 @@ function initCharts() {
     // get Update Period settings
     var updatePeriod = getUpdatePeriod();
 
-    timeframeButtons.setCurrentButton();
+    // initialize timeframe buttons
     timeframeButtons.initButtons();
 
     var keenMaxAge = updatePeriod.keenMaxAge;
@@ -556,11 +546,8 @@ function initCharts() {
 
         /* Build job result per branch */
 
-        // set default button
-        BuildJobResultClass.resultButtons.setCurrentButton();
-        BuildJobResultClass.resultButtons.initButtons();
-        BuildJobResultClass.groupByButtons.setCurrentButton();
-        BuildJobResultClass.groupByButtons.initButtons();
+        // initialize buildjob result buttons
+        buildJobResultButtons.init();
 
         // create query
         queryJobResultBranch = new Keen.Query("count_unique", {
@@ -569,8 +556,8 @@ function initCharts() {
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             targetProperty: "job.job",
-            groupBy: BuildJobResultClass.getQueryGroupByField(),
-            filters: BuildJobResultClass.getFilters()
+            groupBy: buildJobResultButtons.getQueryGroupByField(),
+            filters: buildJobResultButtons.getFilters()
         });
         queriesTimeframe.push(queryJobResultBranch);
 
@@ -578,7 +565,7 @@ function initCharts() {
         chartJobResultBranch = new Keen.Dataviz()
             .el(document.getElementById("chart_jobs_result_branch"))
             .height("400")
-            .title(BuildJobResultClass.getTitle())
+            .title(buildJobResultButtons.getTitle())
             .prepare();
 
         requestJobResultBranch = client.run(queryJobResultBranch, function(err, res) {
