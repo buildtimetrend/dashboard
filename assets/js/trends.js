@@ -115,7 +115,7 @@ function mergeSeries(data, indexCaptions, valueFieldname, seriesCaptions) {
 }
 
 // Build Job result class
-var BuildJobResultClass = {
+var buildJobResultButtons = {
     resultButtons: new ButtonClass(
         BUTTONS_RESULT,
         BUTTON_RESULT_DEFAULT,
@@ -161,10 +161,10 @@ var BuildJobResultClass = {
 var queryJobResultBranch, chartJobResultBranch, requestJobResultBranch;
 function onClickResultButton() {
     queryJobResultBranch.set({
-        groupBy: BuildJobResultClass.getQueryGroupByField(),
-        filters: BuildJobResultClass.getFilters()
+        groupBy: buildJobResultButtons.getQueryGroupByField(),
+        filters: buildJobResultButtons.getFilters()
     });
-    chartJobResultBranch.title(BuildJobResultClass.getTitle());
+    chartJobResultBranch.title(buildJobResultButtons.getTitle());
     requestJobResultBranch.refresh();
 }
 
@@ -557,8 +557,8 @@ function initCharts() {
         /* Build job result per branch */
 
         // initialize buildjob result buttons
-        BuildJobResultClass.resultButtons.initButtons();
-        BuildJobResultClass.groupByButtons.initButtons();
+        buildJobResultButtons.resultButtons.initButtons();
+        buildJobResultButtons.groupByButtons.initButtons();
 
         // create query
         queryJobResultBranch = new Keen.Query("count_unique", {
@@ -567,8 +567,8 @@ function initCharts() {
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             targetProperty: "job.job",
-            groupBy: BuildJobResultClass.getQueryGroupByField(),
-            filters: BuildJobResultClass.getFilters()
+            groupBy: buildJobResultButtons.getQueryGroupByField(),
+            filters: buildJobResultButtons.getFilters()
         });
         queriesTimeframe.push(queryJobResultBranch);
 
@@ -576,7 +576,7 @@ function initCharts() {
         chartJobResultBranch = new Keen.Dataviz()
             .el(document.getElementById("chart_jobs_result_branch"))
             .height("400")
-            .title(BuildJobResultClass.getTitle())
+            .title(buildJobResultButtons.getTitle())
             .prepare();
 
         requestJobResultBranch = client.run(queryJobResultBranch, function(err, res) {
