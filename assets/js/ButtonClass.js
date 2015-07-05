@@ -72,6 +72,13 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  * Get the currently active button :
  *
  * buttons.currentButton;
+ *
+ * Define a custom onClick event that is executed when any button is clicked:
+ *
+ * buttons.onclick = function() { anyAction(); };
+ *
+ * Remark : if an onClick event is defined for a specific button, that action is
+ * executed after the general onClick event is executed.
  */
 function ButtonClass(buttonList, defaultButton, buttonPrefix) {
     this.buttonList = isEmpty(buttonList) ? {
@@ -79,6 +86,7 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
         "button2": {}
     } : buttonList;
     this.buttonPrefix = isEmpty(buttonPrefix) ? "" : buttonPrefix;
+    this.onClick = "";
 
     // Set default button
     this.setDefaultButton = function (button) {
@@ -163,7 +171,12 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
             classInstance.setCurrentButton(button);
             classInstance.formatButtons();
 
-            // execute custom click event
+            // execute custom click events
+            // general event (for all buttons)
+            if (!isEmpty(classInstance.onClick)) {
+                classInstance.onClick();
+            }
+            // specific button event
             if ("onClick" in classInstance.buttonList[button]) {
                 classInstance.buttonList[button].onClick();
             }
