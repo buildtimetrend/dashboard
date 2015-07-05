@@ -33,15 +33,12 @@ var BUTTON_RESULT_DEFAULT = "failed";
 var BUTTONS_RESULT = {
     "passed": {
         "caption": "Passed",
-        "onClick": function() { onClickResultButton(); }
     },
     "failed": {
         "caption": "Failed",
-        "onClick": function() { onClickResultButton(); }
     },
     "errored": {
         "caption": "Errored",
-        "onClick": function() { onClickResultButton(); }
     }
 };
 // Groupby button constants
@@ -50,13 +47,11 @@ var BUTTON_GROUPBY_DEFAULT = "matrix";
 var BUTTONS_GROUPBY = {
     "branch": {
         "caption": "Branch",
-        "onClick": function() { onClickResultButton(); },
         "queryField": "job.branch",
         "titleCaption": "branch name"
     },
     "matrix": {
         "caption": "Build matrix",
-        "onClick": function() { onClickResultButton(); },
         "queryField": "job.build_matrix.summary",
         "titleCaption": "build env parameters"
     }
@@ -114,6 +109,13 @@ var buildJobResultButtons = {
         BUTTON_GROUPBY_DEFAULT,
         BUTTON_GROUPBY_PREFIX
     ),
+    // initialize class instance
+    init: function() {
+        this.resultButtons.onClick = function() { onClickResultButton(); };
+        this.resultButtons.initButtons();
+        this.groupByButtons.onClick = function() { onClickResultButton(); };
+        this.groupByButtons.initButtons();
+    },
     // Get Build job result filter
     getFilters: function () {
         var filters = [];
@@ -545,8 +547,7 @@ function initCharts() {
         /* Build job result per branch */
 
         // initialize buildjob result buttons
-        buildJobResultButtons.resultButtons.initButtons();
-        buildJobResultButtons.groupByButtons.initButtons();
+        buildJobResultButtons.init();
 
         // create query
         queryJobResultBranch = new Keen.Query("count_unique", {
