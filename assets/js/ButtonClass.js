@@ -117,7 +117,7 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
         var buttonData = this.buttonList[this.currentButton];
         buttonData.name = this.currentButton;
         return buttonData;
-    }
+    };
     // Get button caption
     this.getButtonCaption = function(button) {
         if (isEmpty(button)) {
