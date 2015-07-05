@@ -195,7 +195,7 @@ function initCharts() {
     // get Update Period settings
     var updatePeriod = getUpdatePeriod();
 
-    timeframeButtons.setCurrentButton();
+    // initialize timeframe buttons
     timeframeButtons.initButtons();
 
     var keenMaxAge = updatePeriod.keenMaxAge;
@@ -556,10 +556,8 @@ function initCharts() {
 
         /* Build job result per branch */
 
-        // set default button
-        BuildJobResultClass.resultButtons.setCurrentButton();
+        // initialize buildjob result buttons
         BuildJobResultClass.resultButtons.initButtons();
-        BuildJobResultClass.groupByButtons.setCurrentButton();
         BuildJobResultClass.groupByButtons.initButtons();
 
         // create query

@@ -67,7 +67,6 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  *
  * Initialise the buttons :
  *
- * buttons.setCurrentButton();
  * buttons.initButtons();
  *
  * Get the currently active button :
@@ -172,6 +171,8 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
     };
     // loop over list of buttons to attach click events
     this.initButtons = function() {
+        this.setCurrentButton();
+
         var buttonNames = Object.keys(this.buttonList);
         for (var i = 0; i < buttonNames.length; i++) {
             var button  = buttonNames[i];
