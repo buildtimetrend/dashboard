@@ -21,23 +21,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-BUTTONS_TIMEFRAME.day.onClick = function() {
+// define the general onClick event for timeframeButtons instance
+timeframeButtons.onClick = function() {
     updateCharts();
     updateBadgeUrl();
 };
-BUTTONS_TIMEFRAME.week.onClick = function() {
-    updateCharts();
-    updateBadgeUrl();
-};
-BUTTONS_TIMEFRAME.month.onClick = function() {
-    updateCharts();
-    updateBadgeUrl();
-};
-BUTTONS_TIMEFRAME.year.onClick = function() {
-    updateCharts();
-    updateBadgeUrl();
-};
-
 
 // Build result button constants
 var BUTTON_RESULT_PREFIX = "result_";
