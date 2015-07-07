@@ -37,34 +37,76 @@ function initCharts() {
 
     // visualization code goes here
     Keen.ready(function() {
-        /* Total builds */
+        /* Builds per project */
         // create query
-        /*var queryTotalBuilds = new Keen.Query("count", {
+        var queryBuildsPerProject = new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
-            timezone: TIMEZONE_SECS,
+            targetProperty: "job.build",
+            groupBy: "buildtime_trend.project_name",
+            interval: keenInterval,
             timeframe: keenTimeframe,
-            maxAge: keenMaxAge
+            maxAge: keenMaxAge,
+            timezone: TIMEZONE_SECS
         });
-        queriesTimeframe.push(queryTotalBuilds);
+        queriesTimeframe.push(queryBuildsPerProject);
+        queriesInterval.push(queryBuildsPerProject);
 
         // draw chart
-        var chartTotalBuilds = new Keen.Dataviz()
-            .el(document.getElementById("metric_total_builds"))
-            .prepare();
+        var chartBuildsPerProject = new Keen.Dataviz()
+            .el(document.getElementById("chart_builds_per_project"))
+            .chartType("columnchart")
+            .height("400")
+            .attributes({
+                chartOptions: {
+                    isStacked: true
+                }
+            })
+           .prepare();
 
-        var requestTotalBuilds = client.run(queryTotalBuilds, function(err, res){
+        var requestBuildsPerProject = client.run(queryBuildsPerProject, function(err, res) {
             if (err) {
-            // Display the API error
-            chartTotalBuilds.error(err.message);
+                // Display the API error
+                chartBuildsPerProject.error(err.message);
             } else {
-                chartTotalBuilds
+                chartBuildsPerProject
                     .parseRequest(this)
-                    .title("Total build jobs")
-                    .width("200")
+                    .title("Builds per project")
                     .render();
             }
         });
-        queryRequests.push(requestTotalBuilds);*/
+        queryRequests.push(requestBuildsPerProject);
+
+        /* Builds per project (piechart)*/
+        // create query
+        var queryBuildsPerProjectPie = new Keen.Query("count_unique", {
+            eventCollection: "build_jobs",
+            targetProperty: "job.build",
+            groupBy: "buildtime_trend.project_name",
+            timeframe: keenTimeframe,
+            maxAge: keenMaxAge,
+            timezone: TIMEZONE_SECS
+        });
+        queriesTimeframe.push(queryBuildsPerProjectPie);
+
+        // draw chart
+        var chartBuildsPerProjectPie = new Keen.Dataviz()
+            .el(document.getElementById("chart_builds_per_project_pie"))
+            .height("400")
+            .prepare();
+
+        var requestBuildsPerProjectPie = client.run(queryBuildsPerProjectPie, function(err, res) {
+            if (err) {
+                // Display the API error
+                chartBuildsPerProjectPie.error(err.message);
+            } else {
+                chartBuildsPerProjectPie
+                    .parseRequest(this)
+                    .title("Builds per project")
+                    .render();
+            }
+        });
+        queryRequests.push(requestBuildsPerProjectPie);
+
     });
 }
 
@@ -74,8 +116,7 @@ $(document).ready(function() {
     initLinks();
     initMessage();
     populateProjects();
-    if (!isEmpty(config.repoName) &&
-      !isEmpty(keenConfig.projectId) && !isEmpty(keenConfig.readKey)) {
+    if (!isEmpty(keenConfig.projectId) && !isEmpty(keenConfig.readKey)) {
         initCharts();
     }
 });
