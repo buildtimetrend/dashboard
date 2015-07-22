@@ -39,25 +39,25 @@ var BUTTONS_TIMEFRAME = {
         "caption": "Day",
         "keenTimeframe": "today",
         "keenInterval": "hourly",
-        "keenMaxAge": 3600 // 1 hour
+        "keenMaxAge": 300 // 5 min
     },
     "week": {
         "caption": "Week",
         "keenTimeframe": TIMEFRAME_LAST_WEEK,
         "keenInterval": "daily",
-        "keenMaxAge": 24 * 3600 // 1 day
+        "keenMaxAge": 600 // 10 min
     },
     "month": {
         "caption": "Month",
         "keenTimeframe": TIMEFRAME_LAST_MONTH,
         "keenInterval": "daily",
-        "keenMaxAge": 24 * 3600 // 1 day
+        "keenMaxAge": 600 // 10 min
     },
     "year": {
         "caption": "Year",
         "keenTimeframe": TIMEFRAME_LAST_YEAR,
         "keenInterval": "weekly",
-        "keenMaxAge": 7 * 24 * 3600 // 1 week
+        "keenMaxAge": 1800 // 30 min
    }
 };
 
