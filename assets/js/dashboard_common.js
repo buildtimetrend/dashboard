@@ -118,8 +118,5 @@ function setAutoRefresh() {
 
     refreshSecs = 60 * parseInt(refreshParam, 10);
 
-    // refresh all updated query requests
-    for (i = 0; i < queryRequests.length; i++) {
-        setInterval(queryRequests[i].refresh, 1000 * refreshSecs);
-    }
+    setInterval(function(){updateCharts();}, 1000 * refreshSecs);
 }
