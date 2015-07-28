@@ -37,6 +37,25 @@ function htmlEntities(str) {
 }
 
 /**
+ * Get URL parameter
+ * Inspired by http://stackoverflow.com/a/21903119
+ */
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return isEmpty(sParameterName[1]) ? false : sParameterName[1];
+        }
+    }
+};
+
+/**
  * Capitalize first character of a string
  */
 function firstCharUpperCase(str) {
