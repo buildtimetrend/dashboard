@@ -103,3 +103,23 @@ function updateCharts() {
         queryRequests[i].refresh();
     }
 }
+
+/**
+ * Enable auto refresh (if defined by url parameter).
+ *
+ * if url parameter `refresh` is defined, auto refreshing the charts is enabled.
+ * refresh is defined in minutes
+ */
+function setAutoRefresh() {
+    var refreshParam = getUrlParameter('refresh');
+    if (refreshParam === false || isNaN(refreshParam)) {
+        return;
+    }
+
+    refreshSecs = 60 * parseInt(refreshParam, 10);
+
+    // refresh all updated query requests
+    for (i = 0; i < queryRequests.length; i++) {
+        setInterval(queryRequests[i].refresh, 1000 * refreshSecs);
+    }
+}
