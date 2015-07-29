@@ -107,8 +107,10 @@ function updateCharts() {
 /**
  * Enable auto refresh (if defined by url parameter).
  *
- * if url parameter `refresh` is defined, auto refreshing the charts is enabled.
- * refresh is defined in minutes
+ * If url parameter `refresh` is defined, auto refreshing the charts is enabled.
+ * Refresh is defined in minutes.
+ * Refresh rate should at least be equal to maximum age of the Query cache,
+ * if not the cache max age value will be used (typically, 10 min).
  */
 function setAutoRefresh() {
     var refreshParam = getUrlParameter('refresh');
@@ -117,6 +119,19 @@ function setAutoRefresh() {
     }
 
     refreshSecs = 60 * parseInt(refreshParam, 10);
+
+    // disable auto refresh if value is zero or less
+    if (refreshSecs <= 0) {
+        return;
+    }
+
+    // get Update Period settings
+    var updatePeriod = getUpdatePeriod();
+
+    // refresh rate should not be smaller than the cache max age
+    if (refreshSecs < updatePeriod.keenMaxAge) {
+        refreshSecs = updatePeriod.keenMaxAge;
+    }
 
     setInterval(function(){updateCharts();}, 1000 * refreshSecs);
 }
