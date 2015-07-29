@@ -25,7 +25,7 @@
  * Checks if a variable is defined and not null.
  */
 function isEmpty(varName) {
-   return (varName === undefined || varName === null);
+   return (varName === undefined || varName === null || varName === "");
 }
 
 /**
@@ -34,6 +34,25 @@ function isEmpty(varName) {
  */
 function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+
+/**
+ * Get URL parameter
+ * Inspired by http://stackoverflow.com/a/21903119
+ */
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1];
+        }
+    }
 }
 
 /**

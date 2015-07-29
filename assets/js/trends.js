@@ -764,5 +764,6 @@ $(document).ready(function() {
     if (!isEmpty(config.repoName) &&
       !isEmpty(keenConfig.projectId) && !isEmpty(keenConfig.readKey)) {
         initCharts();
+        setAutoRefresh();
     }
 });

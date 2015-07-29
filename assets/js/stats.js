@@ -21,12 +21,43 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Timeframe button constants
+var BUTTON_COUNT_PREFIX = "count_";
+var BUTTON_COUNT_DEFAULT = "builds";
+var BUTTONS_COUNT = {
+    "builds": {
+        "caption": "Builds",
+        "keenEventCollection": "build_jobs",
+        "keenTargetProperty": "job.build"
+    },
+    "jobs": {
+        "caption": "Build jobs",
+        "keenEventCollection": "build_jobs",
+        "keenTargetProperty": "job.job"
+    },
+    "substages": {
+        "caption": "Stages",
+        "keenEventCollection": "build_substages",
+        "keenTargetProperty": "job.job"
+    }
+};
+
+var countButtons = new ButtonClass(
+    BUTTONS_COUNT,
+    BUTTON_COUNT_DEFAULT,
+    BUTTON_COUNT_PREFIX
+);
+countButtons.onClick = function() { updateCountCharts(); };
+
+var queryBuildsPerProject, queryBuildsPerProjectPie, requestBuildsPerProject, requestBuildsPerProjectPie;
+
 function initCharts() {
     // get Update Period settings
     var updatePeriod = getUpdatePeriod();
 
     // initialize timeframe buttons
     timeframeButtons.initButtons();
+    countButtons.initButtons();
 
     var keenMaxAge = updatePeriod.keenMaxAge;
     var keenTimeframe = updatePeriod.keenTimeframe;
@@ -39,7 +70,7 @@ function initCharts() {
     Keen.ready(function() {
         /* Builds per project */
         // create query
-        var queryBuildsPerProject = new Keen.Query("count_unique", {
+        queryBuildsPerProject = new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
             targetProperty: "job.build",
             groupBy: "buildtime_trend.project_name",
@@ -63,7 +94,7 @@ function initCharts() {
             })
            .prepare();
 
-        var requestBuildsPerProject = client.run(queryBuildsPerProject, function(err, res) {
+        requestBuildsPerProject = client.run(queryBuildsPerProject, function(err, res) {
             if (err) {
                 // Display the API error
                 chartBuildsPerProject.error(err.message);
@@ -78,7 +109,7 @@ function initCharts() {
 
         /* Builds per project (piechart)*/
         // create query
-        var queryBuildsPerProjectPie = new Keen.Query("count_unique", {
+        queryBuildsPerProjectPie = new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
             targetProperty: "job.build",
             groupBy: "buildtime_trend.project_name",
@@ -94,7 +125,7 @@ function initCharts() {
             .height("400")
             .prepare();
 
-        var requestBuildsPerProjectPie = client.run(queryBuildsPerProjectPie, function(err, res) {
+        requestBuildsPerProjectPie = client.run(queryBuildsPerProjectPie, function(err, res) {
             if (err) {
                 // Display the API error
                 chartBuildsPerProjectPie.error(err.message);
@@ -108,6 +139,28 @@ function initCharts() {
         queryRequests.push(requestBuildsPerProjectPie);
 
     });
+}
+
+/**
+ * Refresh count charts eventCollection and targetProperty selected by countButtons.
+ */
+function updateCountCharts() {
+  // get Update Period settings
+  var countSettings = countButtons.getCurrentButton();
+
+  // update queries
+  queryBuildsPerProject.set({
+    eventCollection: countSettings.keenEventCollection,
+    targetProperty: countSettings.keenTargetProperty
+  });
+  queryBuildsPerProjectPie.set({
+    eventCollection: countSettings.keenEventCollection,
+    targetProperty: countSettings.keenTargetProperty
+  });
+
+  // refresh all query requests
+  requestBuildsPerProject.refresh();
+  requestBuildsPerProjectPie.refresh();
 }
 
 // initialize page
