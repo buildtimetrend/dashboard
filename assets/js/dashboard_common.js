@@ -112,7 +112,7 @@ function updateCharts() {
  */
 function setAutoRefresh() {
     var refreshParam = getUrlParameter('refresh');
-    if (refreshParam === false || isNaN(refreshParam)) {
+    if (isEmpty(refreshParam) || isNaN(refreshParam)) {
         return;
     }
 

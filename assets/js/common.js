@@ -25,7 +25,7 @@
  * Checks if a variable is defined and not null.
  */
 function isEmpty(varName) {
-   return (varName === undefined || varName === null);
+   return (varName === undefined || varName === null || varName === "");
 }
 
 /**
@@ -50,7 +50,7 @@ function getUrlParameter(sParam) {
         sParameterName = sURLVariables[i].split('=');
 
         if (sParameterName[0] === sParam) {
-            return isEmpty(sParameterName[1]) ? false : sParameterName[1];
+            return sParameterName[1];
         }
     }
 }
