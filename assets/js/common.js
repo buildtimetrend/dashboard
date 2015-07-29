@@ -53,7 +53,7 @@ function getUrlParameter(sParam) {
             return isEmpty(sParameterName[1]) ? false : sParameterName[1];
         }
     }
-};
+}
 
 /**
  * Capitalize first character of a string
