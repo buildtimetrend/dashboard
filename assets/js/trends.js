@@ -366,22 +366,23 @@ function initCharts() {
         // draw chart
         var chartAverageBuildTime = new Keen.Dataviz()
             .el(document.getElementById("metric_average_build_time"))
-            .width("250")
+            .title("Average job duration")
+            .width(300)
             .attributes({
                 chartOptions: {
-                    suffix: "s"
+                    suffix: " min"
                 }
             })
-           .prepare();
+            .prepare();
 
         var requestAverageBuildTime = client.run(queryAverageBuildTime, function(err, res) {
             if (err) {
                 // Display the API error
                 chartAverageBuildTime.error(err.message);
             } else {
+                res.result = Math.round(res.result / 60);
                 chartAverageBuildTime
-                    .parseRequest(this)
-                    .title("Average job duration")
+                    .parseRawData(res)
                     .render();
             }
         });
