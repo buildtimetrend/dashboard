@@ -118,7 +118,7 @@ function setAutoRefresh() {
         return;
     }
 
-    refreshSecs = 60 * parseInt(refreshParam, 10);
+    var refreshSecs = 60 * parseInt(refreshParam, 10);
 
     // disable auto refresh if value is zero or less
     if (refreshSecs <= 0) {

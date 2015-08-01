@@ -97,6 +97,38 @@ function mergeSeries(data, indexCaptions, valueFieldname, seriesCaptions) {
     return chartData;
 }
 
+/**
+ * Format duration from seconds to hours, minutes and seconds.
+ *
+ * Parameters:
+ *  - duration : duration in seconds
+ */
+function formatDuration(duration) {
+    if (isNaN(duration) || duration < 0) {
+        return "unknown"
+    }
+
+    // round duration
+    duration = Math.round(duration);
+
+    var seconds = duration % 60;
+    duration = duration / 60;
+    formattedString = seconds.toFixed(0) + "s";
+
+    if (duration >= 1) {
+        var minutes = Math.floor(duration % 60);
+        duration = duration / 60;
+        formattedString = minutes + "m " + formattedString;
+
+        if (duration >= 1) {
+            var hours = Math.floor(duration % 60);
+            formattedString = hours + "h " + formattedString;
+        }
+    }
+
+    return formattedString;
+}
+
 // Build Job result class
 var buildJobResultButtons = {
     resultButtons: new ButtonClass(
@@ -334,22 +366,23 @@ function initCharts() {
         // draw chart
         var chartAverageBuildTime = new Keen.Dataviz()
             .el(document.getElementById("metric_average_build_time"))
-            .width("250")
+            .title("Average job duration")
+            .width(300)
             .attributes({
                 chartOptions: {
-                    suffix: "s"
+                    suffix: " min"
                 }
             })
-           .prepare();
+            .prepare();
 
         var requestAverageBuildTime = client.run(queryAverageBuildTime, function(err, res) {
             if (err) {
                 // Display the API error
                 chartAverageBuildTime.error(err.message);
             } else {
+                res.result = Math.round(res.result / 60);
                 chartAverageBuildTime
-                    .parseRequest(this)
-                    .title("Average job duration")
+                    .parseRawData(res)
                     .render();
             }
         });
