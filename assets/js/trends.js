@@ -97,6 +97,38 @@ function mergeSeries(data, indexCaptions, valueFieldname, seriesCaptions) {
     return chartData;
 }
 
+/**
+ * Format duration from seconds to hours, minutes and seconds.
+ *
+ * Parameters:
+ *  - duration : duration in seconds
+ */
+function formatDuration(duration) {
+    if (isNaN(duration) || duration < 0) {
+        return "unknown"
+    }
+
+    // round duration
+    duration = Math.round(duration);
+
+    var seconds = duration % 60;
+    duration = duration / 60;
+    formattedString = seconds.toFixed(0) + "s";
+
+    if (duration >= 1) {
+        var minutes = Math.floor(duration % 60);
+        duration = duration / 60;
+        formattedString = minutes + "m " + formattedString;
+
+        if (duration >= 1) {
+            var hours = Math.floor(duration % 60);
+            formattedString = hours + "h " + formattedString;
+        }
+    }
+
+    return formattedString;
+}
+
 // Build Job result class
 var buildJobResultButtons = {
     resultButtons: new ButtonClass(
