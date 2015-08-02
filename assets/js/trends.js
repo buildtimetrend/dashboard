@@ -252,7 +252,7 @@ function initCharts() {
                 chartTotalBuilds
                     .parseRequest(this)
                     .title("Total build jobs")
-                    .width("200")
+                    .width(200)
                     .render();
             }
         });
@@ -273,7 +273,7 @@ function initCharts() {
         var chartTotalBuildsPassed = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds_passed"))
             .title("Build jobs passed")
-            .width("200")
+            .width(200)
             .prepare();
 
         // combine queries for conditional coloring of TotalBuildspassed
@@ -320,7 +320,7 @@ function initCharts() {
         var chartTotalBuildsFailed = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds_failed"))
             .title("Build jobs failed")
-            .width("200")
+            .width(200)
             .prepare();
 
         // combine queries for conditional coloring of TotalBuildsfailed
