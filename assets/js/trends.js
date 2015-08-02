@@ -105,7 +105,7 @@ function mergeSeries(data, indexCaptions, valueFieldname, seriesCaptions) {
  */
 function formatDuration(duration) {
     if (isNaN(duration) || duration < 0) {
-        return "unknown"
+        return "unknown";
     }
 
     // round duration
