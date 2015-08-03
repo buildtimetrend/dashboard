@@ -119,6 +119,16 @@
 
       <div class="col-sm-6">
         <div class="chart-wrapper">
+          <div class="chart-title">
+            Filter on :
+            <select id="filter_build_matrix" onchange="updateFilter('job.build_matrix.summary', this.value)">
+              <option value="" selected="selected">Build matrix</option>
+              <option>python 2.7 linux</option>
+              <option>python 3.2 linux</option>
+              <option>python 3.3 linux</option>
+              <option>python 3.4 linux</option>
+            </select>
+          </div>
           <div class="chart-stage">
             <div id="chart_stage_duration_buildjob"></div>
           </div>
