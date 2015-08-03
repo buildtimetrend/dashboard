@@ -461,6 +461,86 @@ function initCharts() {
         });
         queryRequests.push(requestStageFraction);
 
+        /* Total build duration grouped by build id */
+        // create query
+        var queryStageDurationBuild = new Keen.Query("sum", {
+            eventCollection: "build_jobs",
+            timezone: TIMEZONE_SECS,
+            timeframe: keenTimeframe,
+            maxAge: keenMaxAge,
+            targetProperty: "job.duration",
+            groupBy: "job.build"
+            //filters: [{"property_name":"stage.name","operator":"exists","property_value":true}]
+        });
+        queriesTimeframe.push(queryStageDurationBuild);
+
+        // draw chart
+        var chartStageDurationBuild = new Keen.Dataviz()
+            .el(document.getElementById("chart_stage_duration_build"))
+            .chartType("columnchart")
+            .title("Total build duration grouped by build")
+            .height(400)
+            .attributes({
+                chartOptions: {
+                    legend: {position: "none"},
+                    vAxis: {title: "duration [s]"},
+                    hAxis: {title: "build ID"}
+                }
+            })
+            .prepare();
+
+        var requestStageDurationBuild = client.run(queryStageDurationBuild, function(err, res) {
+            if (err) {
+                // Display the API error
+                chartStageDurationBuild.error(err.message);
+            } else {
+                chartStageDurationBuild
+                    .parseRequest(this)
+                    .render();
+            }
+        });
+        queryRequests.push(requestStageDurationBuild);
+
+        /* Total build job duration grouped by build job */
+        // create query
+        var queryStageDurationBuildJob = new Keen.Query("sum", {
+            eventCollection: "build_jobs",
+            timezone: TIMEZONE_SECS,
+            timeframe: keenTimeframe,
+            maxAge: keenMaxAge,
+            targetProperty: "job.duration",
+            groupBy: "job.job"
+            //filters: [{"property_name":"stage.name","operator":"exists","property_value":true}]
+        });
+        queriesTimeframe.push(queryStageDurationBuildJob);
+
+        // draw chart
+        var chartStageDurationBuildJob = new Keen.Dataviz()
+            .el(document.getElementById("chart_stage_duration_buildjob"))
+            .chartType("columnchart")
+            .title("Total build job duration grouped by buildjob")
+            .height(400)
+            .attributes({
+                chartOptions: {
+                    legend: {position: "none"},
+                    vAxis: {title: "duration [s]"},
+                    hAxis: {title: "build job ID"}
+                }
+            })
+            .prepare();
+
+        var requestStageDurationBuildJob = client.run(queryStageDurationBuildJob, function(err, res) {
+            if (err) {
+                // Display the API error
+                chartStageDurationBuildJob.error(err.message);
+            } else {
+                chartStageDurationBuildJob
+                    .parseRequest(this)
+                    .render();
+            }
+        });
+        queryRequests.push(requestStageDurationBuildJob);
+
         /* Builds */
         // create query
         var queryBuilds = new Keen.Query("count_unique", {
