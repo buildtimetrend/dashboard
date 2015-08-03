@@ -105,7 +105,7 @@ function mergeSeries(data, indexCaptions, valueFieldname, seriesCaptions) {
  */
 function formatDuration(duration) {
     if (isNaN(duration) || duration < 0) {
-        return "unknown"
+        return "unknown";
     }
 
     // round duration
@@ -190,6 +190,22 @@ function onClickResultButton() {
     requestJobResultBranch.refresh();
 }
 
+var queryStageDurationBuildJob, requestStageDurationBuildJob;
+function updateFilter(parameter, value) {
+    filterList = [];
+
+    if (!isEmpty(value)) {
+        filterList.push({"property_name": parameter,"operator":"eq","property_value": value});
+    }
+
+    queryStageDurationBuildJob.set({
+        filters: filterList
+    });
+
+    requestStageDurationBuildJob.refresh();
+}
+
+
 // Initialize badge url
 function updateBadgeUrl() {
     var badgeUrl = getBadgeUrl();
@@ -252,7 +268,7 @@ function initCharts() {
                 chartTotalBuilds
                     .parseRequest(this)
                     .title("Total build jobs")
-                    .width("200")
+                    .width(200)
                     .render();
             }
         });
@@ -273,7 +289,7 @@ function initCharts() {
         var chartTotalBuildsPassed = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds_passed"))
             .title("Build jobs passed")
-            .width("200")
+            .width(200)
             .prepare();
 
         // combine queries for conditional coloring of TotalBuildspassed
@@ -320,7 +336,7 @@ function initCharts() {
         var chartTotalBuildsFailed = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds_failed"))
             .title("Build jobs failed")
-            .width("200")
+            .width(200)
             .prepare();
 
         // combine queries for conditional coloring of TotalBuildsfailed
@@ -470,7 +486,6 @@ function initCharts() {
             maxAge: keenMaxAge,
             targetProperty: "job.duration",
             groupBy: "job.build"
-            //filters: [{"property_name":"stage.name","operator":"exists","property_value":true}]
         });
         queriesTimeframe.push(queryStageDurationBuild);
 
@@ -503,14 +518,13 @@ function initCharts() {
 
         /* Total build job duration grouped by build job */
         // create query
-        var queryStageDurationBuildJob = new Keen.Query("sum", {
+        queryStageDurationBuildJob = new Keen.Query("sum", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             targetProperty: "job.duration",
             groupBy: "job.job"
-            //filters: [{"property_name":"stage.name","operator":"exists","property_value":true}]
         });
         queriesTimeframe.push(queryStageDurationBuildJob);
 
@@ -529,7 +543,7 @@ function initCharts() {
             })
             .prepare();
 
-        var requestStageDurationBuildJob = client.run(queryStageDurationBuildJob, function(err, res) {
+        requestStageDurationBuildJob = client.run(queryStageDurationBuildJob, function(err, res) {
             if (err) {
                 // Display the API error
                 chartStageDurationBuildJob.error(err.message);
