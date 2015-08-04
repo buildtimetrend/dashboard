@@ -86,7 +86,7 @@ function initCharts() {
         var chartBuildsPerProject = new Keen.Dataviz()
             .el(document.getElementById("chart_builds_per_project"))
             .chartType("columnchart")
-            .height("400")
+            .height(400)
             .attributes({
                 chartOptions: {
                     isStacked: true
@@ -122,7 +122,7 @@ function initCharts() {
         // draw chart
         var chartBuildsPerProjectPie = new Keen.Dataviz()
             .el(document.getElementById("chart_builds_per_project_pie"))
-            .height("400")
+            .height(400)
             .prepare();
 
         requestBuildsPerProjectPie = client.run(queryBuildsPerProjectPie, function(err, res) {
