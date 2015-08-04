@@ -113,7 +113,7 @@ function formatDuration(duration) {
 
     var seconds = duration % 60;
     duration = duration / 60;
-    formattedString = seconds.toFixed(0) + "s";
+    var formattedString = seconds.toFixed(0) + "s";
 
     if (duration >= 1) {
         var minutes = Math.floor(duration % 60);
@@ -192,7 +192,7 @@ function onClickResultButton() {
 
 var queryStageDurationBuildJob, requestStageDurationBuildJob;
 function updateFilter(parameter, value) {
-    filterList = [];
+    var filterList = [];
 
     if (!isEmpty(value)) {
         filterList.push({"property_name": parameter,"operator":"eq","property_value": value});
@@ -205,6 +205,29 @@ function updateFilter(parameter, value) {
     requestStageDurationBuildJob.refresh();
 }
 
+function populateFilterOptions(dropDownName, parameter) {
+    // get Update Period settings
+    var updatePeriod = getUpdatePeriod();
+
+    var select_unique = new Keen.Query("select_unique", {
+      eventCollection: "build_jobs",
+      targetProperty: parameter//,
+      //timeframe: updatePeriod.keenTimeFrame
+    });
+
+    var filterOptions = [];
+
+    // Send query
+    client.run(select_unique, function(err, response){
+        if (!err) {
+            $.each(response.result, function (i, item) {
+                $('#' + dropDownName).append($('<option>', {
+                    text : item
+                }));
+            });
+        }
+    });
+}
 
 // Initialize badge url
 function updateBadgeUrl() {
@@ -423,7 +446,7 @@ function initCharts() {
         var chartStageDuration = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_duration"))
             .chartType("columnchart")
-            .height("400")
+            .height(400)
             .attributes({
                 chartOptions: {
                     isStacked: true,
@@ -461,7 +484,7 @@ function initCharts() {
         // draw chart
         var chartStageFraction = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_fraction"))
-            .height("400")
+            .height(400)
             .prepare();
 
         var requestStageFraction = client.run(queryStageFraction, function(err, res) {
@@ -517,6 +540,8 @@ function initCharts() {
         queryRequests.push(requestStageDurationBuild);
 
         /* Total build job duration grouped by build job */
+        populateFilterOptions("filter_build_matrix", "job.build_matrix.summary");
+
         // create query
         queryStageDurationBuildJob = new Keen.Query("sum", {
             eventCollection: "build_jobs",
@@ -573,7 +598,7 @@ function initCharts() {
         var chartBuilds = new Keen.Dataviz()
             .el(document.getElementById("chart_builds"))
             .chartType("columnchart")
-            .height("400")
+            .height(400)
             .attributes({
                 chartOptions: {
                     isStacked: true,
@@ -644,7 +669,7 @@ function initCharts() {
         var chartJobResult = new Keen.Dataviz()
             .el(document.getElementById("chart_jobs_result"))
             .chartType("columnchart")
-            .height("400")
+            .height(400)
             .attributes({
                 chartOptions: {
                     isStacked: true,
@@ -691,7 +716,7 @@ function initCharts() {
         // draw chart
         chartJobResultBranch = new Keen.Dataviz()
             .el(document.getElementById("chart_jobs_result_branch"))
-            .height("400")
+            .height(400)
             .title(buildJobResultButtons.getTitle())
             .prepare();
 
@@ -742,7 +767,7 @@ function initCharts() {
             .el(document.getElementById("chart_avg_buildtime_hour"))
             .chartType("columnchart")
             .title("Average buildtime per time of day")
-            .height("400")
+            .height(400)
             .attributes({
                 chartOptions: {
                     vAxis: { title: "duration [s]" },
@@ -842,7 +867,7 @@ function initCharts() {
             .el(document.getElementById("chart_avg_buildtime_weekday"))
             .chartType("columnchart")
             .title("Average buildtime per day of week")
-            .height("400")
+            .height(400)
             .attributes({
                 chartOptions: {
                     vAxis: { title: "duration [s]" },
