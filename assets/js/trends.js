@@ -113,7 +113,7 @@ function formatDuration(duration) {
 
     var seconds = duration % 60;
     duration = duration / 60;
-    formattedString = seconds.toFixed(0) + "s";
+    var formattedString = seconds.toFixed(0) + "s";
 
     if (duration >= 1) {
         var minutes = Math.floor(duration % 60);
@@ -192,7 +192,7 @@ function onClickResultButton() {
 
 var queryStageDurationBuildJob, requestStageDurationBuildJob;
 function updateFilter(parameter, value) {
-    filterList = [];
+    var filterList = [];
 
     if (!isEmpty(value)) {
         filterList.push({"property_name": parameter,"operator":"eq","property_value": value});
