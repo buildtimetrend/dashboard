@@ -205,6 +205,29 @@ function updateFilter(parameter, value) {
     requestStageDurationBuildJob.refresh();
 }
 
+function populateFilterOptions(dropDownName, parameter) {
+    // get Update Period settings
+    var updatePeriod = getUpdatePeriod();
+
+    var select_unique = new Keen.Query("select_unique", {
+      eventCollection: "build_jobs",
+      targetProperty: parameter//,
+      //timeframe: updatePeriod.keenTimeFrame
+    });
+
+    var filterOptions = [];
+
+    // Send query
+    client.run(select_unique, function(err, response){
+        if (!err) {
+            $.each(response.result, function (i, item) {
+                $('#' + dropDownName).append($('<option>', {
+                    text : item
+                }));
+            });
+        }
+    });
+}
 
 // Initialize badge url
 function updateBadgeUrl() {
@@ -517,6 +540,8 @@ function initCharts() {
         queryRequests.push(requestStageDurationBuild);
 
         /* Total build job duration grouped by build job */
+        populateFilterOptions("filter_build_matrix", "job.build_matrix.summary");
+
         // create query
         queryStageDurationBuildJob = new Keen.Query("sum", {
             eventCollection: "build_jobs",
