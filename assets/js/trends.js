@@ -221,9 +221,11 @@ function populateFilterOptions(dropDownName, parameter) {
     client.run(select_unique, function(err, response){
         if (!err) {
             $.each(response.result, function (i, item) {
-                $('#' + dropDownName).append($('<option>', {
-                    text : item
-                }));
+                if (item !== null) {
+                    $('#' + dropDownName).append($('<option>', {
+                        text : item
+                    }));
+                }
             });
         }
     });
