@@ -191,12 +191,20 @@ function onClickResultButton() {
 }
 
 var queryStageDurationBuildJob, requestStageDurationBuildJob;
+var filterValues = {
+    "job.build_matrix.summary": null,
+    "job.result": null
+}
 function updateFilter(parameter, value) {
+    filterValues[parameter] = value;
+
     var filterList = [];
 
-    if (!isEmpty(value)) {
-        filterList.push({"property_name": parameter,"operator":"eq","property_value": value});
-    }
+    $.each(filterValues, function(index, value) {
+        if (!isEmpty(value)) {
+            filterList.push({"property_name": index,"operator":"eq","property_value": value});
+        }
+    });
 
     queryStageDurationBuildJob.set({
         filters: filterList
@@ -207,18 +215,16 @@ function updateFilter(parameter, value) {
 
 function populateFilterOptions(dropDownName, parameter) {
     // get Update Period settings
-    var updatePeriod = getUpdatePeriod();
+    //var updatePeriod = getUpdatePeriod();
 
-    var select_unique = new Keen.Query("select_unique", {
+    var querySelectUnique = new Keen.Query("select_unique", {
       eventCollection: "build_jobs",
       targetProperty: parameter//,
       //timeframe: updatePeriod.keenTimeFrame
     });
 
-    var filterOptions = [];
-
     // Send query
-    client.run(select_unique, function(err, response){
+    client.run(querySelectUnique, function(err, response){
         if (!err) {
             $.each(response.result, function (i, item) {
                 if (item !== null) {
@@ -283,6 +289,9 @@ function initCharts() {
         // draw chart
         var chartTotalBuilds = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds"))
+            .attributes({
+                chartOptions: {prettyNumber: false}
+            })
             .prepare();
 
         var requestTotalBuilds = client.run(queryTotalBuilds, function(err, res){
@@ -314,6 +323,9 @@ function initCharts() {
         var chartTotalBuildsPassed = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds_passed"))
             .title("Build jobs passed")
+            .attributes({
+                chartOptions: {prettyNumber: false}
+            })
             .width(200)
             .prepare();
 
@@ -361,6 +373,9 @@ function initCharts() {
         var chartTotalBuildsFailed = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds_failed"))
             .title("Build jobs failed")
+            .attributes({
+                chartOptions: {prettyNumber: false}
+            })
             .width(200)
             .prepare();
 
@@ -502,7 +517,7 @@ function initCharts() {
         });
         queryRequests.push(requestStageFraction);
 
-        /* Total build duration grouped by build id */
+        /* Total build duration grouped by build ID */
         // create query
         var queryStageDurationBuild = new Keen.Query("sum", {
             eventCollection: "build_jobs",
@@ -518,7 +533,7 @@ function initCharts() {
         var chartStageDurationBuild = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_duration_build"))
             .chartType("columnchart")
-            .title("Total build duration grouped by build")
+            .title("Total build duration grouped by build ID")
             .height(400)
             .attributes({
                 chartOptions: {
@@ -541,8 +556,9 @@ function initCharts() {
         });
         queryRequests.push(requestStageDurationBuild);
 
-        /* Total build job duration grouped by build job */
+        /* Total build job duration grouped by build job ID */
         populateFilterOptions("filter_build_matrix", "job.build_matrix.summary");
+        populateFilterOptions("filter_result", "job.result");
 
         // create query
         queryStageDurationBuildJob = new Keen.Query("sum", {
@@ -559,7 +575,7 @@ function initCharts() {
         var chartStageDurationBuildJob = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_duration_buildjob"))
             .chartType("columnchart")
-            .title("Total build job duration grouped by buildjob")
+            .title("Total build job duration grouped by build job ID")
             .height(400)
             .attributes({
                 chartOptions: {
