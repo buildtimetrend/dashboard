@@ -289,6 +289,9 @@ function initCharts() {
         // draw chart
         var chartTotalBuilds = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds"))
+            .attributes({
+                chartOptions: {prettyNumber: false}
+            })
             .prepare();
 
         var requestTotalBuilds = client.run(queryTotalBuilds, function(err, res){
@@ -320,6 +323,9 @@ function initCharts() {
         var chartTotalBuildsPassed = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds_passed"))
             .title("Build jobs passed")
+            .attributes({
+                chartOptions: {prettyNumber: false}
+            })
             .width(200)
             .prepare();
 
@@ -367,6 +373,9 @@ function initCharts() {
         var chartTotalBuildsFailed = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds_failed"))
             .title("Build jobs failed")
+            .attributes({
+                chartOptions: {prettyNumber: false}
+            })
             .width(200)
             .prepare();
 
