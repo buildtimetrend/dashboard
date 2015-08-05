@@ -207,15 +207,13 @@ function updateFilter(parameter, value) {
 
 function populateFilterOptions(dropDownName, parameter) {
     // get Update Period settings
-    var updatePeriod = getUpdatePeriod();
+    //var updatePeriod = getUpdatePeriod();
 
     var querySelectUnique = new Keen.Query("select_unique", {
       eventCollection: "build_jobs",
       targetProperty: parameter//,
       //timeframe: updatePeriod.keenTimeFrame
     });
-
-    var filterOptions = [];
 
     // Send query
     client.run(querySelectUnique, function(err, response){
