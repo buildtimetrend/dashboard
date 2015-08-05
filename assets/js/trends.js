@@ -191,12 +191,20 @@ function onClickResultButton() {
 }
 
 var queryStageDurationBuildJob, requestStageDurationBuildJob;
+var filterValues = {
+    "job.build_matrix.summary": null,
+    "job.result": null
+}
 function updateFilter(parameter, value) {
+    filterValues[parameter] = value;
+
     var filterList = [];
 
-    if (!isEmpty(value)) {
-        filterList.push({"property_name": parameter,"operator":"eq","property_value": value});
-    }
+    $.each(filterValues, function(index, value) {
+        if (!isEmpty(value)) {
+            filterList.push({"property_name": index,"operator":"eq","property_value": value});
+        }
+    });
 
     queryStageDurationBuildJob.set({
         filters: filterList
