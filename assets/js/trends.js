@@ -508,7 +508,7 @@ function initCharts() {
         });
         queryRequests.push(requestStageFraction);
 
-        /* Total build duration grouped by build id */
+        /* Total build duration grouped by build ID */
         // create query
         var queryStageDurationBuild = new Keen.Query("sum", {
             eventCollection: "build_jobs",
@@ -524,7 +524,7 @@ function initCharts() {
         var chartStageDurationBuild = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_duration_build"))
             .chartType("columnchart")
-            .title("Total build duration grouped by build")
+            .title("Total build duration grouped by build ID")
             .height(400)
             .attributes({
                 chartOptions: {
@@ -547,7 +547,7 @@ function initCharts() {
         });
         queryRequests.push(requestStageDurationBuild);
 
-        /* Total build job duration grouped by build job */
+        /* Total build job duration grouped by build job ID */
         populateFilterOptions("filter_build_matrix", "job.build_matrix.summary");
         populateFilterOptions("filter_result", "job.result");
 
@@ -566,7 +566,7 @@ function initCharts() {
         var chartStageDurationBuildJob = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_duration_buildjob"))
             .chartType("columnchart")
-            .title("Total build job duration grouped by buildjob")
+            .title("Total build job duration grouped by build job ID")
             .height(400)
             .attributes({
                 chartOptions: {
