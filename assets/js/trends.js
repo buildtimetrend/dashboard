@@ -191,10 +191,7 @@ function onClickResultButton() {
 }
 
 var queryStageDurationBuildJob, requestStageDurationBuildJob;
-var filterValues = {
-    "job.build_matrix.summary": null,
-    "job.result": null
-}
+var filterValues = {};
 function updateFilter(parameter, value) {
     filterValues[parameter] = value;
 
