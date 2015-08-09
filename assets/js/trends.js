@@ -556,6 +556,7 @@ function initCharts() {
         /* Total build job duration grouped by build job ID */
         populateFilterOptions("filter_build_matrix", "job.build_matrix.summary");
         populateFilterOptions("filter_result", "job.result");
+        populateFilterOptions("filter_build_trigger", "job.build_trigger");
 
         // create query
         queryStageDurationBuildJob = new Keen.Query("sum", {
