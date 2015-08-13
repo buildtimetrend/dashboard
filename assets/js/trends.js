@@ -557,6 +557,7 @@ function initCharts() {
         populateFilterOptions("filter_build_matrix", "job.build_matrix.summary");
         populateFilterOptions("filter_result", "job.result");
         populateFilterOptions("filter_build_trigger", "job.build_trigger");
+        populateFilterOptions("filter_branch", "job.branch");
 
         // create query
         queryStageDurationBuildJob = new Keen.Query("sum", {
