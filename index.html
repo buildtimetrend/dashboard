@@ -121,18 +121,10 @@
         <div class="chart-wrapper">
           <div class="chart-title">
             Filter on :
-            <select id="filter_build_matrix" onchange="updateFilter('job.build_matrix.summary', this.value)">
-              <option value="" selected="selected">Build matrix</option>
-            </select>
-            <select id="filter_result" onchange="updateFilter('job.result', this.value)">
-              <option value="" selected="selected">Build result</option>
-            </select>
-            <select id="filter_build_trigger" onchange="updateFilter('job.build_trigger', this.value)">
-              <option value="" selected="selected">Build trigger</option>
-            </select>
-            <select id="filter_branch" onchange="updateFilter('job.branch', this.value)">
-              <option value="" selected="selected">Branch</option>
-            </select>
+            <select id="filter_build_matrix"></select>
+            <select id="filter_result"></select>
+            <select id="filter_build_trigger"></select>
+            <select id="filter_branch"></select>
           </div>
           <div class="chart-stage">
             <div id="chart_stage_duration_buildjob"></div>

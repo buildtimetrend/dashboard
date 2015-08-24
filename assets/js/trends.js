@@ -57,6 +57,29 @@ var BUTTONS_GROUPBY = {
     }
 };
 
+filterOptions = [
+    {
+        "selectId": "filter_build_matrix",
+        "queryField": "job.build_matrix.summary",
+        "caption": "Build matrix"
+    },
+    {
+        "selectId": "filter_result",
+        "queryField": "job.result",
+        "caption": "Build results"
+    },
+    {
+        "selectId": "filter_build_trigger",
+        "queryField": "job.build_trigger",
+        "caption": "Build triggers"
+    },
+    {
+        "selectId": "filter_branch",
+        "queryField": "job.branch",
+        "caption": "Branch"
+    }
+];
+
 // use Keen JS API default colors :
 // https://github.com/keen/keen-js/blob/master/src/dataviz/dataviz.js#L48
 var GREEN = '#73d483';
@@ -210,14 +233,31 @@ function updateFilter(parameter, value) {
     requestStageDurationBuildJob.refresh();
 }
 
-function populateFilterOptions(dropDownName, parameter) {
+function initFilterOptions(dropDownName, parameter, caption) {
+    $('#' + dropDownName).change(function() {
+        updateFilter(parameter, this.value);
+    });
+
+    populateFilterOptions(dropDownName, parameter, caption);
+}
+
+function populateFilterOptions(dropDownName, parameter, caption) {
     // get Update Period settings
-    //var updatePeriod = getUpdatePeriod();
+    var updatePeriod = getUpdatePeriod();
+
+    // empty options and add placeholder
+    $('#' + dropDownName)
+        .empty()
+        .append($('<option>', {
+            value : '',
+            text : caption
+        }))
+    ;
 
     var querySelectUnique = new Keen.Query("select_unique", {
       eventCollection: "build_jobs",
-      targetProperty: parameter//,
-      //timeframe: updatePeriod.keenTimeFrame
+      targetProperty: parameter,
+      timeframe: updatePeriod.keenTimeframe
     });
 
     // Send query
@@ -554,10 +594,14 @@ function initCharts() {
         queryRequests.push(requestStageDurationBuild);
 
         /* Total build job duration grouped by build job ID */
-        populateFilterOptions("filter_build_matrix", "job.build_matrix.summary");
-        populateFilterOptions("filter_result", "job.result");
-        populateFilterOptions("filter_build_trigger", "job.build_trigger");
-        populateFilterOptions("filter_branch", "job.branch");
+        // initialize options buttons
+        $.each(filterOptions, function () {
+            initFilterOptions(
+                this.selectId,
+                this.queryField,
+                this.caption
+            );
+        });
 
         // create query
         queryStageDurationBuildJob = new Keen.Query("sum", {
