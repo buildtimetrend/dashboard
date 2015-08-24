@@ -220,7 +220,7 @@ function initFilterOptions(dropDownName, parameter, caption) {
 
 function populateFilterOptions(dropDownName, parameter, caption) {
     // get Update Period settings
-    //var updatePeriod = getUpdatePeriod();
+    var updatePeriod = getUpdatePeriod();
 
     // empty options and add placeholder
     $('#' + dropDownName)
@@ -233,8 +233,8 @@ function populateFilterOptions(dropDownName, parameter, caption) {
 
     var querySelectUnique = new Keen.Query("select_unique", {
       eventCollection: "build_jobs",
-      targetProperty: parameter//,
-      //timeframe: updatePeriod.keenTimeFrame
+      targetProperty: parameter,
+      timeframe: updatePeriod.keenTimeframe
     });
 
     // Send query
