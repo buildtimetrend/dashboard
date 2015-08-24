@@ -210,17 +210,26 @@ function updateFilter(parameter, value) {
     requestStageDurationBuildJob.refresh();
 }
 
-function initFilterOptions(dropDownName, parameter) {
+function initFilterOptions(dropDownName, parameter, caption) {
     $('#' + dropDownName).change(function() {
         updateFilter(parameter, this.value);
     });
 
-    populateFilterOptions(dropDownName, parameter);
+    populateFilterOptions(dropDownName, parameter, caption);
 }
 
-function populateFilterOptions(dropDownName, parameter) {
+function populateFilterOptions(dropDownName, parameter, caption) {
     // get Update Period settings
     //var updatePeriod = getUpdatePeriod();
+
+    // empty options and add placeholder
+    $('#' + dropDownName)
+        .empty()
+        .append($('<option>', {
+            value : '',
+            text : caption
+        }))
+    ;
 
     var querySelectUnique = new Keen.Query("select_unique", {
       eventCollection: "build_jobs",
@@ -562,10 +571,10 @@ function initCharts() {
         queryRequests.push(requestStageDurationBuild);
 
         /* Total build job duration grouped by build job ID */
-        initFilterOptions("filter_build_matrix", "job.build_matrix.summary");
-        initFilterOptions("filter_result", "job.result");
-        initFilterOptions("filter_build_trigger", "job.build_trigger");
-        initFilterOptions("filter_branch", "job.branch");
+        initFilterOptions("filter_build_matrix", "job.build_matrix.summary", "Build matrix");
+        initFilterOptions("filter_result", "job.result", "Build results");
+        initFilterOptions("filter_build_trigger", "job.build_trigger", "Build triggers");
+        initFilterOptions("filter_branch", "job.branch", "Branch");
 
         // create query
         queryStageDurationBuildJob = new Keen.Query("sum", {
