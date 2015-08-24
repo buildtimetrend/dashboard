@@ -210,6 +210,14 @@ function updateFilter(parameter, value) {
     requestStageDurationBuildJob.refresh();
 }
 
+function initFilterOptions(dropDownName, parameter) {
+    $('#' + dropDownName).change(function() {
+        updateFilter(parameter, this.value);
+    });
+
+    populateFilterOptions(dropDownName, parameter);
+}
+
 function populateFilterOptions(dropDownName, parameter) {
     // get Update Period settings
     //var updatePeriod = getUpdatePeriod();
@@ -554,10 +562,10 @@ function initCharts() {
         queryRequests.push(requestStageDurationBuild);
 
         /* Total build job duration grouped by build job ID */
-        populateFilterOptions("filter_build_matrix", "job.build_matrix.summary");
-        populateFilterOptions("filter_result", "job.result");
-        populateFilterOptions("filter_build_trigger", "job.build_trigger");
-        populateFilterOptions("filter_branch", "job.branch");
+        initFilterOptions("filter_build_matrix", "job.build_matrix.summary");
+        initFilterOptions("filter_result", "job.result");
+        initFilterOptions("filter_build_trigger", "job.build_trigger");
+        initFilterOptions("filter_branch", "job.branch");
 
         // create query
         queryStageDurationBuildJob = new Keen.Query("sum", {
