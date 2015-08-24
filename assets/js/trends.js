@@ -57,6 +57,29 @@ var BUTTONS_GROUPBY = {
     }
 };
 
+filterOptions = [
+    {
+        "selectId": "filter_build_matrix",
+        "queryField": "job.build_matrix.summary",
+        "caption": "Build matrix"
+    },
+    {
+        "selectId": "filter_result",
+        "queryField": "job.result",
+        "caption": "Build results"
+    },
+    {
+        "selectId": "filter_build_trigger",
+        "queryField": "job.build_trigger",
+        "caption": "Build triggers"
+    },
+    {
+        "selectId": "filter_branch",
+        "queryField": "job.branch",
+        "caption": "Branch"
+    }
+];
+
 // use Keen JS API default colors :
 // https://github.com/keen/keen-js/blob/master/src/dataviz/dataviz.js#L48
 var GREEN = '#73d483';
@@ -571,10 +594,14 @@ function initCharts() {
         queryRequests.push(requestStageDurationBuild);
 
         /* Total build job duration grouped by build job ID */
-        initFilterOptions("filter_build_matrix", "job.build_matrix.summary", "Build matrix");
-        initFilterOptions("filter_result", "job.result", "Build results");
-        initFilterOptions("filter_build_trigger", "job.build_trigger", "Build triggers");
-        initFilterOptions("filter_branch", "job.branch", "Branch");
+        // initialize options buttons
+        $.each(filterOptions, function () {
+            initFilterOptions(
+                this.selectId,
+                this.queryField,
+                this.caption
+            );
+        });
 
         // create query
         queryStageDurationBuildJob = new Keen.Query("sum", {

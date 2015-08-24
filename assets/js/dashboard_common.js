@@ -68,6 +68,8 @@ var timeframeButtons = new ButtonClass(
 );
 timeframeButtons.onClick = function() { updateCharts(); };
 
+var filterOptions = [];
+
 // arrays with queries and query request to update
 var queriesInterval = [];
 var queriesTimeframe = [];
@@ -102,6 +104,15 @@ function updateCharts() {
     for (i = 0; i < queryRequests.length; i++) {
         queryRequests[i].refresh();
     }
+
+    // repopulate filter options
+    $.each(filterOptions, function () {
+        populateFilterOptions(
+            this.selectId,
+            this.queryField,
+            this.caption
+        );
+    });
 }
 
 /**
