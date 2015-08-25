@@ -6,6 +6,7 @@ v0.3 (not yet released)
 - issue #93 : upgrade to bootstrap 3.3.5
 - issue #88 : use caching for Keen.io charts
 - issue #99 : Enable auto refreshing dashboard charts with `refresh` url parameter
+- issue #108 : Make projects menu scrollable
 
 v0.2 (released on 18Feb2015)
 - issue #19 : update Keen.io charts using query request refresh function
