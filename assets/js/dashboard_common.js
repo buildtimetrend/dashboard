@@ -107,11 +107,7 @@ function updateCharts() {
 
     // repopulate filter options
     $.each(filterOptions, function () {
-        populateFilterOptions(
-            this.selectId,
-            this.queryField,
-            this.caption
-        );
+        populateFilterOptions(this);
     });
 }
 
