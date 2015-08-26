@@ -54,11 +54,12 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  *   {
  *     "button1": {
  *        "caption": "First Button",
- *        "onClick": function() { someAction(); }
+ *        "onClick": function() { someAction(); }, // optional
+ *        "customParam" : "custom_value" // custom parameter (optional)
  *     },
  *     "button2": {
  *       "caption": "Second Button",
- *       "onClick": function() { otherAction(); }
+ *       "onClick": function() { otherAction(); }  // optional
  *     }
  *   },
  *   DEFAULT_BUTTON, // should match one of the buttons in the list,
@@ -83,11 +84,13 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  * 
  * {
  *      "caption": "First Button",
- *      "onClick": function() { someAction(); }
+ *      "onClick": function() { someAction(); },
+ *      "customParam" : "custom_value"
  * }
  *
  * This corresponds to the parameters that are added when creating the class.
- * Other key-value pairs can be added when creating the instance class.
+ * Other key-value pairs (like `custom_param` in this example) can be added
+ * when creating the instance class.
  * 
  * - Define a custom onClick event that is executed when any button is clicked:
  *
