@@ -69,6 +69,15 @@ var timeframeButtons = new ButtonClass(
 timeframeButtons.onClick = function() { updateCharts(); };
 
 var filterOptions = [];
+/* example, implemented in trends.js
+var filterOptions = [
+    {
+        "selectId": "filter_", // id of html selection box
+        "queryField": "", // keen field to query on
+        "keenEventCollection": "build_jobs", // keen collection
+        "caption": "Build matrix" // title used in selection box
+    }
+];*/
 
 // arrays with queries and query request to update
 var queriesInterval = [];
