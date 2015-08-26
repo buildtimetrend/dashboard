@@ -61,21 +61,25 @@ filterOptions = [
     {
         "selectId": "filter_build_matrix",
         "queryField": "job.build_matrix.summary",
+        "keenEventCollection": "build_jobs",
         "caption": "Build matrix"
     },
     {
         "selectId": "filter_result",
         "queryField": "job.result",
+        "keenEventCollection": "build_jobs",
         "caption": "Build results"
     },
     {
         "selectId": "filter_build_trigger",
         "queryField": "job.build_trigger",
+        "keenEventCollection": "build_jobs",
         "caption": "Build triggers"
     },
     {
         "selectId": "filter_branch",
         "queryField": "job.branch",
+        "keenEventCollection": "build_jobs",
         "caption": "Branch"
     }
 ];
@@ -255,7 +259,7 @@ function populateFilterOptions(filterParams) {
     ;
 
     var querySelectUnique = new Keen.Query("select_unique", {
-      eventCollection: "build_jobs",
+      eventCollection: filterParams.keenEventCollection,
       targetProperty: filterParams.queryField,
       timeframe: updatePeriod.keenTimeframe
     });
