@@ -61,21 +61,25 @@ filterOptions = [
     {
         "selectId": "filter_build_matrix",
         "queryField": "job.build_matrix.summary",
+        "keenEventCollection": "build_jobs",
         "caption": "Build matrix"
     },
     {
         "selectId": "filter_result",
         "queryField": "job.result",
+        "keenEventCollection": "build_jobs",
         "caption": "Build results"
     },
     {
         "selectId": "filter_build_trigger",
         "queryField": "job.build_trigger",
+        "keenEventCollection": "build_jobs",
         "caption": "Build triggers"
     },
     {
         "selectId": "filter_branch",
         "queryField": "job.branch",
+        "keenEventCollection": "build_jobs",
         "caption": "Branch"
     }
 ];
@@ -233,30 +237,30 @@ function updateFilter(parameter, value) {
     requestStageDurationBuildJob.refresh();
 }
 
-function initFilterOptions(dropDownName, parameter, caption) {
-    $('#' + dropDownName).change(function() {
-        updateFilter(parameter, this.value);
+function initFilterOptions(filterParams) {
+    $('#' + filterParams.selectId).change(function() {
+        updateFilter(filterParams.queryField, this.value);
     });
 
-    populateFilterOptions(dropDownName, parameter, caption);
+    populateFilterOptions(filterParams);
 }
 
-function populateFilterOptions(dropDownName, parameter, caption) {
+function populateFilterOptions(filterParams) {
     // get Update Period settings
     var updatePeriod = getUpdatePeriod();
 
     // empty options and add placeholder
-    $('#' + dropDownName)
+    $('#' + filterParams.selectId)
         .empty()
         .append($('<option>', {
             value : '',
-            text : caption
+            text : filterParams.caption
         }))
     ;
 
     var querySelectUnique = new Keen.Query("select_unique", {
-      eventCollection: "build_jobs",
-      targetProperty: parameter,
+      eventCollection: filterParams.keenEventCollection,
+      targetProperty: filterParams.queryField,
       timeframe: updatePeriod.keenTimeframe
     });
 
@@ -265,7 +269,7 @@ function populateFilterOptions(dropDownName, parameter, caption) {
         if (!err) {
             $.each(response.result, function (i, item) {
                 if (item !== null) {
-                    $('#' + dropDownName).append($('<option>', {
+                    $('#' + filterParams.selectId).append($('<option>', {
                         text : item
                     }));
                 }
@@ -596,11 +600,7 @@ function initCharts() {
         /* Total build job duration grouped by build job ID */
         // initialize options buttons
         $.each(filterOptions, function () {
-            initFilterOptions(
-                this.selectId,
-                this.queryField,
-                this.caption
-            );
+            initFilterOptions(this);
         });
 
         // create query

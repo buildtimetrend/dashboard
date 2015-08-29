@@ -33,47 +33,66 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  *    the others are formatted with CLASS_BUTTON_NORMAL (default: "btn btn-primary")
  *  - on initialisation, the default button is activated,
  *    and a custom caption is applied (see `caption`)
- *  - when another button is clicked, the active button is
- *    changed to that button and the button formatting is updated.
+ *  - when another button is clicked, that button becomes theactive button
+ *    and the formatting of all the buttons is updated accordingly.
  *  - `ButtonClass.currentButton` holds the current active button value
- *  - a custom click event can be attached to each button (see `onClick`)
+ *  - a custom click event can be attached to each button seperately (see `onClick`),
+ *    or an event that applies for all buttons.
  *
  * Usage:
  *
- * Create the html :
+ * - Create the html :
  *
  * <div class="btn-group-xs">
  *   <button type="button" id="prefix_button1" class="btn btn-default">Button1</button>
  *   <button type="button" id="prefix_button2" class="btn btn-default">Button2</button>
  * </div>
  *
- * Create a class instance :
+ * - Create a class instance :
  *
  * var buttons = new ButtonClass(
  *   {
  *     "button1": {
  *        "caption": "First Button",
- *        "onClick": function() { someAction(); }
+ *        "onClick": function() { someAction(); }, // optional
+ *        "customParam" : "custom_value" // custom parameter (optional)
  *     },
  *     "button2": {
  *       "caption": "Second Button",
- *       "onClick": function() { otherAction(); }
+ *       "onClick": function() { otherAction(); }  // optional
  *     }
  *   },
  *   DEFAULT_BUTTON, // should match one of the buttons in the list,
  *                   // otherwise the first one is used.
- *   "prefix_"
+ *   "prefix_" // prefix used for all buttons in the HTML button id
  * );
  *
- * Initialise the buttons :
+ * - Initialise the buttons :
  *
  * buttons.initButtons();
  *
- * Get the currently active button :
+ * - The currently active button name is stored in :
  *
  * buttons.currentButton;
+ * 
+ * - Get the currently active button parameters,
+ * this returns a key-value paired list of parameters associated with the active button :
  *
- * Define a custom onClick event that is executed when any button is clicked:
+ * activeButton = buttons.getCurrentButton();
+ * 
+ * If `activeButton` is `button1`, the result would be :
+ * 
+ * {
+ *      "caption": "First Button",
+ *      "onClick": function() { someAction(); },
+ *      "customParam" : "custom_value"
+ * }
+ *
+ * This corresponds to the parameters that are added when creating the class.
+ * Other key-value pairs (like `custom_param` in this example) can be added
+ * when creating the instance class.
+ * 
+ * - Define a custom onClick event that is executed when any button is clicked:
  *
  * buttons.onclick = function() { anyAction(); };
  *
