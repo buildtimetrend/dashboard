@@ -237,6 +237,17 @@ function updateFilter(parameter, value) {
     requestStageDurationBuildJob.refresh();
 }
 
+function createFilterOptions() {
+    $("#filter_options").html("Filter on : ");
+    $.each(filterOptions, function () {
+        // create new select tag
+        $("#filter_options").append("<select id='" + this.selectId + "'></select>");
+
+        // initialise select filter
+        initFilterOptions(this);
+    });
+}
+
 function initFilterOptions(filterParams) {
     $('#' + filterParams.selectId).change(function() {
         updateFilter(filterParams.queryField, this.value);
@@ -599,9 +610,7 @@ function initCharts() {
 
         /* Total build job duration grouped by build job ID */
         // initialize options buttons
-        $.each(filterOptions, function () {
-            initFilterOptions(this);
-        });
+        createFilterOptions();
 
         // create query
         queryStageDurationBuildJob = new Keen.Query("sum", {
