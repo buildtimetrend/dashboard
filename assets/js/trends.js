@@ -241,7 +241,9 @@ function createFilterOptions() {
     $("#filter_options").html("Filter on : ");
     $.each(filterOptions, function () {
         // create new select tag
-        $("#filter_options").append("<select id='" + this.selectId + "'></select>");
+        $("#filter_options").append(
+            "<select id='" + this.selectId + "'></select>"
+        );
 
         // initialise select filter
         initFilterOptions(this);
