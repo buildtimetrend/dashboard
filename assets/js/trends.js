@@ -499,8 +499,12 @@ function initCharts() {
         queryRequests.push(requestAverageBuildTime);
 
         /* average stage duration */
+        var chartStageDuration = new ChartClass();
+
+        chartStageDuration.filters = [{"property_name":"stage.name","operator":"exists","property_value":true}];
+
         // create query
-        var queryStageDuration = new Keen.Query("average", {
+        chartStageDuration.query = new Keen.Query("average", {
             eventCollection: "build_stages",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
@@ -508,13 +512,14 @@ function initCharts() {
             maxAge: keenMaxAge,
             targetProperty: "stage.duration",
             groupBy: "stage.name",
-            filters: [{"property_name":"stage.name","operator":"exists","property_value":true}]
+            filters: chartStageDuration.filters
         });
-        queriesTimeframe.push(queryStageDuration);
-        queriesInterval.push(queryStageDuration);
+        queriesTimeframe.push(chartStageDuration.query);
+        queriesInterval.push(chartStageDuration.query);
+
 
         // draw chart
-        var chartStageDuration = new Keen.Dataviz()
+        chartStageDuration.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_duration"))
             .chartType("columnchart")
             .height(400)
@@ -526,18 +531,18 @@ function initCharts() {
             })
             .prepare();
 
-        var requestStageDuration = client.run(queryStageDuration, function(err, res) {
+        chartStageDuration.request = client.run(chartStageDuration.query, function(err, res) {
             if (err) {
                 // Display the API error
-                chartStageDuration.error(err.message);
+                chartStageDuration.chart.error(err.message);
             } else {
-                chartStageDuration
+                chartStageDuration.chart
                     .parseRequest(this)
                     .title("Average build stage duration")
                     .render();
             }
         });
-        queryRequests.push(requestStageDuration);
+        queryRequests.push(chartStageDuration.request);
 
         /* Stage duration fraction */
         // create query
