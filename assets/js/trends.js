@@ -541,6 +541,7 @@ function initCharts() {
             }
         });
         queryRequests.push(chartStageDuration.request);
+        charts.push(chartStageDuration);
 
         /* Stage duration fraction */
         var chartStageFraction = new ChartClass();
@@ -558,7 +559,6 @@ function initCharts() {
             filters: chartStageDuration.filters
         });
         queriesTimeframe.push(chartStageFraction.query);
-        charts.push(chartStageDuration);
 
         // draw chart
         chartStageFraction.chart = new Keen.Dataviz()
