@@ -36,6 +36,13 @@ function ChartClass() {
     this.filters = [];
 
     // Set default button
-    this.updateFilters = function (filters) {
+    this.updateFilters = function (filters, refresh = true) {
+        this.query.set({
+            filters: this.filters.concat(filters)
+        });
+
+        if (refresh) {
+            this.request.refresh();
+        }
     };
 }

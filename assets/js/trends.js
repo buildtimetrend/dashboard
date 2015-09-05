@@ -217,7 +217,7 @@ function onClickResultButton() {
     requestJobResultBranch.refresh();
 }
 
-var queryStageDurationBuildJob, requestStageDurationBuildJob;
+var chartStageDurationBuildJob;
 var filterValues = {};
 function updateFilter(parameter, value) {
     filterValues[parameter] = value;
@@ -230,11 +230,7 @@ function updateFilter(parameter, value) {
         }
     });
 
-    queryStageDurationBuildJob.set({
-        filters: filterList
-    });
-
-    requestStageDurationBuildJob.refresh();
+    chartStageDurationBuildJob.updateFilters(filterList);
 }
 
 function createFilterOptions() {
@@ -619,8 +615,10 @@ function initCharts() {
         // initialize options buttons
         createFilterOptions();
 
+        chartStageDurationBuildJob = new ChartClass();
+
         // create query
-        queryStageDurationBuildJob = new Keen.Query("sum", {
+        chartStageDurationBuildJob.query = new Keen.Query("sum", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
@@ -628,10 +626,10 @@ function initCharts() {
             targetProperty: "job.duration",
             groupBy: "job.job"
         });
-        queriesTimeframe.push(queryStageDurationBuildJob);
+        queriesTimeframe.push(chartStageDurationBuildJob.query);
 
         // draw chart
-        var chartStageDurationBuildJob = new Keen.Dataviz()
+        chartStageDurationBuildJob.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_duration_buildjob"))
             .chartType("columnchart")
             .title("Total build job duration grouped by build job ID")
@@ -645,17 +643,17 @@ function initCharts() {
             })
             .prepare();
 
-        requestStageDurationBuildJob = client.run(queryStageDurationBuildJob, function(err, res) {
+        chartStageDurationBuildJob.request = client.run(chartStageDurationBuildJob.query, function(err, res) {
             if (err) {
                 // Display the API error
-                chartStageDurationBuildJob.error(err.message);
+                chartStageDurationBuildJob.chart.error(err.message);
             } else {
-                chartStageDurationBuildJob
+                chartStageDurationBuildJob.chart
                     .parseRequest(this)
                     .render();
             }
         });
-        queryRequests.push(requestStageDurationBuildJob);
+        queryRequests.push(chartStageDurationBuildJob.request);
 
         /* Builds */
         // create query
