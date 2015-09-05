@@ -45,6 +45,7 @@ var countButtons = new ButtonClass(
 countButtons.onClick = function() { updateCountCharts(); };
 
 var queryBuildsPerProject, queryBuildsPerProjectPie, requestBuildsPerProject, requestBuildsPerProjectPie;
+var chartBuildsPerProject, chartBuildsPerProjectPie;
 
 function initCharts() {
     // get Update Period settings
@@ -78,8 +79,9 @@ function initCharts() {
         queriesInterval.push(queryBuildsPerProject);
 
         // draw chart
-        var chartBuildsPerProject = new Keen.Dataviz()
+        chartBuildsPerProject = new Keen.Dataviz()
             .el(document.getElementById("chart_builds_per_project"))
+            .title("Builds per project")
             .chartType("columnchart")
             .height(400)
             .attributes({
@@ -96,7 +98,6 @@ function initCharts() {
             } else {
                 chartBuildsPerProject
                     .parseRequest(this)
-                    .title("Builds per project")
                     .render();
             }
         });
@@ -115,8 +116,9 @@ function initCharts() {
         queriesTimeframe.push(queryBuildsPerProjectPie);
 
         // draw chart
-        var chartBuildsPerProjectPie = new Keen.Dataviz()
+        chartBuildsPerProjectPie = new Keen.Dataviz()
             .el(document.getElementById("chart_builds_per_project_pie"))
+            .title("Builds per project")
             .height(400)
             .prepare();
 
@@ -127,7 +129,6 @@ function initCharts() {
             } else {
                 chartBuildsPerProjectPie
                     .parseRequest(this)
-                    .title("Builds per project")
                     .render();
             }
         });
@@ -220,6 +221,9 @@ function updateCountCharts() {
     eventCollection: countSettings.keenEventCollection,
     targetProperty: countSettings.keenTargetProperty
   });
+
+  chartBuildsPerProject.title(countSettings.caption + " per project");
+  chartBuildsPerProjectPie.title(countSettings.caption + " per project");
 
   // refresh all query requests
   requestBuildsPerProject.refresh();
