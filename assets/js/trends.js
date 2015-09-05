@@ -543,37 +543,42 @@ function initCharts() {
         queryRequests.push(chartStageDuration.request);
 
         /* Stage duration fraction */
+        var chartStageFraction = new ChartClass();
+
+        chartStageFraction.filters = [{"property_name":"stage.name","operator":"exists","property_value":true}];
+
         // create query
-        var queryStageFraction = new Keen.Query("average", {
+        chartStageFraction.query = new Keen.Query("average", {
             eventCollection: "build_stages",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             targetProperty: "stage.duration",
             groupBy: "stage.name",
-            filters: [{"property_name":"stage.name","operator":"exists","property_value":true}]
+            filters: chartStageDuration.filters
         });
-        queriesTimeframe.push(queryStageFraction);
+        queriesTimeframe.push(chartStageFraction.query);
         charts.push(chartStageDuration);
 
         // draw chart
-        var chartStageFraction = new Keen.Dataviz()
+        chartStageFraction.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_fraction"))
             .title("Build stage fraction of total build duration")
             .height(400)
             .prepare();
 
-        var requestStageFraction = client.run(queryStageFraction, function(err, res) {
+        chartStageFraction.request = client.run(chartStageFraction.query, function(err, res) {
             if (err) {
                 // Display the API error
-                chartStageFraction.error(err.message);
+                chartStageFraction.chart.error(err.message);
             } else {
-                chartStageFraction
+                chartStageFraction.chart
                     .parseRequest(this)
                     .render();
             }
         });
-        queryRequests.push(requestStageFraction);
+        queryRequests.push(chartStageFraction.request);
+        charts.push(chartStageFraction);
 
         /* Total build duration grouped by build ID */
         // create query
