@@ -18,6 +18,7 @@
   </script>
   <script type="text/javascript" src="assets/js/common.js"></script>
   <script type="text/javascript" src="assets/js/ButtonClass.js"></script>
+  <script type="text/javascript" src="assets/js/ChartClass.js"></script>
   <script type="text/javascript" src="assets/js/dashboard_common.js"></script>
   <script type="text/javascript" src="assets/js/trends.js"></script>
   <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
@@ -64,7 +65,7 @@
       <button type="button" id="timeframe_month" class="btn btn-default">Month</button>
       <button type="button" id="timeframe_year" class="btn btn-default">Year</button>
     </div>
-
+    <div id="filter_options"></div>
     <a id="badge" class="pull-right flip" href="#">
       <img id="badge-url" src="https://buildtimetrend.herokuapp.com/badge" alt="Buildtime Trend badge" />
     </a>
@@ -119,13 +120,6 @@
 
       <div class="col-sm-6">
         <div class="chart-wrapper">
-          <div class="chart-title">
-            Filter on :
-            <select id="filter_build_matrix"></select>
-            <select id="filter_result"></select>
-            <select id="filter_build_trigger"></select>
-            <select id="filter_branch"></select>
-          </div>
           <div class="chart-stage">
             <div id="chart_stage_duration_buildjob"></div>
           </div>

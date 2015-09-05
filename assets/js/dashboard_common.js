@@ -82,6 +82,7 @@ var filterOptions = [
 // arrays with queries and query request to update
 var queriesInterval = [];
 var queriesTimeframe = [];
+var charts = [];
 var queryRequests = [];
 
 function getUpdatePeriod() {
@@ -95,24 +96,25 @@ function updateCharts() {
     // get Update Period settings
     var updatePeriod = getUpdatePeriod();
 
-    var i;
-
     // update all interval based queries
-    for (i = 0; i < queriesInterval.length; i++) {
-        queriesInterval[i].set({interval: updatePeriod.keenInterval});
-    }
+    $.each(queriesInterval, function () {
+        this.set({interval: updatePeriod.keenInterval});
+    });
 
     // update all timeframe based queries
-    for (i = 0; i < queriesTimeframe.length; i++) {
-        queriesTimeframe[i].set({
+    $.each(queriesTimeframe, function () {
+        this.set({
             timeframe: updatePeriod.keenTimeframe,
             maxAge: updatePeriod.keenMaxAge});
-    }
+    });
 
     // refresh all updated query requests
-    for (i = 0; i < queryRequests.length; i++) {
-        queryRequests[i].refresh();
-    }
+    $.each(queryRequests, function () {
+        this.refresh();
+    });
+    $.each(charts, function () {
+        this.request.refresh();
+    });
 
     // repopulate filter options
     $.each(filterOptions, function () {

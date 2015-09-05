@@ -217,7 +217,6 @@ function onClickResultButton() {
     requestJobResultBranch.refresh();
 }
 
-var queryStageDurationBuildJob, requestStageDurationBuildJob;
 var filterValues = {};
 function updateFilter(parameter, value) {
     filterValues[parameter] = value;
@@ -230,11 +229,23 @@ function updateFilter(parameter, value) {
         }
     });
 
-    queryStageDurationBuildJob.set({
-        filters: filterList
+    // update Filters for all related charts
+    $.each(charts, function () {
+        this.updateFilters(filterList);
     });
+}
 
-    requestStageDurationBuildJob.refresh();
+function createFilterOptions() {
+    $("#filter_options").html("Filter on : ");
+    $.each(filterOptions, function () {
+        // create new select tag
+        $("#filter_options").append(
+            "<select id='" + this.selectId + "'></select>"
+        );
+
+        // initialise select filter
+        initFilterOptions(this);
+    });
 }
 
 function initFilterOptions(filterParams) {
@@ -330,6 +341,8 @@ function initCharts() {
         // draw chart
         var chartTotalBuilds = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds"))
+            .title("Total build jobs")
+            .width(200)
             .attributes({
                 chartOptions: {prettyNumber: false}
             })
@@ -342,8 +355,6 @@ function initCharts() {
             } else {
                 chartTotalBuilds
                     .parseRequest(this)
-                    .title("Total build jobs")
-                    .width(200)
                     .render();
             }
         });
@@ -486,8 +497,12 @@ function initCharts() {
         queryRequests.push(requestAverageBuildTime);
 
         /* average stage duration */
+        var chartStageDuration = new ChartClass();
+
+        chartStageDuration.filters = [{"property_name":"stage.name","operator":"exists","property_value":true}];
+
         // create query
-        var queryStageDuration = new Keen.Query("average", {
+        chartStageDuration.query = new Keen.Query("average", {
             eventCollection: "build_substages",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
@@ -495,14 +510,16 @@ function initCharts() {
             maxAge: keenMaxAge,
             targetProperty: "stage.duration",
             groupBy: "stage.name",
-            filters: [{"property_name":"stage.name","operator":"exists","property_value":true}]
+            filters: chartStageDuration.filters
         });
-        queriesTimeframe.push(queryStageDuration);
-        queriesInterval.push(queryStageDuration);
+        queriesTimeframe.push(chartStageDuration.query);
+        queriesInterval.push(chartStageDuration.query);
+
 
         // draw chart
-        var chartStageDuration = new Keen.Dataviz()
+        chartStageDuration.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_duration"))
+            .title("Average build stage duration")
             .chartType("columnchart")
             .height(400)
             .attributes({
@@ -513,54 +530,59 @@ function initCharts() {
             })
             .prepare();
 
-        var requestStageDuration = client.run(queryStageDuration, function(err, res) {
+        chartStageDuration.request = client.run(chartStageDuration.query, function(err, res) {
             if (err) {
                 // Display the API error
-                chartStageDuration.error(err.message);
+                chartStageDuration.chart.error(err.message);
             } else {
-                chartStageDuration
+                chartStageDuration.chart
                     .parseRequest(this)
-                    .title("Average build stage duration")
                     .render();
             }
         });
-        queryRequests.push(requestStageDuration);
+        charts.push(chartStageDuration);
 
         /* Stage duration fraction */
+        var chartStageFraction = new ChartClass();
+
+        chartStageFraction.filters = [{"property_name":"stage.name","operator":"exists","property_value":true}];
+
         // create query
-        var queryStageFraction = new Keen.Query("average", {
+        chartStageFraction.query = new Keen.Query("average", {
             eventCollection: "build_substages",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             targetProperty: "stage.duration",
             groupBy: "stage.name",
-            filters: [{"property_name":"stage.name","operator":"exists","property_value":true}]
+            filters: chartStageDuration.filters
         });
-        queriesTimeframe.push(queryStageFraction);
+        queriesTimeframe.push(chartStageFraction.query);
 
         // draw chart
-        var chartStageFraction = new Keen.Dataviz()
+        chartStageFraction.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_fraction"))
+            .title("Build stage fraction of total build duration")
             .height(400)
             .prepare();
 
-        var requestStageFraction = client.run(queryStageFraction, function(err, res) {
+        chartStageFraction.request = client.run(chartStageFraction.query, function(err, res) {
             if (err) {
                 // Display the API error
-                chartStageFraction.error(err.message);
+                chartStageFraction.chart.error(err.message);
             } else {
-                chartStageFraction
+                chartStageFraction.chart
                     .parseRequest(this)
-                    .title("Build stage fraction of total build duration")
                     .render();
             }
         });
-        queryRequests.push(requestStageFraction);
+        charts.push(chartStageFraction);
 
         /* Total build duration grouped by build ID */
+        var chartStageDurationBuild = new ChartClass();
+
         // create query
-        var queryStageDurationBuild = new Keen.Query("sum", {
+        chartStageDurationBuild.query = new Keen.Query("sum", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
@@ -568,10 +590,10 @@ function initCharts() {
             targetProperty: "job.duration",
             groupBy: "job.build"
         });
-        queriesTimeframe.push(queryStageDurationBuild);
+        queriesTimeframe.push(chartStageDurationBuild.query);
 
         // draw chart
-        var chartStageDurationBuild = new Keen.Dataviz()
+        chartStageDurationBuild.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_duration_build"))
             .chartType("columnchart")
             .title("Total build duration grouped by build ID")
@@ -585,26 +607,26 @@ function initCharts() {
             })
             .prepare();
 
-        var requestStageDurationBuild = client.run(queryStageDurationBuild, function(err, res) {
+        chartStageDurationBuild.request = client.run(chartStageDurationBuild.query, function(err, res) {
             if (err) {
                 // Display the API error
-                chartStageDurationBuild.error(err.message);
+                chartStageDurationBuild.chart.error(err.message);
             } else {
-                chartStageDurationBuild
+                chartStageDurationBuild.chart
                     .parseRequest(this)
                     .render();
             }
         });
-        queryRequests.push(requestStageDurationBuild);
+        charts.push(chartStageDurationBuild);
 
         /* Total build job duration grouped by build job ID */
         // initialize options buttons
-        $.each(filterOptions, function () {
-            initFilterOptions(this);
-        });
+        createFilterOptions();
+
+        var chartStageDurationBuildJob = new ChartClass();
 
         // create query
-        queryStageDurationBuildJob = new Keen.Query("sum", {
+        chartStageDurationBuildJob.query = new Keen.Query("sum", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
@@ -612,10 +634,10 @@ function initCharts() {
             targetProperty: "job.duration",
             groupBy: "job.job"
         });
-        queriesTimeframe.push(queryStageDurationBuildJob);
+        queriesTimeframe.push(chartStageDurationBuildJob.query);
 
         // draw chart
-        var chartStageDurationBuildJob = new Keen.Dataviz()
+        chartStageDurationBuildJob.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_duration_buildjob"))
             .chartType("columnchart")
             .title("Total build job duration grouped by build job ID")
@@ -629,17 +651,17 @@ function initCharts() {
             })
             .prepare();
 
-        requestStageDurationBuildJob = client.run(queryStageDurationBuildJob, function(err, res) {
+        chartStageDurationBuildJob.request = client.run(chartStageDurationBuildJob.query, function(err, res) {
             if (err) {
                 // Display the API error
-                chartStageDurationBuildJob.error(err.message);
+                chartStageDurationBuildJob.chart.error(err.message);
             } else {
-                chartStageDurationBuildJob
+                chartStageDurationBuildJob.chart
                     .parseRequest(this)
                     .render();
             }
         });
-        queryRequests.push(requestStageDurationBuildJob);
+        charts.push(chartStageDurationBuildJob);
 
         /* Builds */
         // create query
@@ -658,6 +680,7 @@ function initCharts() {
         // draw chart
         var chartBuilds = new Keen.Dataviz()
             .el(document.getElementById("chart_builds"))
+            .title("Builds per branch")
             .chartType("columnchart")
             .height(400)
             .attributes({
@@ -675,7 +698,6 @@ function initCharts() {
             } else {
                 chartBuilds
                     .parseRequest(this)
-                    .title("Builds per branch")
                     .render();
             }
         });
@@ -696,7 +718,8 @@ function initCharts() {
         // draw chart
         var chartTotalBuildsBranch = new Keen.Dataviz()
             .el(document.getElementById("chart_total_builds_branch"))
-            .height("400")
+            .title("Builds per branch (%)")
+            .height(400)
             .prepare();
 
         var requestTotalBuildsBranch = client.run(queryTotalBuildsBranch, function(err, res) {
@@ -706,7 +729,6 @@ function initCharts() {
             } else {
                 chartTotalBuildsBranch
                     .parseRequest(this)
-                    .title("Builds per branch (%)")
                     .render();
             }
         });
@@ -729,6 +751,7 @@ function initCharts() {
         // draw chart
         var chartJobResult = new Keen.Dataviz()
             .el(document.getElementById("chart_jobs_result"))
+            .title("Build job results")
             .chartType("columnchart")
             .height(400)
             .attributes({
@@ -751,7 +774,6 @@ function initCharts() {
             } else {
                 chartJobResult
                     .parseRequest(this)
-                    .title("Build job results")
                     .render();
             }
         });
