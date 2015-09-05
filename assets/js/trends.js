@@ -713,7 +713,7 @@ function initCharts() {
         var chartTotalBuildsBranch = new Keen.Dataviz()
             .el(document.getElementById("chart_total_builds_branch"))
             .title("Builds per branch (%)")
-            .height("400")
+            .height(400)
             .prepare();
 
         var requestTotalBuildsBranch = client.run(queryTotalBuildsBranch, function(err, res) {
