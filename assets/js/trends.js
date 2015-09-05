@@ -540,7 +540,6 @@ function initCharts() {
                     .render();
             }
         });
-        queryRequests.push(chartStageDuration.request);
         charts.push(chartStageDuration);
 
         /* Stage duration fraction */
@@ -577,7 +576,6 @@ function initCharts() {
                     .render();
             }
         });
-        queryRequests.push(chartStageFraction.request);
         charts.push(chartStageFraction);
 
         /* Total build duration grouped by build ID */
@@ -619,7 +617,6 @@ function initCharts() {
                     .render();
             }
         });
-        queryRequests.push(chartStageDurationBuild.request);
         charts.push(chartStageDurationBuild);
 
         /* Total build job duration grouped by build job ID */
@@ -664,7 +661,6 @@ function initCharts() {
                     .render();
             }
         });
-        queryRequests.push(chartStageDurationBuildJob.request);
         charts.push(chartStageDurationBuildJob);
 
         /* Builds */

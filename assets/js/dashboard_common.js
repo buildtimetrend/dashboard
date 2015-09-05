@@ -112,6 +112,9 @@ function updateCharts() {
     $.each(queryRequests, function () {
         this.refresh();
     });
+    $.each(charts, function () {
+        this.request.refresh();
+    });
 
     // repopulate filter options
     $.each(filterOptions, function () {
