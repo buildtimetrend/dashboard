@@ -343,6 +343,8 @@ function initCharts() {
         // draw chart
         var chartTotalBuilds = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds"))
+            .title("Total build jobs")
+            .width(200)
             .attributes({
                 chartOptions: {prettyNumber: false}
             })
@@ -355,8 +357,6 @@ function initCharts() {
             } else {
                 chartTotalBuilds
                     .parseRequest(this)
-                    .title("Total build jobs")
-                    .width(200)
                     .render();
             }
         });
@@ -521,6 +521,7 @@ function initCharts() {
         // draw chart
         chartStageDuration.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_duration"))
+            .title("Average build stage duration")
             .chartType("columnchart")
             .height(400)
             .attributes({
@@ -538,7 +539,6 @@ function initCharts() {
             } else {
                 chartStageDuration.chart
                     .parseRequest(this)
-                    .title("Average build stage duration")
                     .render();
             }
         });
@@ -560,6 +560,7 @@ function initCharts() {
         // draw chart
         var chartStageFraction = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_fraction"))
+            .title("Build stage fraction of total build duration")
             .height(400)
             .prepare();
 
@@ -570,7 +571,6 @@ function initCharts() {
             } else {
                 chartStageFraction
                     .parseRequest(this)
-                    .title("Build stage fraction of total build duration")
                     .render();
             }
         });
@@ -674,6 +674,7 @@ function initCharts() {
         // draw chart
         var chartBuilds = new Keen.Dataviz()
             .el(document.getElementById("chart_builds"))
+            .title("Builds per branch")
             .chartType("columnchart")
             .height(400)
             .attributes({
@@ -691,7 +692,6 @@ function initCharts() {
             } else {
                 chartBuilds
                     .parseRequest(this)
-                    .title("Builds per branch")
                     .render();
             }
         });
@@ -712,6 +712,7 @@ function initCharts() {
         // draw chart
         var chartTotalBuildsBranch = new Keen.Dataviz()
             .el(document.getElementById("chart_total_builds_branch"))
+            .title("Builds per branch (%)")
             .height("400")
             .prepare();
 
@@ -722,7 +723,6 @@ function initCharts() {
             } else {
                 chartTotalBuildsBranch
                     .parseRequest(this)
-                    .title("Builds per branch (%)")
                     .render();
             }
         });
@@ -745,6 +745,7 @@ function initCharts() {
         // draw chart
         var chartJobResult = new Keen.Dataviz()
             .el(document.getElementById("chart_jobs_result"))
+            .title("Build job results")
             .chartType("columnchart")
             .height(400)
             .attributes({
@@ -767,7 +768,6 @@ function initCharts() {
             } else {
                 chartJobResult
                     .parseRequest(this)
-                    .title("Build job results")
                     .render();
             }
         });
