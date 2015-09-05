@@ -82,6 +82,7 @@ var filterOptions = [
 // arrays with queries and query request to update
 var queriesInterval = [];
 var queriesTimeframe = [];
+var charts = [];
 var queryRequests = [];
 
 function getUpdatePeriod() {

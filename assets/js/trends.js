@@ -217,7 +217,6 @@ function onClickResultButton() {
     requestJobResultBranch.refresh();
 }
 
-var chartStageDurationBuildJob;
 var filterValues = {};
 function updateFilter(parameter, value) {
     filterValues[parameter] = value;
@@ -230,7 +229,10 @@ function updateFilter(parameter, value) {
         }
     });
 
-    chartStageDurationBuildJob.updateFilters(filterList);
+    // update Filters for all related charts
+    $.each(charts, function () {
+        this.updateFilters(filterList);
+    });
 }
 
 function createFilterOptions() {
@@ -552,6 +554,7 @@ function initCharts() {
             filters: [{"property_name":"stage.name","operator":"exists","property_value":true}]
         });
         queriesTimeframe.push(queryStageFraction);
+        charts.push(chartStageDuration);
 
         // draw chart
         var chartStageFraction = new Keen.Dataviz()
@@ -615,7 +618,7 @@ function initCharts() {
         // initialize options buttons
         createFilterOptions();
 
-        chartStageDurationBuildJob = new ChartClass();
+        var chartStageDurationBuildJob = new ChartClass();
 
         // create query
         chartStageDurationBuildJob.query = new Keen.Query("sum", {
@@ -654,6 +657,7 @@ function initCharts() {
             }
         });
         queryRequests.push(chartStageDurationBuildJob.request);
+        charts.push(chartStageDurationBuildJob);
 
         /* Builds */
         // create query
