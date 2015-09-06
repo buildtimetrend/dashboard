@@ -337,18 +337,28 @@ function initCharts() {
         charts.push(metricTotalBuildJobsPassed);
 
         /* Total builds failed */
+        var metricTotalBuildJobsFailed = new ChartClass();
+
+        metricTotalBuildJobsFailed.filters = [
+            {
+                "property_name": "job.result",
+                "operator": "in",
+                "property_value": ["failed","errored"]
+            }
+        ];
+
         // create query
-        var queryTotalBuildsFailed = new Keen.Query("count", {
+        metricTotalBuildJobsFailed.query = new Keen.Query("count", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
-            filters: [{"property_name":"job.result","operator":"in","property_value":["failed","errored"]}]
+            filters: metricTotalBuildJobsFailed.filters
         });
-        queriesTimeframe.push(queryTotalBuildsFailed);
+        queriesTimeframe.push(metricTotalBuildJobsFailed.query);
 
         // create chart
-        var chartTotalBuildsFailed = new Keen.Dataviz()
+        metricTotalBuildJobsFailed.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds_failed"))
             .title("Build jobs failed")
             .attributes({
@@ -358,10 +368,12 @@ function initCharts() {
             .prepare();
 
         // combine queries for conditional coloring of TotalBuildsfailed
-        var colorBuildsFailed = client.run([metricTotalBuildJobs.query, queryTotalBuildsFailed], function(err, res){
+        metricTotalBuildJobsFailed.request= client.run(
+            [metricTotalBuildJobs.query, metricTotalBuildJobsFailed.query],
+            function(err, res) {
             if (err) {
                 // Display the API error
-                chartTotalBuildsPassed.error(err.message);
+                metricTotalBuildJobsFailed.chart.error(err.message);
             } else {
                 var chartColor = [GREEN];
                 var totalBuilds = res[0].result;
@@ -378,13 +390,13 @@ function initCharts() {
                 }
 
                 // draw chart
-                chartTotalBuildsFailed
+                metricTotalBuildJobsFailed.chart
                     .parseRawData({result: totalBuildsFailed})
                     .colors(chartColor)
                     .render();
             }
         });
-        queryRequests.push(colorBuildsFailed);
+        charts.push(metricTotalBuildJobsFailed);
 
         /* average build time of all stages */
         // create query
