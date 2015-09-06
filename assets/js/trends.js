@@ -27,36 +27,6 @@ timeframeButtons.onClick = function() {
     updateBadgeUrl();
 };
 
-// Build result button constants
-var BUTTON_RESULT_PREFIX = "result_";
-var BUTTON_RESULT_DEFAULT = "failed";
-var BUTTONS_RESULT = {
-    "passed": {
-        "caption": "Passed",
-    },
-    "failed": {
-        "caption": "Failed",
-    },
-    "errored": {
-        "caption": "Errored",
-    }
-};
-// Groupby button constants
-var BUTTON_GROUPBY_PREFIX = "groupby_";
-var BUTTON_GROUPBY_DEFAULT = "matrix";
-var BUTTONS_GROUPBY = {
-    "branch": {
-        "caption": "Branch",
-        "queryField": "job.branch",
-        "titleCaption": "branch name"
-    },
-    "matrix": {
-        "caption": "Build matrix",
-        "queryField": "job.build_matrix.summary",
-        "titleCaption": "build env parameters"
-    }
-};
-
 filterOptions = [
     {
         "selectId": "filter_build_matrix",
@@ -154,67 +124,6 @@ function formatDuration(duration) {
     }
 
     return formattedString;
-}
-
-// Build Job result class
-var buildJobResultButtons = {
-    resultButtons: new ButtonClass(
-        BUTTONS_RESULT,
-        BUTTON_RESULT_DEFAULT,
-        BUTTON_RESULT_PREFIX
-    ),
-    groupByButtons: new ButtonClass(
-        BUTTONS_GROUPBY,
-        BUTTON_GROUPBY_DEFAULT,
-        BUTTON_GROUPBY_PREFIX
-    ),
-    // initialize class instance
-    init: function() {
-        this.resultButtons.onClick = function() { onClickResultButton(); };
-        this.resultButtons.initButtons();
-        this.groupByButtons.onClick = function() { onClickResultButton(); };
-        this.groupByButtons.initButtons();
-    },
-    // Get Build job result filter
-    getFilters: function () {
-        var filters = [];
-        filters.push({
-            "property_name": "job.result",
-            "operator": "eq",
-            "property_value": this.resultButtons.currentButton
-        });
-
-        // only group records that have the build_matrix field
-        if (this.groupByButtons.currentButton === "matrix") {
-            filters.push({
-                "property_name": this.getQueryGroupByField(),
-                "operator":"exists",
-                "property_value":true
-            });
-        }
-
-        return filters;
-    },
-    // Get Build job result query GroupBy parameter
-    getQueryGroupByField: function () {
-        return this.groupByButtons.getCurrentButton().queryField;
-    },
-    // Get Build job result title
-    getTitle: function () {
-        return firstCharUpperCase(this.resultButtons.currentButton) +
-            " build jobs grouped by " +
-            this.groupByButtons.getCurrentButton().titleCaption;
-    }
-};
-
-var queryJobResultBranch, chartJobResultBranch, requestJobResultBranch;
-function onClickResultButton() {
-    queryJobResultBranch.set({
-        groupBy: buildJobResultButtons.getQueryGroupByField(),
-        filters: buildJobResultButtons.getFilters()
-    });
-    chartJobResultBranch.title(buildJobResultButtons.getTitle());
-    requestJobResultBranch.refresh();
 }
 
 var filterValues = {};
@@ -328,18 +237,23 @@ function initCharts() {
 
     // visualization code goes here
     Keen.ready(function() {
-        /* Total builds */
+        // initialise filter option buttons
+        createFilterOptions();
+
+        /* Total build jobs */
+        var metricTotalBuildJobs = new ChartClass();
+
         // create query
-        var queryTotalBuilds = new Keen.Query("count", {
+        metricTotalBuildJobs.query = new Keen.Query("count", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge
         });
-        queriesTimeframe.push(queryTotalBuilds);
+        queriesTimeframe.push(metricTotalBuildJobs.query);
 
         // draw chart
-        var chartTotalBuilds = new Keen.Dataviz()
+        metricTotalBuildJobs.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds"))
             .title("Total build jobs")
             .width(200)
@@ -348,31 +262,41 @@ function initCharts() {
             })
             .prepare();
 
-        var requestTotalBuilds = client.run(queryTotalBuilds, function(err, res){
+        metricTotalBuildJobs.request = client.run(metricTotalBuildJobs.query, function(err, res){
             if (err) {
             // Display the API error
-            chartTotalBuilds.error(err.message);
+            metricTotalBuildJobs.chart.error(err.message);
             } else {
-                chartTotalBuilds
+                metricTotalBuildJobs.chart
                     .parseRequest(this)
                     .render();
             }
         });
-        queryRequests.push(requestTotalBuilds);
+        charts.push(metricTotalBuildJobs);
 
         /* Total builds passed */
+        var metricTotalBuildJobsPassed = new ChartClass();
+
+        metricTotalBuildJobsPassed.filters = [
+            {
+                "property_name": "job.result",
+                "operator": "eq",
+                "property_value":"passed"
+            }
+        ];
+
         // create query
-        var queryTotalBuildsPassed = new Keen.Query("count", {
+        metricTotalBuildJobsPassed.query = new Keen.Query("count", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
-            filters: [{"property_name":"job.result","operator":"eq","property_value":"passed"}]
+            filters: metricTotalBuildJobsPassed.filters
         });
-        queriesTimeframe.push(queryTotalBuildsPassed);
+        queriesTimeframe.push(metricTotalBuildJobsPassed.query);
 
         // create chart
-        var chartTotalBuildsPassed = new Keen.Dataviz()
+        metricTotalBuildJobsPassed.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds_passed"))
             .title("Build jobs passed")
             .attributes({
@@ -382,10 +306,12 @@ function initCharts() {
             .prepare();
 
         // combine queries for conditional coloring of TotalBuildspassed
-        var colorBuildsPassed = client.run([queryTotalBuilds, queryTotalBuildsPassed], function(err, res){
+        metricTotalBuildJobsPassed.request = client.run(
+            [metricTotalBuildJobs.query, metricTotalBuildJobsPassed.query],
+            function(err, res) {
             if (err) {
                 // Display the API error
-                chartTotalBuildsPassed.error(err.message);
+                metricTotalBuildJobsPassed.chart.error(err.message);
             } else {
                 var chartColor = [GREEN];
                 var totalBuilds = res[0].result;
@@ -402,27 +328,37 @@ function initCharts() {
                 }
 
                 // draw chart
-                chartTotalBuildsPassed
+                metricTotalBuildJobsPassed.chart
                     .parseRawData({result: totalBuildsPassed})
                     .colors(chartColor)
                     .render();
             }
         });
-        queryRequests.push(colorBuildsPassed);
+        charts.push(metricTotalBuildJobsPassed);
 
         /* Total builds failed */
+        var metricTotalBuildJobsFailed = new ChartClass();
+
+        metricTotalBuildJobsFailed.filters = [
+            {
+                "property_name": "job.result",
+                "operator": "in",
+                "property_value": ["failed","errored"]
+            }
+        ];
+
         // create query
-        var queryTotalBuildsFailed = new Keen.Query("count", {
+        metricTotalBuildJobsFailed.query = new Keen.Query("count", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
-            filters: [{"property_name":"job.result","operator":"in","property_value":["failed","errored"]}]
+            filters: metricTotalBuildJobsFailed.filters
         });
-        queriesTimeframe.push(queryTotalBuildsFailed);
+        queriesTimeframe.push(metricTotalBuildJobsFailed.query);
 
         // create chart
-        var chartTotalBuildsFailed = new Keen.Dataviz()
+        metricTotalBuildJobsFailed.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds_failed"))
             .title("Build jobs failed")
             .attributes({
@@ -432,10 +368,12 @@ function initCharts() {
             .prepare();
 
         // combine queries for conditional coloring of TotalBuildsfailed
-        var colorBuildsFailed = client.run([queryTotalBuilds, queryTotalBuildsFailed], function(err, res){
+        metricTotalBuildJobsFailed.request= client.run(
+            [metricTotalBuildJobs.query, metricTotalBuildJobsFailed.query],
+            function(err, res) {
             if (err) {
                 // Display the API error
-                chartTotalBuildsPassed.error(err.message);
+                metricTotalBuildJobsFailed.chart.error(err.message);
             } else {
                 var chartColor = [GREEN];
                 var totalBuilds = res[0].result;
@@ -452,27 +390,29 @@ function initCharts() {
                 }
 
                 // draw chart
-                chartTotalBuildsFailed
+                metricTotalBuildJobsFailed.chart
                     .parseRawData({result: totalBuildsFailed})
                     .colors(chartColor)
                     .render();
             }
         });
-        queryRequests.push(colorBuildsFailed);
+        charts.push(metricTotalBuildJobsFailed);
 
         /* average build time of all stages */
+        var metricAverageBuildTime = new ChartClass();
+
         // create query
-        var queryAverageBuildTime = new Keen.Query("average", {
+        metricAverageBuildTime.query = new Keen.Query("average", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             targetProperty: "job.duration"
         });
-        queriesTimeframe.push(queryAverageBuildTime);
+        queriesTimeframe.push(metricAverageBuildTime.query);
 
         // draw chart
-        var chartAverageBuildTime = new Keen.Dataviz()
+        metricAverageBuildTime.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_average_build_time"))
             .title("Average job duration")
             .width(300)
@@ -483,18 +423,18 @@ function initCharts() {
             })
             .prepare();
 
-        var requestAverageBuildTime = client.run(queryAverageBuildTime, function(err, res) {
+        metricAverageBuildTime.request = client.run(metricAverageBuildTime.query, function(err, res) {
             if (err) {
                 // Display the API error
-                chartAverageBuildTime.error(err.message);
+                metricAverageBuildTime.chart.error(err.message);
             } else {
                 res.result = Math.round(res.result / 60);
-                chartAverageBuildTime
+                metricAverageBuildTime.chart
                     .parseRawData(res)
                     .render();
             }
         });
-        queryRequests.push(requestAverageBuildTime);
+        charts.push(metricAverageBuildTime);
 
         /* average stage duration */
         var chartStageDuration = new ChartClass();
@@ -620,9 +560,6 @@ function initCharts() {
         charts.push(chartStageDurationBuild);
 
         /* Total build job duration grouped by build job ID */
-        // initialize options buttons
-        createFilterOptions();
-
         var chartStageDurationBuildJob = new ChartClass();
 
         // create query
@@ -663,9 +600,11 @@ function initCharts() {
         });
         charts.push(chartStageDurationBuildJob);
 
-        /* Builds */
+        /* Builds per branch */
+        var chartBuildsPerBranch = new ChartClass();
+
         // create query
-        var queryBuilds = new Keen.Query("count_unique", {
+        chartBuildsPerBranch.query = new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
@@ -674,11 +613,11 @@ function initCharts() {
             targetProperty: "job.build",
             groupBy: "job.branch"
         });
-        queriesTimeframe.push(queryBuilds);
-        queriesInterval.push(queryBuilds);
+        queriesTimeframe.push(chartBuildsPerBranch.query);
+        queriesInterval.push(chartBuildsPerBranch.query);
 
         // draw chart
-        var chartBuilds = new Keen.Dataviz()
+        chartBuildsPerBranch.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_builds"))
             .title("Builds per branch")
             .chartType("columnchart")
@@ -691,21 +630,23 @@ function initCharts() {
             })
             .prepare();
 
-        var requestBuilds = client.run(queryBuilds, function(err, res) {
+        chartBuildsPerBranch.request = client.run(chartBuildsPerBranch.query, function(err, res) {
             if (err) {
                 // Display the API error
-                chartBuilds.error(err.message);
+                chartBuildsPerBranch.chart.error(err.message);
             } else {
-                chartBuilds
+                chartBuildsPerBranch.chart
                     .parseRequest(this)
                     .render();
             }
         });
-        queryRequests.push(requestBuilds);
+        charts.push(chartBuildsPerBranch);
 
         /* Builds per branch */
+        var chartTotalBuildsBranch = new ChartClass();
+
         // create query
-        var queryTotalBuildsBranch = new Keen.Query("count_unique", {
+        chartTotalBuildsBranch.query = new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
@@ -713,30 +654,32 @@ function initCharts() {
             targetProperty: "job.build",
             groupBy: "job.branch"
         });
-        queriesTimeframe.push(queryTotalBuildsBranch);
+        queriesTimeframe.push(chartTotalBuildsBranch.query);
 
         // draw chart
-        var chartTotalBuildsBranch = new Keen.Dataviz()
+        chartTotalBuildsBranch.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_total_builds_branch"))
             .title("Builds per branch (%)")
             .height(400)
             .prepare();
 
-        var requestTotalBuildsBranch = client.run(queryTotalBuildsBranch, function(err, res) {
+        chartTotalBuildsBranch.request = client.run(chartTotalBuildsBranch.query, function(err, res) {
             if (err) {
                 // Display the API error
-                chartTotalBuildsBranch.error(err.message);
+                chartTotalBuildsBranch.chart.error(err.message);
             } else {
-                chartTotalBuildsBranch
+                chartTotalBuildsBranch.chart
                     .parseRequest(this)
                     .render();
             }
         });
-        queryRequests.push(requestTotalBuildsBranch);
+        charts.push(chartTotalBuildsBranch);
 
         /* Build job result */
+        var chartJobResult = new ChartClass();
+
         // create query
-        var queryJobResult = new Keen.Query("count_unique", {
+        chartJobResult.query = new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
@@ -745,11 +688,11 @@ function initCharts() {
             targetProperty: "job.job",
             groupBy: "job.result"
         });
-        queriesTimeframe.push(queryJobResult);
-        queriesInterval.push(queryJobResult);
+        queriesTimeframe.push(chartJobResult.query);
+        queriesInterval.push(chartJobResult.query);
 
         // draw chart
-        var chartJobResult = new Keen.Dataviz()
+        chartJobResult.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_jobs_result"))
             .title("Build job results")
             .chartType("columnchart")
@@ -767,53 +710,59 @@ function initCharts() {
             })
             .prepare();
 
-        var requestJobResult = client.run(queryJobResult, function(err, res) {
+        chartJobResult.request = client.run(chartJobResult.query, function(err, res) {
             if (err) {
                 // Display the API error
-                chartJobResult.error(err.message);
+                chartJobResult.chart.error(err.message);
             } else {
-                chartJobResult
+                chartJobResult.chart
                     .parseRequest(this)
                     .render();
             }
         });
-        queryRequests.push(requestJobResult);
+        charts.push(chartJobResult);
 
         /* Build job result per branch */
+        var chartJobResultMatrix = new ChartClass();
 
-        // initialize buildjob result buttons
-        buildJobResultButtons.init();
+        chartJobResultMatrix.filters = [
+            {
+                "property_name": "job.build_matrix.summary",
+                "operator": "exists",
+                "property_value": true
+            }
+        ];
 
         // create query
-        queryJobResultBranch = new Keen.Query("count_unique", {
+        chartJobResultMatrix.query = new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             targetProperty: "job.job",
-            groupBy: buildJobResultButtons.getQueryGroupByField(),
-            filters: buildJobResultButtons.getFilters()
+            groupBy: "job.build_matrix.summary",
+            filters: chartJobResultMatrix.filters
         });
-        queriesTimeframe.push(queryJobResultBranch);
+        queriesTimeframe.push(chartJobResultMatrix.query);
 
         // draw chart
-        chartJobResultBranch = new Keen.Dataviz()
+        chartJobResultMatrix.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_jobs_result_branch"))
             .height(400)
-            .title(buildJobResultButtons.getTitle())
+            .title("Build jobs grouped by build matrix parameters")
             .prepare();
 
-        requestJobResultBranch = client.run(queryJobResultBranch, function(err, res) {
+        chartJobResultMatrix.request = client.run(chartJobResultMatrix.query, function(err, res) {
             if (err) {
                 // Display the API error
-                chartJobResultBranch.error(err.message);
+                chartJobResultMatrix.chart.error(err.message);
             } else {
-                chartJobResultBranch
+                chartJobResultMatrix.chart
                     .parseRequest(this)
                     .render();
             }
         });
-        queryRequests.push(requestJobResultBranch);
+        charts.push(chartJobResultMatrix);
 
         /* Average buildtime per time of day */
         // create query
