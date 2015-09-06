@@ -7,7 +7,8 @@ v0.3 (not yet released)
 - issue #88 : use caching for Keen.io charts
 - issue #99 : Enable auto refreshing dashboard charts with `refresh` url parameter
 - issue #108 : Make projects menu scrollable
-- issue #103 : Filter on build properties for chart data
+- issue #100, #103 : Filter on build properties for chart data, like build
+trigger, branch, build matrix, build result
 
 v0.2 (released on 18Feb2015)
 - issue #19 : update Keen.io charts using query request refresh function
