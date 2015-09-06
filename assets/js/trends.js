@@ -663,9 +663,11 @@ function initCharts() {
         });
         charts.push(chartStageDurationBuildJob);
 
-        /* Builds */
+        /* Builds per branch */
+        var chartBuildsPerBranch = new ChartClass();
+
         // create query
-        var queryBuilds = new Keen.Query("count_unique", {
+        chartBuildsPerBranch.query = new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
@@ -674,11 +676,11 @@ function initCharts() {
             targetProperty: "job.build",
             groupBy: "job.branch"
         });
-        queriesTimeframe.push(queryBuilds);
-        queriesInterval.push(queryBuilds);
+        queriesTimeframe.push(chartBuildsPerBranch.query);
+        queriesInterval.push(chartBuildsPerBranch.query);
 
         // draw chart
-        var chartBuilds = new Keen.Dataviz()
+        chartBuildsPerBranch.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_builds"))
             .title("Builds per branch")
             .chartType("columnchart")
@@ -691,17 +693,17 @@ function initCharts() {
             })
             .prepare();
 
-        var requestBuilds = client.run(queryBuilds, function(err, res) {
+        chartBuildsPerBranch.request = client.run(chartBuildsPerBranch.query, function(err, res) {
             if (err) {
                 // Display the API error
-                chartBuilds.error(err.message);
+                chartBuildsPerBranch.chart.error(err.message);
             } else {
-                chartBuilds
+                chartBuildsPerBranch.chart
                     .parseRequest(this)
                     .render();
             }
         });
-        queryRequests.push(requestBuilds);
+        charts.push(chartBuildsPerBranch);
 
         /* Builds per branch */
         // create query
