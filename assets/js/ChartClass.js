@@ -30,7 +30,7 @@
  *  - request
  */
 function ChartClass() {
-    this.query = null;
+    this.queries = [];
     this.chart = null;
     this.request = null;
     this.filters = [];
@@ -40,8 +40,14 @@ function ChartClass() {
         // assign default value
         refresh = defaultValue(refresh, true);
 
-        this.query.set({
-            filters: this.filters.concat(filters)
+        // merge filters with chart filter
+        filters = this.filters.concat(filters);
+
+        // loop over all queries to update filters
+        $.each(this.queries, function() {
+            this.set({
+                filters: filters
+            });
         });
 
         if (refresh) {
