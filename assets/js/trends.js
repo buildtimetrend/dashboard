@@ -706,8 +706,10 @@ function initCharts() {
         charts.push(chartBuildsPerBranch);
 
         /* Builds per branch */
+        var chartTotalBuildsBranch = new ChartClass();
+
         // create query
-        var queryTotalBuildsBranch = new Keen.Query("count_unique", {
+        chartTotalBuildsBranch.query = new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
@@ -715,26 +717,26 @@ function initCharts() {
             targetProperty: "job.build",
             groupBy: "job.branch"
         });
-        queriesTimeframe.push(queryTotalBuildsBranch);
+        queriesTimeframe.push(chartTotalBuildsBranch.query);
 
         // draw chart
-        var chartTotalBuildsBranch = new Keen.Dataviz()
+        chartTotalBuildsBranch.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_total_builds_branch"))
             .title("Builds per branch (%)")
             .height(400)
             .prepare();
 
-        var requestTotalBuildsBranch = client.run(queryTotalBuildsBranch, function(err, res) {
+        chartTotalBuildsBranch.request = client.run(chartTotalBuildsBranch.query, function(err, res) {
             if (err) {
                 // Display the API error
-                chartTotalBuildsBranch.error(err.message);
+                chartTotalBuildsBranch.chart.error(err.message);
             } else {
-                chartTotalBuildsBranch
+                chartTotalBuildsBranch.chart
                     .parseRequest(this)
                     .render();
             }
         });
-        queryRequests.push(requestTotalBuildsBranch);
+        charts.push(chartTotalBuildsBranch);
 
         /* Build job result */
         // create query
