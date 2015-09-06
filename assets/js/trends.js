@@ -240,18 +240,20 @@ function initCharts() {
         // initialise filter option buttons
         createFilterOptions();
 
-        /* Total builds */
+        /* Total build jobs */
+        var metricTotalBuildJobs = new ChartClass();
+
         // create query
-        var queryTotalBuilds = new Keen.Query("count", {
+        metricTotalBuildJobs.query = new Keen.Query("count", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge
         });
-        queriesTimeframe.push(queryTotalBuilds);
+        queriesTimeframe.push(metricTotalBuildJobs.query);
 
         // draw chart
-        var chartTotalBuilds = new Keen.Dataviz()
+        metricTotalBuildJobs.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds"))
             .title("Total build jobs")
             .width(200)
@@ -260,17 +262,17 @@ function initCharts() {
             })
             .prepare();
 
-        var requestTotalBuilds = client.run(queryTotalBuilds, function(err, res){
+        metricTotalBuildJobs.request = client.run(metricTotalBuildJobs.query, function(err, res){
             if (err) {
             // Display the API error
-            chartTotalBuilds.error(err.message);
+            metricTotalBuildJobs.chart.error(err.message);
             } else {
-                chartTotalBuilds
+                metricTotalBuildJobs.chart
                     .parseRequest(this)
                     .render();
             }
         });
-        queryRequests.push(requestTotalBuilds);
+        charts.push(metricTotalBuildJobs);
 
         /* Total builds passed */
         // create query
@@ -294,7 +296,7 @@ function initCharts() {
             .prepare();
 
         // combine queries for conditional coloring of TotalBuildspassed
-        var colorBuildsPassed = client.run([queryTotalBuilds, queryTotalBuildsPassed], function(err, res){
+        var colorBuildsPassed = client.run([metricTotalBuildJobs.query, queryTotalBuildsPassed], function(err, res){
             if (err) {
                 // Display the API error
                 chartTotalBuildsPassed.error(err.message);
@@ -344,7 +346,7 @@ function initCharts() {
             .prepare();
 
         // combine queries for conditional coloring of TotalBuildsfailed
-        var colorBuildsFailed = client.run([queryTotalBuilds, queryTotalBuildsFailed], function(err, res){
+        var colorBuildsFailed = client.run([metricTotalBuildJobs.query, queryTotalBuildsFailed], function(err, res){
             if (err) {
                 // Display the API error
                 chartTotalBuildsPassed.error(err.message);
