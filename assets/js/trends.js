@@ -530,7 +530,7 @@ function initCharts() {
             targetProperty: "job.duration",
             groupBy: "job.build"
         }));
-        queriesTimeframe.push(chartStageDurationBuild.queries[0])
+        queriesTimeframe.push(chartStageDurationBuild.queries[0]);
 
         // draw chart
         chartStageDurationBuild.chart = new Keen.Dataviz()
@@ -571,7 +571,7 @@ function initCharts() {
             targetProperty: "job.duration",
             groupBy: "job.job"
         }));
-        queriesTimeframe.push(chartStageDurationBuildJob.queries[0])
+        queriesTimeframe.push(chartStageDurationBuildJob.queries[0]);
 
         // draw chart
         chartStageDurationBuildJob.chart = new Keen.Dataviz()
@@ -613,8 +613,8 @@ function initCharts() {
             targetProperty: "job.build",
             groupBy: "job.branch"
         }));
-        queriesTimeframe.push(chartBuildsPerBranch.queries[0])
-        queriesInterval.push(chartBuildsPerBranch.queries[0])
+        queriesTimeframe.push(chartBuildsPerBranch.queries[0]);
+        queriesInterval.push(chartBuildsPerBranch.queries[0]);
 
         // draw chart
         chartBuildsPerBranch.chart = new Keen.Dataviz()
@@ -654,7 +654,7 @@ function initCharts() {
             targetProperty: "job.build",
             groupBy: "job.branch"
         }));
-        queriesTimeframe.push(chartTotalBuildsBranch.queries[0])
+        queriesTimeframe.push(chartTotalBuildsBranch.queries[0]);
 
         // draw chart
         chartTotalBuildsBranch.chart = new Keen.Dataviz()
@@ -688,8 +688,8 @@ function initCharts() {
             targetProperty: "job.job",
             groupBy: "job.result"
         }));
-        queriesTimeframe.push(chartJobResult.queries[0])
-        queriesInterval.push(chartJobResult.queries[0])
+        queriesTimeframe.push(chartJobResult.queries[0]);
+        queriesInterval.push(chartJobResult.queries[0]);
 
         // draw chart
         chartJobResult.chart = new Keen.Dataviz()
@@ -743,7 +743,7 @@ function initCharts() {
             groupBy: "job.build_matrix.summary",
             filters: chartJobResultMatrix.filters
         }));
-        queriesTimeframe.push(chartJobResultMatrix.queries[0])
+        queriesTimeframe.push(chartJobResultMatrix.queries[0]);
 
         // draw chart
         chartJobResultMatrix.chart = new Keen.Dataviz()
