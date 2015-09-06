@@ -399,18 +399,20 @@ function initCharts() {
         charts.push(metricTotalBuildJobsFailed);
 
         /* average build time of all stages */
+        var metricAverageBuildTime = new ChartClass();
+
         // create query
-        var queryAverageBuildTime = new Keen.Query("average", {
+        metricAverageBuildTime.query = new Keen.Query("average", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             targetProperty: "job.duration"
         });
-        queriesTimeframe.push(queryAverageBuildTime);
+        queriesTimeframe.push(metricAverageBuildTime.query);
 
         // draw chart
-        var chartAverageBuildTime = new Keen.Dataviz()
+        metricAverageBuildTime.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_average_build_time"))
             .title("Average job duration")
             .width(300)
@@ -421,18 +423,18 @@ function initCharts() {
             })
             .prepare();
 
-        var requestAverageBuildTime = client.run(queryAverageBuildTime, function(err, res) {
+        metricAverageBuildTime.request = client.run(metricAverageBuildTime.query, function(err, res) {
             if (err) {
                 // Display the API error
-                chartAverageBuildTime.error(err.message);
+                metricAverageBuildTime.chart.error(err.message);
             } else {
                 res.result = Math.round(res.result / 60);
-                chartAverageBuildTime
+                metricAverageBuildTime.chart
                     .parseRawData(res)
                     .render();
             }
         });
-        queryRequests.push(requestAverageBuildTime);
+        charts.push(metricAverageBuildTime);
 
         /* average stage duration */
         var chartStageDuration = new ChartClass();
