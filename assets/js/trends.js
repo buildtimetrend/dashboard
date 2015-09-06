@@ -765,37 +765,47 @@ function initCharts() {
         charts.push(chartJobResultMatrix);
 
         /* Average buildtime per time of day */
+        var chartAvgBuildtimeHour = new ChartClass();
+
+        chartAvgBuildtimeHour.filters = [
+            {
+                "property_name": "job.started_at.hour_24",
+                "operator": "exists",
+                "property_value": true
+            }
+        ];
+
         // create query
-        var queryAvgBuildtimeHourLastWeek = new Keen.Query("average", {
+        chartAvgBuildtimeHour.queries.push(new Keen.Query("average", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_WEEK,
             maxAge: keenMaxAge,
             targetProperty: "job.duration",
             groupBy: "job.started_at.hour_24",
-            filters: [{"property_name":"job.started_at.hour_24","operator":"exists","property_value":true}]
-        });
-        var queryAvgBuildtimeHourLastMonth = new Keen.Query("average", {
+            filters: chartAvgBuildtimeHour.filters
+        }));
+        chartAvgBuildtimeHour.queries.push(new Keen.Query("average", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_MONTH,
             maxAge: keenMaxAge,
             targetProperty: "job.duration",
             groupBy: "job.started_at.hour_24",
-            filters: [{"property_name":"job.started_at.hour_24","operator":"exists","property_value":true}]
-        });
-        var queryAvgBuildtimeHourLastYear = new Keen.Query("average", {
+            filters: chartAvgBuildtimeHour.filters
+        }));
+        chartAvgBuildtimeHour.queries.push(new Keen.Query("average", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_YEAR,
             maxAge: keenMaxAge,
             targetProperty: "job.duration",
             groupBy: "job.started_at.hour_24",
-            filters: [{"property_name":"job.started_at.hour_24","operator":"exists","property_value":true}]
-        });
+            filters: chartAvgBuildtimeHour.filters
+        }));
 
         // create chart
-        var chartAvgBuildtimeHour = new Keen.Dataviz()
+        chartAvgBuildtimeHour.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_avg_buildtime_hour"))
             .chartType("columnchart")
             .title("Average buildtime per time of day")
@@ -813,15 +823,13 @@ function initCharts() {
             .prepare();
 
         // generate chart
-        var requestAvgBuildtimeHour = client.run(
-                [queryAvgBuildtimeHourLastWeek,
-                    queryAvgBuildtimeHourLastMonth,
-                    queryAvgBuildtimeHourLastYear],
+        chartAvgBuildtimeHour.request = client.run(
+                chartAvgBuildtimeHour.queries,
                 function(err, res)
         {
             if (err) {
                 // Display the API error
-                chartAvgBuildtimeHour.error(err.message);
+                chartAvgBuildtimeHour.chart.error(err.message);
             } else {
                 var timeframeCaptions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
                 var indexCaptions = [];
@@ -839,63 +847,55 @@ function initCharts() {
                     timeframeCaptions
                 );
 
-                chartAvgBuildtimeHour
+                chartAvgBuildtimeHour.chart
                     .parseRawData({result : chartData})
                     .render();
             }
         });
-        queryRequests.push(requestAvgBuildtimeHour);
+        charts.push(chartAvgBuildtimeHour);
 
         /* Average buildtime per day of week */
+        var chartAvgBuildtimeWeekDay = new ChartClass();
+
+        chartAvgBuildtimeWeekDay.filters = [
+            {
+                "property_name": "job.started_at.day_of_week",
+                "operator": "exists",
+                "property_value": true
+            }
+        ];
+
         // create query
-        var queryAvgBuildtimeWeekDayLastWeek = new Keen.Query("average", {
+        chartAvgBuildtimeWeekDay.queries.push(new Keen.Query("average", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_WEEK,
             maxAge: keenMaxAge,
             targetProperty: "job.duration",
             groupBy: "job.started_at.day_of_week",
-            filters: [
-                {
-                    "property_name":"job.started_at.day_of_week",
-                    "operator":"exists",
-                    "property_value":true
-                }
-            ]
-        });
-        var queryAvgBuildtimeWeekDayLastMonth = new Keen.Query("average", {
+            filters: chartAvgBuildtimeWeekDay.filters
+        }));
+        chartAvgBuildtimeWeekDay.queries.push(new Keen.Query("average", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_MONTH,
             maxAge: keenMaxAge,
             targetProperty: "job.duration",
             groupBy: "job.started_at.day_of_week",
-            filters: [
-                {
-                    "property_name":"job.started_at.day_of_week",
-                    "operator":"exists",
-                    "property_value":true
-                }
-            ]
-        });
-        var queryAvgBuildtimeWeekDayLastYear = new Keen.Query("average", {
+            filters: chartAvgBuildtimeWeekDay.filters
+        }));
+        chartAvgBuildtimeWeekDay.queries.push(new Keen.Query("average", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_YEAR,
             maxAge: keenMaxAge,
             targetProperty: "job.duration",
             groupBy: "job.started_at.day_of_week",
-            filters: [
-                {
-                    "property_name":"job.started_at.day_of_week",
-                    "operator":"exists",
-                    "property_value":true
-                }
-            ]
-        });
+            filters: chartAvgBuildtimeWeekDay.filters
+        }));
 
         // create chart
-        var chartAvgBuildtimeWeekDay = new Keen.Dataviz()
+        chartAvgBuildtimeWeekDay.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_avg_buildtime_weekday"))
             .chartType("columnchart")
             .title("Average buildtime per day of week")
@@ -909,15 +909,13 @@ function initCharts() {
             .prepare();
 
         // generate chart
-        var requestAvgBuildtimeWeekDay = client.run(
-                [queryAvgBuildtimeWeekDayLastWeek,
-                    queryAvgBuildtimeWeekDayLastMonth,
-                    queryAvgBuildtimeWeekDayLastYear],
-                function(err, res)
+        chartAvgBuildtimeWeekDay.request = client.run(
+            chartAvgBuildtimeWeekDay.queries,
+            function(err, res)
         {
             if (err) {
                 // Display the API error
-                chartAvgBuildtimeWeekDay.error(err.message);
+                chartAvgBuildtimeWeekDay.chart.error(err.message);
             } else {
                 var timeframeCaptions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
                 var indexCaptions = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -929,12 +927,12 @@ function initCharts() {
                     timeframeCaptions
                 );
 
-                chartAvgBuildtimeWeekDay
+                chartAvgBuildtimeWeekDay.chart
                     .parseRawData({result : chartData})
                     .render();
             }
         });
-        queryRequests.push(requestAvgBuildtimeWeekDay);
+        charts.push(chartAvgBuildtimeWeekDay);
     });
 }
 
