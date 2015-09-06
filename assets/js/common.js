@@ -29,6 +29,13 @@ function isEmpty(varName) {
 }
 
 /**
+ * Assigns default value if argument is not defined.
+ */
+function defaultValue(arg, val) {
+    return typeof arg !== 'undefined' ? arg : val;
+}
+
+/**
  * Escape html characters
  * inspired by http://css-tricks.com/snippets/javascript/htmlentities-for-javascript/
  */
