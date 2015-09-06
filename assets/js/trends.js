@@ -237,6 +237,9 @@ function initCharts() {
 
     // visualization code goes here
     Keen.ready(function() {
+        // initialise filter option buttons
+        createFilterOptions();
+
         /* Total builds */
         // create query
         var queryTotalBuilds = new Keen.Query("count", {
@@ -529,9 +532,6 @@ function initCharts() {
         charts.push(chartStageDurationBuild);
 
         /* Total build job duration grouped by build job ID */
-        // initialize options buttons
-        createFilterOptions();
-
         var chartStageDurationBuildJob = new ChartClass();
 
         // create query
