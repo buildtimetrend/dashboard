@@ -275,18 +275,28 @@ function initCharts() {
         charts.push(metricTotalBuildJobs);
 
         /* Total builds passed */
+        var metricTotalBuildJobsPassed = new ChartClass();
+
+        metricTotalBuildJobsPassed.filters = [
+            {
+                "property_name": "job.result",
+                "operator": "eq",
+                "property_value":"passed"
+            }
+        ];
+
         // create query
-        var queryTotalBuildsPassed = new Keen.Query("count", {
+        metricTotalBuildJobsPassed.query = new Keen.Query("count", {
             eventCollection: "build_jobs",
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
-            filters: [{"property_name":"job.result","operator":"eq","property_value":"passed"}]
+            filters: metricTotalBuildJobsPassed.filters
         });
-        queriesTimeframe.push(queryTotalBuildsPassed);
+        queriesTimeframe.push(metricTotalBuildJobsPassed.query);
 
         // create chart
-        var chartTotalBuildsPassed = new Keen.Dataviz()
+        metricTotalBuildJobsPassed.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds_passed"))
             .title("Build jobs passed")
             .attributes({
@@ -296,10 +306,12 @@ function initCharts() {
             .prepare();
 
         // combine queries for conditional coloring of TotalBuildspassed
-        var colorBuildsPassed = client.run([metricTotalBuildJobs.query, queryTotalBuildsPassed], function(err, res){
+        metricTotalBuildJobsPassed.request = client.run(
+            [metricTotalBuildJobs.query, metricTotalBuildJobsPassed.query],
+            function(err, res) {
             if (err) {
                 // Display the API error
-                chartTotalBuildsPassed.error(err.message);
+                metricTotalBuildJobsPassed.chart.error(err.message);
             } else {
                 var chartColor = [GREEN];
                 var totalBuilds = res[0].result;
@@ -316,13 +328,13 @@ function initCharts() {
                 }
 
                 // draw chart
-                chartTotalBuildsPassed
+                metricTotalBuildJobsPassed.chart
                     .parseRawData({result: totalBuildsPassed})
                     .colors(chartColor)
                     .render();
             }
         });
-        queryRequests.push(colorBuildsPassed);
+        charts.push(metricTotalBuildJobsPassed);
 
         /* Total builds failed */
         // create query
