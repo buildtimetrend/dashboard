@@ -122,6 +122,9 @@ function populateFilterOptions(filterParams) {
     // get Update Period settings
     var updatePeriod = getUpdatePeriod();
 
+    var currentVal = $('#' + filterParams.selectId).val();
+    var valFound = false;
+
     // empty options and add placeholder
     $('#' + filterParams.selectId)
         .empty()
@@ -140,12 +143,23 @@ function populateFilterOptions(filterParams) {
     client.run(querySelectUnique, function(err, response) {
         if (!err) {
             $.each(response.result, function (i, item) {
+                if (!valFound && !isEmpty(currentVal) && currentVal == item) {
+                    valFound = true;
+                }
+
                 if (item !== null) {
                     $('#' + filterParams.selectId).append($('<option>', {
                         text : item
                     }));
                 }
             });
+
+            // set to currently selected value
+            if (valFound) {
+                $('#' + filterParams.selectId).val(currentVal);
+            } else if (! isEmpty(currentVal)) {
+                console.log(filterParams.selectId + " : " + currentVal + " doesn't exist!");
+            }
         }
     });
 }
