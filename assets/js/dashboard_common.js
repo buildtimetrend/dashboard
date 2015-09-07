@@ -164,7 +164,8 @@ function populateFilterOptions(filterParams) {
             if (valFound) {
                 $('#' + filterParams.selectId).val(currentVal);
             } else if (! isEmpty(currentVal)) {
-                console.log(filterParams.selectId + " : " + currentVal + " doesn't exist!");
+                // trigger change event to reset nonexistent value
+                $('#' + filterParams.selectId).trigger("change");
             }
         }
     });
