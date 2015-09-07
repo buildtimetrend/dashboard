@@ -111,9 +111,14 @@ function createFilterOptions() {
 }
 
 function initFilterOptions(filterParams) {
-    $('#' + filterParams.selectId).change(function() {
-        updateFilter(filterParams.queryField, this.value);
-    });
+    $('#' + filterParams.selectId)
+        .change(function() {
+            updateFilter(filterParams.queryField, this.value);
+        })
+        .append($('<option>', {
+            value : '',
+            text : filterParams.caption
+        }));
 
     populateFilterOptions(filterParams);
 }
@@ -125,14 +130,6 @@ function populateFilterOptions(filterParams) {
     var currentVal = $('#' + filterParams.selectId).val();
     var valFound = false;
 
-    // empty options and add placeholder
-    $('#' + filterParams.selectId)
-        .empty()
-        .append($('<option>', {
-            value : '',
-            text : filterParams.caption
-        }));
-
     var querySelectUnique = new Keen.Query("select_unique", {
         eventCollection: filterParams.keenEventCollection,
         targetProperty: filterParams.queryField,
@@ -141,7 +138,16 @@ function populateFilterOptions(filterParams) {
 
     // Send query
     client.run(querySelectUnique, function(err, response) {
+        // empty options and add placeholder
+        $('#' + filterParams.selectId)
+            .empty()
+            .append($('<option>', {
+                value : '',
+                text : filterParams.caption
+            }));
+
         if (!err) {
+            // loop over the possible options
             $.each(response.result, function (i, item) {
                 if (!valFound && !isEmpty(currentVal) && currentVal == item) {
                     valFound = true;
