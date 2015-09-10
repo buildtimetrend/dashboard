@@ -155,6 +155,7 @@ function initCharts() {
         // draw chart
         chartStagesPerProject.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_stages_per_project"))
+            .title("Substages per project")
             .chartType("columnchart")
             .height(400)
             .attributes({
@@ -171,7 +172,6 @@ function initCharts() {
             } else {
                 chartStagesPerProject.chart
                     .parseRequest(this)
-                    .title("Substages per project")
                     .render();
             }
         });
@@ -193,6 +193,7 @@ function initCharts() {
         // draw chart
         chartStagesPerProjectPie.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_stages_per_project_pie"))
+            .title("Substages per project")
             .height(400)
             .prepare();
 
@@ -203,7 +204,6 @@ function initCharts() {
             } else {
                 chartStagesPerProjectPie.chart
                     .parseRequest(this)
-                    .title("Substages per project")
                     .render();
             }
         });
