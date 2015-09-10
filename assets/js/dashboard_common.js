@@ -92,7 +92,7 @@ function updateFilter(parameter, value) {
     });
 
     // update Filters for all related charts
-    $.each(charts, function () {
+    $.each(chartsUpdate, function () {
         this.updateFilters(filterList);
     });
 }
@@ -111,9 +111,14 @@ function createFilterOptions() {
 }
 
 function initFilterOptions(filterParams) {
-    $('#' + filterParams.selectId).change(function() {
-        updateFilter(filterParams.queryField, this.value);
-    });
+    $('#' + filterParams.selectId)
+        .change(function() {
+            updateFilter(filterParams.queryField, this.value);
+        })
+        .append($('<option>', {
+            value : '',
+            text : filterParams.caption
+        }));
 
     populateFilterOptions(filterParams);
 }
@@ -122,13 +127,8 @@ function populateFilterOptions(filterParams) {
     // get Update Period settings
     var updatePeriod = getUpdatePeriod();
 
-    // empty options and add placeholder
-    $('#' + filterParams.selectId)
-        .empty()
-        .append($('<option>', {
-            value : '',
-            text : filterParams.caption
-        }));
+    var currentVal = $('#' + filterParams.selectId).val();
+    var valFound = false;
 
     var querySelectUnique = new Keen.Query("select_unique", {
         eventCollection: filterParams.keenEventCollection,
@@ -138,14 +138,35 @@ function populateFilterOptions(filterParams) {
 
     // Send query
     client.run(querySelectUnique, function(err, response) {
+        // empty options and add placeholder
+        $('#' + filterParams.selectId)
+            .empty()
+            .append($('<option>', {
+                value : '',
+                text : filterParams.caption
+            }));
+
         if (!err) {
+            // loop over the possible options
             $.each(response.result, function (i, item) {
+                if (!valFound && !isEmpty(currentVal) && currentVal == item) {
+                    valFound = true;
+                }
+
                 if (item !== null) {
                     $('#' + filterParams.selectId).append($('<option>', {
                         text : item
                     }));
                 }
             });
+
+            // set to currently selected value
+            if (valFound) {
+                $('#' + filterParams.selectId).val(currentVal);
+            } else if (! isEmpty(currentVal)) {
+                // trigger change event to reset nonexistent value
+                $('#' + filterParams.selectId).trigger("change");
+            }
         }
     });
 }
@@ -153,8 +174,7 @@ function populateFilterOptions(filterParams) {
 // arrays with queries and query request to update
 var queriesInterval = [];
 var queriesTimeframe = [];
-var charts = [];
-var queryRequests = [];
+var chartsUpdate = [];
 
 function getUpdatePeriod() {
     return timeframeButtons.getCurrentButton();
@@ -180,10 +200,7 @@ function updateCharts() {
     });
 
     // refresh all updated query requests
-    $.each(queryRequests, function () {
-        this.refresh();
-    });
-    $.each(charts, function () {
+    $.each(chartsUpdate, function () {
         this.request.refresh();
     });
 

@@ -200,7 +200,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(metricTotalBuildJobs);
+        chartsUpdate.push(metricTotalBuildJobs);
 
         /* Total builds passed */
         var metricTotalBuildJobsPassed = new ChartClass();
@@ -262,7 +262,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(metricTotalBuildJobsPassed);
+        chartsUpdate.push(metricTotalBuildJobsPassed);
 
         /* Total builds failed */
         var metricTotalBuildJobsFailed = new ChartClass();
@@ -324,7 +324,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(metricTotalBuildJobsFailed);
+        chartsUpdate.push(metricTotalBuildJobsFailed);
 
         /* average build time of all stages */
         var metricAverageBuildTime = new ChartClass();
@@ -362,7 +362,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(metricAverageBuildTime);
+        chartsUpdate.push(metricAverageBuildTime);
 
         /* average stage duration */
         var chartStageDuration = new ChartClass();
@@ -408,7 +408,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(chartStageDuration);
+        chartsUpdate.push(chartStageDuration);
 
         /* Stage duration fraction */
         var chartStageFraction = new ChartClass();
@@ -444,7 +444,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(chartStageFraction);
+        chartsUpdate.push(chartStageFraction);
 
         /* Total build duration grouped by build ID */
         var chartStageDurationBuild = new ChartClass();
@@ -485,7 +485,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(chartStageDurationBuild);
+        chartsUpdate.push(chartStageDurationBuild);
 
         /* Total build job duration grouped by build job ID */
         var chartStageDurationBuildJob = new ChartClass();
@@ -526,7 +526,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(chartStageDurationBuildJob);
+        chartsUpdate.push(chartStageDurationBuildJob);
 
         /* Builds per branch */
         var chartBuildsPerBranch = new ChartClass();
@@ -568,7 +568,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(chartBuildsPerBranch);
+        chartsUpdate.push(chartBuildsPerBranch);
 
         /* Builds per branch */
         var chartTotalBuildsBranch = new ChartClass();
@@ -601,7 +601,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(chartTotalBuildsBranch);
+        chartsUpdate.push(chartTotalBuildsBranch);
 
         /* Build job result */
         var chartJobResult = new ChartClass();
@@ -648,7 +648,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(chartJobResult);
+        chartsUpdate.push(chartJobResult);
 
         /* Build job result per branch */
         var chartJobResultMatrix = new ChartClass();
@@ -690,7 +690,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(chartJobResultMatrix);
+        chartsUpdate.push(chartJobResultMatrix);
 
         /* Average buildtime per time of day */
         var chartAvgBuildtimeHour = new ChartClass();
@@ -780,7 +780,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(chartAvgBuildtimeHour);
+        chartsUpdate.push(chartAvgBuildtimeHour);
 
         /* Average buildtime per day of week */
         var chartAvgBuildtimeWeekDay = new ChartClass();
@@ -860,7 +860,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(chartAvgBuildtimeWeekDay);
+        chartsUpdate.push(chartAvgBuildtimeWeekDay);
     });
 }
 
