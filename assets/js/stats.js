@@ -44,7 +44,6 @@ var countButtons = new ButtonClass(
 );
 countButtons.onClick = function() { updateCountCharts(); };
 
-var queryBuildsPerProject, queryBuildsPerProjectPie, requestBuildsPerProject, requestBuildsPerProjectPie;
 var chartBuildsPerProject, chartBuildsPerProjectPie;
 
 function initCharts() {
@@ -65,8 +64,10 @@ function initCharts() {
     // visualization code goes here
     Keen.ready(function() {
         /* Builds per project */
+        chartBuildsPerProject = new ChartClass();
+
         // create query
-        queryBuildsPerProject = new Keen.Query("count_unique", {
+        chartBuildsPerProject.queries.push(new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
             targetProperty: "job.build",
             groupBy: "buildtime_trend.project_name",
@@ -74,12 +75,12 @@ function initCharts() {
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
-        });
-        queriesTimeframe.push(queryBuildsPerProject);
-        queriesInterval.push(queryBuildsPerProject);
+        }));
+        queriesTimeframe.push(chartBuildsPerProject.queries[0]);
+        queriesInterval.push(chartBuildsPerProject.queries[0]);
 
         // draw chart
-        chartBuildsPerProject = new Keen.Dataviz()
+        chartBuildsPerProject.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_builds_per_project"))
             .title("Builds per project")
             .chartType("columnchart")
@@ -91,64 +92,68 @@ function initCharts() {
             })
            .prepare();
 
-        requestBuildsPerProject = client.run(queryBuildsPerProject, function(err, res) {
+        chartBuildsPerProject.request = client.run(chartBuildsPerProject.queries, function(err, res) {
             if (err) {
                 // Display the API error
-                chartBuildsPerProject.error(err.message);
+                chartBuildsPerProject.chart.error(err.message);
             } else {
-                chartBuildsPerProject
+                chartBuildsPerProject.chart
                     .parseRequest(this)
                     .render();
             }
         });
-        queryRequests.push(requestBuildsPerProject);
+        charts.push(chartBuildsPerProject);
 
-        /* Builds per project (piechart)*/
+        /* Builds per project (piechart) */
+        chartBuildsPerProjectPie = new ChartClass();
+
         // create query
-        queryBuildsPerProjectPie = new Keen.Query("count_unique", {
+        chartBuildsPerProjectPie.queries.push(new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
             targetProperty: "job.build",
             groupBy: "buildtime_trend.project_name",
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
-        });
-        queriesTimeframe.push(queryBuildsPerProjectPie);
+        }));
+        queriesTimeframe.push(chartBuildsPerProjectPie.queries[0]);
 
         // draw chart
-        chartBuildsPerProjectPie = new Keen.Dataviz()
+        chartBuildsPerProjectPie.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_builds_per_project_pie"))
             .title("Builds per project")
             .height(400)
             .prepare();
 
-        requestBuildsPerProjectPie = client.run(queryBuildsPerProjectPie, function(err, res) {
+        chartBuildsPerProjectPie.request = client.run(chartBuildsPerProjectPie.queries, function(err, res) {
             if (err) {
                 // Display the API error
-                chartBuildsPerProjectPie.error(err.message);
+                chartBuildsPerProjectPie.chart.error(err.message);
             } else {
-                chartBuildsPerProjectPie
+                chartBuildsPerProjectPie.chart
                     .parseRequest(this)
                     .render();
             }
         });
-        queryRequests.push(requestBuildsPerProjectPie);
+        charts.push(chartBuildsPerProjectPie);
 
         /* Substages per project */
+        var chartStagesPerProject = new ChartClass();
+
         // create query
-        queryStagesPerProject = new Keen.Query("count", {
+        chartStagesPerProject.queries.push(new Keen.Query("count", {
             eventCollection: "build_substages",
             groupBy: "buildtime_trend.project_name",
             interval: keenInterval,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
-        });
-        queriesTimeframe.push(queryStagesPerProject);
-        queriesInterval.push(queryStagesPerProject);
+        }));
+        queriesTimeframe.push(chartStagesPerProject.queries[0]);
+        queriesInterval.push(chartStagesPerProject.queries[0]);
 
         // draw chart
-        var chartStagesPerProject = new Keen.Dataviz()
+        chartStagesPerProject.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_stages_per_project"))
             .chartType("columnchart")
             .height(400)
@@ -159,49 +164,50 @@ function initCharts() {
             })
            .prepare();
 
-        requestStagesPerProject = client.run(queryStagesPerProject, function(err, res) {
+        chartStagesPerProject.request = client.run(chartStagesPerProject.queries, function(err, res) {
             if (err) {
                 // Display the API error
-                chartStagesPerProject.error(err.message);
+                chartStagesPerProject.charterror(err.message);
             } else {
-                chartStagesPerProject
+                chartStagesPerProject.chart
                     .parseRequest(this)
                     .title("Substages per project")
                     .render();
             }
         });
-        queryRequests.push(requestStagesPerProject);
+        charts.push(chartStagesPerProject);
 
         /* Substages per project (piechart)*/
+        var chartStagesPerProjectPie = new ChartClass();
+
         // create query
-        queryStagesPerProjectPie = new Keen.Query("count", {
+        chartStagesPerProjectPie.queries.push(new Keen.Query("count", {
             eventCollection: "build_substages",
             groupBy: "buildtime_trend.project_name",
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
-        });
-        queriesTimeframe.push(queryStagesPerProjectPie);
+        }));
+        queriesTimeframe.push(chartStagesPerProjectPie.queries[0]);
 
         // draw chart
-        var chartStagesPerProjectPie = new Keen.Dataviz()
+        chartStagesPerProjectPie.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_stages_per_project_pie"))
             .height(400)
             .prepare();
 
-        requestStagesPerProjectPie = client.run(queryStagesPerProjectPie, function(err, res) {
+        chartStagesPerProjectPie.request = client.run(chartStagesPerProjectPie.queries, function(err, res) {
             if (err) {
                 // Display the API error
-                chartStagesPerProjectPie.error(err.message);
+                chartStagesPerProjectPie.chart.error(err.message);
             } else {
-                chartStagesPerProjectPie
+                chartStagesPerProjectPie.chart
                     .parseRequest(this)
                     .title("Substages per project")
                     .render();
             }
         });
-        queryRequests.push(requestStagesPerProjectPie);
-
+        charts.push(chartStagesPerProjectPie);
     });
 }
 
@@ -213,21 +219,21 @@ function updateCountCharts() {
   var countSettings = countButtons.getCurrentButton();
 
   // update queries
-  queryBuildsPerProject.set({
+  chartBuildsPerProject.queries[0].set({
     eventCollection: countSettings.keenEventCollection,
     targetProperty: countSettings.keenTargetProperty
   });
-  queryBuildsPerProjectPie.set({
+  chartBuildsPerProjectPie.queries[0].set({
     eventCollection: countSettings.keenEventCollection,
     targetProperty: countSettings.keenTargetProperty
   });
 
-  chartBuildsPerProject.title(countSettings.caption + " per project");
-  chartBuildsPerProjectPie.title(countSettings.caption + " per project");
+  chartBuildsPerProject.chart.title(countSettings.caption + " per project");
+  chartBuildsPerProjectPie.chart.title(countSettings.caption + " per project");
 
   // refresh all query requests
-  requestBuildsPerProject.refresh();
-  requestBuildsPerProjectPie.refresh();
+  chartBuildsPerProject.request.refresh();
+  chartBuildsPerProjectPie.request.refresh();
 }
 
 // initialize page
