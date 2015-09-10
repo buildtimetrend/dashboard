@@ -92,7 +92,7 @@ function updateFilter(parameter, value) {
     });
 
     // update Filters for all related charts
-    $.each(charts, function () {
+    $.each(chartsUpdate, function () {
         this.updateFilters(filterList);
     });
 }
@@ -174,7 +174,7 @@ function populateFilterOptions(filterParams) {
 // arrays with queries and query request to update
 var queriesInterval = [];
 var queriesTimeframe = [];
-var charts = [];
+var chartsUpdate = [];
 
 function getUpdatePeriod() {
     return timeframeButtons.getCurrentButton();
@@ -200,7 +200,7 @@ function updateCharts() {
     });
 
     // refresh all updated query requests
-    $.each(charts, function () {
+    $.each(chartsUpdate, function () {
         this.request.refresh();
     });
 

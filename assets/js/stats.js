@@ -102,7 +102,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(chartBuildsPerProject);
+        chartsUpdate.push(chartBuildsPerProject);
 
         /* Builds per project (piechart) */
         chartBuildsPerProjectPie = new ChartClass();
@@ -135,7 +135,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(chartBuildsPerProjectPie);
+        chartsUpdate.push(chartBuildsPerProjectPie);
 
         /* Substages per project */
         var chartStagesPerProject = new ChartClass();
@@ -175,7 +175,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(chartStagesPerProject);
+        chartsUpdate.push(chartStagesPerProject);
 
         /* Substages per project (piechart)*/
         var chartStagesPerProjectPie = new ChartClass();
@@ -207,7 +207,7 @@ function initCharts() {
                     .render();
             }
         });
-        charts.push(chartStagesPerProjectPie);
+        chartsUpdate.push(chartStagesPerProjectPie);
     });
 }
 
