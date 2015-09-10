@@ -175,7 +175,6 @@ function populateFilterOptions(filterParams) {
 var queriesInterval = [];
 var queriesTimeframe = [];
 var charts = [];
-var queryRequests = [];
 
 function getUpdatePeriod() {
     return timeframeButtons.getCurrentButton();
@@ -201,9 +200,6 @@ function updateCharts() {
     });
 
     // refresh all updated query requests
-    $.each(queryRequests, function () {
-        this.refresh();
-    });
     $.each(charts, function () {
         this.request.refresh();
     });
