@@ -69,7 +69,7 @@ var timeframeButtons = new ButtonClass(
 timeframeButtons.onClick = function() { updateCharts(); };
 
 // arrays with queries and query request to update
-var queriesInterval = [];
+var chartsInterval = [];
 var queriesTimeframe = [];
 var chartsUpdate = [];
 
@@ -189,8 +189,10 @@ function updateCharts() {
     var updatePeriod = getUpdatePeriod();
 
     // update all interval based queries
-    $.each(queriesInterval, function () {
-        this.set({interval: updatePeriod.keenInterval});
+    $.each(chartsInterval, function () {
+        $.each(this.queries, function () {
+            this.set({interval: updatePeriod.keenInterval});
+        });
     });
 
     // update all timeframe based queries

@@ -77,7 +77,7 @@ function initCharts() {
             timezone: TIMEZONE_SECS
         }));
         queriesTimeframe.push(chartBuildsPerProject.queries[0]);
-        queriesInterval.push(chartBuildsPerProject.queries[0]);
+        chartsInterval.push(chartBuildsPerProject);
 
         // draw chart
         chartBuildsPerProject.chart = new Keen.Dataviz()
@@ -150,7 +150,7 @@ function initCharts() {
             timezone: TIMEZONE_SECS
         }));
         queriesTimeframe.push(chartStagesPerProject.queries[0]);
-        queriesInterval.push(chartStagesPerProject.queries[0]);
+        chartsInterval.push(chartStagesPerProject);
 
         // draw chart
         chartStagesPerProject.chart = new Keen.Dataviz()

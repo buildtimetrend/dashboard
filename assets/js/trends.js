@@ -381,7 +381,7 @@ function initCharts() {
             filters: chartStageDuration.filters
         }));
         queriesTimeframe.push(chartStageDuration.queries[0]);
-        queriesInterval.push(chartStageDuration.queries[0]);
+        chartsInterval.push(chartStageDuration);
 
 
         // draw chart
@@ -542,7 +542,7 @@ function initCharts() {
             groupBy: "job.branch"
         }));
         queriesTimeframe.push(chartBuildsPerBranch.queries[0]);
-        queriesInterval.push(chartBuildsPerBranch.queries[0]);
+        chartsInterval.push(chartBuildsPerBranch);
 
         // draw chart
         chartBuildsPerBranch.chart = new Keen.Dataviz()
@@ -617,7 +617,7 @@ function initCharts() {
             groupBy: "job.result"
         }));
         queriesTimeframe.push(chartJobResult.queries[0]);
-        queriesInterval.push(chartJobResult.queries[0]);
+        chartsInterval.push(chartJobResult);
 
         // draw chart
         chartJobResult.chart = new Keen.Dataviz()
