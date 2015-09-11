@@ -68,6 +68,12 @@ var timeframeButtons = new ButtonClass(
 );
 timeframeButtons.onClick = function() { updateCharts(); };
 
+// arrays with queries and query request to update
+var queriesInterval = [];
+var queriesTimeframe = [];
+var chartsUpdate = [];
+
+// filter options definition
 var filterOptions = [];
 /* example, implemented in trends.js
 var filterOptions = [
@@ -170,11 +176,6 @@ function populateFilterOptions(filterParams) {
         }
     });
 }
-
-// arrays with queries and query request to update
-var queriesInterval = [];
-var queriesTimeframe = [];
-var chartsUpdate = [];
 
 function getUpdatePeriod() {
     return timeframeButtons.getCurrentButton();
