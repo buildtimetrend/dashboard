@@ -70,7 +70,7 @@ timeframeButtons.onClick = function() { updateCharts(); };
 
 // arrays with queries and query request to update
 var chartsInterval = [];
-var queriesTimeframe = [];
+var chartsTimeframe = [];
 var chartsUpdate = [];
 
 // filter options definition
@@ -196,10 +196,12 @@ function updateCharts() {
     });
 
     // update all timeframe based queries
-    $.each(queriesTimeframe, function () {
-        this.set({
-            timeframe: updatePeriod.keenTimeframe,
-            maxAge: updatePeriod.keenMaxAge});
+    $.each(chartsTimeframe, function () {
+        $.each(this.queries, function () {
+            this.set({
+                timeframe: updatePeriod.keenTimeframe,
+                maxAge: updatePeriod.keenMaxAge});
+        });
     });
 
     // refresh all updated query requests

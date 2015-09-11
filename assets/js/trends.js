@@ -178,7 +178,7 @@ function initCharts() {
             timeframe: keenTimeframe,
             maxAge: keenMaxAge
         }));
-        queriesTimeframe.push(metricTotalBuildJobs.queries[0]);
+        chartsTimeframe.push(metricTotalBuildJobs);
 
         // draw chart
         metricTotalBuildJobs.chart = new Keen.Dataviz()
@@ -221,7 +221,7 @@ function initCharts() {
             maxAge: keenMaxAge,
             filters: metricTotalBuildJobsPassed.filters
         }));
-        queriesTimeframe.push(metricTotalBuildJobsPassed.queries[0]);
+        chartsTimeframe.push(metricTotalBuildJobsPassed);
 
         // create chart
         metricTotalBuildJobsPassed.chart = new Keen.Dataviz()
@@ -283,7 +283,7 @@ function initCharts() {
             maxAge: keenMaxAge,
             filters: metricTotalBuildJobsFailed.filters
         }));
-        queriesTimeframe.push(metricTotalBuildJobsFailed.queries[0]);
+        chartsTimeframe.push(metricTotalBuildJobsFailed);
 
         // create chart
         metricTotalBuildJobsFailed.chart = new Keen.Dataviz()
@@ -337,7 +337,7 @@ function initCharts() {
             maxAge: keenMaxAge,
             targetProperty: "job.duration"
         }));
-        queriesTimeframe.push(metricAverageBuildTime.queries[0]);
+        chartsTimeframe.push(metricAverageBuildTime);
 
         // draw chart
         metricAverageBuildTime.chart = new Keen.Dataviz()
@@ -380,7 +380,7 @@ function initCharts() {
             groupBy: "stage.name",
             filters: chartStageDuration.filters
         }));
-        queriesTimeframe.push(chartStageDuration.queries[0]);
+        chartsTimeframe.push(chartStageDuration);
         chartsInterval.push(chartStageDuration);
 
 
@@ -425,7 +425,7 @@ function initCharts() {
             groupBy: "stage.name",
             filters: chartStageDuration.filters
         }));
-        queriesTimeframe.push(chartStageFraction.queries[0]);
+        chartsTimeframe.push(chartStageFraction);
 
         // draw chart
         chartStageFraction.chart = new Keen.Dataviz()
@@ -458,7 +458,7 @@ function initCharts() {
             targetProperty: "job.duration",
             groupBy: "job.build"
         }));
-        queriesTimeframe.push(chartStageDurationBuild.queries[0]);
+        chartsTimeframe.push(chartStageDurationBuild);
 
         // draw chart
         chartStageDurationBuild.chart = new Keen.Dataviz()
@@ -499,7 +499,7 @@ function initCharts() {
             targetProperty: "job.duration",
             groupBy: "job.job"
         }));
-        queriesTimeframe.push(chartStageDurationBuildJob.queries[0]);
+        chartsTimeframe.push(chartStageDurationBuildJob);
 
         // draw chart
         chartStageDurationBuildJob.chart = new Keen.Dataviz()
@@ -541,7 +541,7 @@ function initCharts() {
             targetProperty: "job.build",
             groupBy: "job.branch"
         }));
-        queriesTimeframe.push(chartBuildsPerBranch.queries[0]);
+        chartsTimeframe.push(chartBuildsPerBranch);
         chartsInterval.push(chartBuildsPerBranch);
 
         // draw chart
@@ -582,7 +582,7 @@ function initCharts() {
             targetProperty: "job.build",
             groupBy: "job.branch"
         }));
-        queriesTimeframe.push(chartTotalBuildsBranch.queries[0]);
+        chartsTimeframe.push(chartTotalBuildsBranch);
 
         // draw chart
         chartTotalBuildsBranch.chart = new Keen.Dataviz()
@@ -616,7 +616,7 @@ function initCharts() {
             targetProperty: "job.job",
             groupBy: "job.result"
         }));
-        queriesTimeframe.push(chartJobResult.queries[0]);
+        chartsTimeframe.push(chartJobResult);
         chartsInterval.push(chartJobResult);
 
         // draw chart
@@ -671,7 +671,7 @@ function initCharts() {
             groupBy: "job.build_matrix.summary",
             filters: chartJobResultMatrix.filters
         }));
-        queriesTimeframe.push(chartJobResultMatrix.queries[0]);
+        chartsTimeframe.push(chartJobResultMatrix);
 
         // draw chart
         chartJobResultMatrix.chart = new Keen.Dataviz()

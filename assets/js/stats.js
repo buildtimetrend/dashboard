@@ -76,7 +76,7 @@ function initCharts() {
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
         }));
-        queriesTimeframe.push(chartBuildsPerProject.queries[0]);
+        chartsTimeframe.push(chartBuildsPerProject);
         chartsInterval.push(chartBuildsPerProject);
 
         // draw chart
@@ -116,7 +116,7 @@ function initCharts() {
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
         }));
-        queriesTimeframe.push(chartBuildsPerProjectPie.queries[0]);
+        chartsTimeframe.push(chartBuildsPerProjectPie);
 
         // draw chart
         chartBuildsPerProjectPie.chart = new Keen.Dataviz()
@@ -149,7 +149,7 @@ function initCharts() {
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
         }));
-        queriesTimeframe.push(chartStagesPerProject.queries[0]);
+        chartsTimeframe.push(chartStagesPerProject);
         chartsInterval.push(chartStagesPerProject);
 
         // draw chart
@@ -188,7 +188,7 @@ function initCharts() {
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
         }));
-        queriesTimeframe.push(chartStagesPerProjectPie.queries[0]);
+        chartsTimeframe.push(chartStagesPerProjectPie);
 
         // draw chart
         chartStagesPerProjectPie.chart = new Keen.Dataviz()
