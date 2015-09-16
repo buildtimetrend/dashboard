@@ -167,6 +167,37 @@ function initCharts() {
         });
         chartsUpdate.push(metricTotalBuildJobs);
 
+        /* Total sub stages */
+        var metricTotalSubStages = new ChartClass();
+
+        // create query
+        metricTotalSubStages.queries.push(new Keen.Query("count", {
+            eventCollection: "build_substages",
+            timezone: TIMEZONE_SECS,
+            timeframe: keenTimeframe,
+            maxAge: keenMaxAge
+        }));
+        chartsTimeframe.push(metricTotalSubStages);
+
+        // draw chart
+        metricTotalSubStages.chart = new Keen.Dataviz()
+            .el(document.getElementById("metric_total_substages"))
+            .title("Total substages")
+            .width(200)
+            .prepare();
+
+        metricTotalSubStages.request = client.run(metricTotalSubStages.queries, function(err, res){
+            if (err) {
+                // Display the API error
+                metricTotalSubStages.chart.error(err.message);
+            } else {
+                metricTotalSubStages.chart
+                    .parseRequest(this)
+                    .render();
+            }
+        });
+        chartsUpdate.push(metricTotalSubStages);
+
         /* Builds per project */
         chartBuildsPerProject = new ChartClass();
 
