@@ -63,6 +63,40 @@ function initCharts() {
 
     // visualization code goes here
     Keen.ready(function() {
+        /* Total build jobs */
+        var metricTotalBuildJobs = new ChartClass();
+
+        // create query
+        metricTotalBuildJobs.queries.push(new Keen.Query("count", {
+            eventCollection: "build_jobs",
+            timezone: TIMEZONE_SECS,
+            timeframe: keenTimeframe,
+            maxAge: keenMaxAge
+        }));
+        chartsTimeframe.push(metricTotalBuildJobs);
+
+        // draw chart
+        metricTotalBuildJobs.chart = new Keen.Dataviz()
+            .el(document.getElementById("metric_total_builds"))
+            .title("Total build jobs")
+            .width(200)
+            .attributes({
+                chartOptions: {prettyNumber: false}
+            })
+            .prepare();
+
+        metricTotalBuildJobs.request = client.run(metricTotalBuildJobs.queries, function(err, res){
+            if (err) {
+                // Display the API error
+                metricTotalBuildJobs.chart.error(err.message);
+            } else {
+                metricTotalBuildJobs.chart
+                    .parseRequest(this)
+                    .render();
+            }
+        });
+        chartsUpdate.push(metricTotalBuildJobs);
+
         /* Builds per project */
         chartBuildsPerProject = new ChartClass();
 
