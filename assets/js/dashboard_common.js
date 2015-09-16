@@ -155,7 +155,7 @@ function populateFilterOptions(filterParams) {
         if (!err) {
             // loop over the possible options
             $.each(response.result, function (i, item) {
-                if (!valFound && !isEmpty(currentVal) && currentVal == item) {
+                if (!valFound && !isEmpty(currentVal) && currentVal === item) {
                     valFound = true;
                 }
 
