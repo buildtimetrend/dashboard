@@ -63,6 +63,41 @@ function initCharts() {
 
     // visualization code goes here
     Keen.ready(function() {
+        /* Total unique repos */
+        var metricTotalRepos = new ChartClass();
+
+        // create query
+        metricTotalRepos.queries.push(new Keen.Query("count_unique", {
+            eventCollection: "build_jobs",
+            targetProperty: "job.repo",
+            timezone: TIMEZONE_SECS,
+            timeframe: keenTimeframe,
+            maxAge: keenMaxAge
+        }));
+        chartsTimeframe.push(metricTotalRepos);
+
+        // draw chart
+        metricTotalRepos.chart = new Keen.Dataviz()
+            .el(document.getElementById("metric_unique_repos"))
+            .title("Unique repos")
+            .width(200)
+            .attributes({
+                chartOptions: {prettyNumber: false}
+            })
+            .prepare();
+
+        metricTotalRepos.request = client.run(metricTotalRepos.queries, function(err, res){
+            if (err) {
+                // Display the API error
+                metricTotalRepos.chart.error(err.message);
+            } else {
+                metricTotalRepos.chart
+                    .parseRequest(this)
+                    .render();
+            }
+        });
+        chartsUpdate.push(metricTotalRepos);
+
         /* Total builds */
         var metricTotalBuilds = new ChartClass();
 
