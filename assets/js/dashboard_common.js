@@ -36,6 +36,8 @@ var TIMEZONE_SECS = "UTC"; // named timezone or offset in seconds, fe. GMT+1 = 3
 var GREEN = '#73d483';
 var RED = '#fe6672';
 var YELLOW = '#eeb058';
+var BLUE = '#5a9eed';
+var LAVENDER = '#c879bb';
 
 // Timeframe button constants
 var BUTTON_TIMEFRAME_PREFIX = "timeframe_";

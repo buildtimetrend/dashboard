@@ -81,6 +81,7 @@ function initCharts() {
             .el(document.getElementById("metric_unique_repos"))
             .title("Unique repos")
             .width(200)
+            .colors([BLUE])
             .attributes({
                 chartOptions: {prettyNumber: false}
             })
@@ -206,6 +207,7 @@ function initCharts() {
             .el(document.getElementById("metric_total_events"))
             .title("Total events")
             .width(300)
+            .colors([LAVENDER])
             .prepare();
 
         // combine result of total build jobs and total substages
