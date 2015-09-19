@@ -31,6 +31,12 @@ var CAPTION_LAST_YEAR = "Last year";
 
 var TIMEZONE_SECS = "UTC"; // named timezone or offset in seconds, fe. GMT+1 = 3600
 
+// use Keen JS API default colors :
+// https://github.com/keen/keen-js/blob/master/src/dataviz/dataviz.js#L48
+var GREEN = '#73d483';
+var RED = '#fe6672';
+var YELLOW = '#eeb058';
+
 // Timeframe button constants
 var BUTTON_TIMEFRAME_PREFIX = "timeframe_";
 var BUTTON_TIMEFRAME_DEFAULT = "week";

@@ -54,12 +54,6 @@ filterOptions = [
     }
 ];
 
-// use Keen JS API default colors :
-// https://github.com/keen/keen-js/blob/master/src/dataviz/dataviz.js#L48
-var GREEN = '#73d483';
-var RED = '#fe6672';
-var YELLOW = '#eeb058';
-
 /**
  * Merge data from several series, with identical X-axis labels
  *
