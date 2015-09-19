@@ -198,6 +198,35 @@ function initCharts() {
         });
         chartsUpdate.push(metricTotalSubStages);
 
+        /* Total events */
+        var metricTotalEvents = new ChartClass();
+
+        // draw chart
+        metricTotalEvents.chart = new Keen.Dataviz()
+            .el(document.getElementById("metric_total_events"))
+            .title("Total events")
+            .width(300)
+            .prepare();
+
+        // combine result of total build jobs and total substages
+        metricTotalEvents.request = client.run(
+            metricTotalBuildJobs.queries.concat(metricTotalSubStages.queries),
+            function(err, res) {
+            if (err) {
+                // Display the API error
+                metricTotalEvents.chart.error(err.message);
+            } else {
+                var totalEvents = 0;
+                $.each(res, function() {
+                    totalEvents += this.result;
+                });
+                metricTotalEvents.chart
+                    .parseRawData({result: totalEvents})
+                    .render();
+            }
+        });
+        chartsUpdate.push(metricTotalEvents);
+
         /* Builds per project */
         chartBuildsPerProject = new ChartClass();
 
