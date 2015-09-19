@@ -183,7 +183,7 @@ function initCharts() {
         metricTotalSubStages.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_total_substages"))
             .title("Total substages")
-            .width(200)
+            .width(300)
             .prepare();
 
         metricTotalSubStages.request = client.run(metricTotalSubStages.queries, function(err, res){
