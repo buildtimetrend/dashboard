@@ -522,6 +522,56 @@ function initCharts() {
         });
         chartsUpdate.push(chartStageDurationBuildJob);
 
+        /* Average build job duration grouped by build matrix */
+        var chartJobDurationBuildMatrix = new ChartClass();
+
+        chartJobDurationBuildMatrix.filters = [
+            {
+                "property_name": "job.build_matrix.summary",
+                "operator": "exists",
+                "property_value": true
+            }
+        ];
+
+        // create query
+        chartJobDurationBuildMatrix.queries.push(new Keen.Query("average", {
+            eventCollection: "build_jobs",
+            timezone: TIMEZONE_SECS,
+            timeframe: keenTimeframe,
+            maxAge: keenMaxAge,
+            targetProperty: "job.duration",
+            groupBy: "job.build_matrix.summary",
+            filters: chartJobDurationBuildMatrix.filters
+        }));
+        chartsTimeframe.push(chartJobDurationBuildMatrix);
+
+        // draw chart
+        chartJobDurationBuildMatrix.chart = new Keen.Dataviz()
+            .el(document.getElementById("chart_job_duration_buildmatrix"))
+            .chartType("columnchart")
+            .title("Average build job duration grouped by build matrix")
+            .height(400)
+            .attributes({
+                chartOptions: {
+                    legend: {position: "none"},
+                    vAxis: {title: "duration [s]"},
+                    hAxis: {title: "build matrix"}
+                }
+            })
+            .prepare();
+
+        chartJobDurationBuildMatrix.request = client.run(chartJobDurationBuildMatrix.queries, function(err, res) {
+            if (err) {
+                // Display the API error
+                chartJobDurationBuildMatrix.chart.error(err.message);
+            } else {
+                chartJobDurationBuildMatrix.chart
+                    .parseRequest(this)
+                    .render();
+            }
+        });
+        chartsUpdate.push(chartJobDurationBuildMatrix);
+
         /* Builds per branch */
         var chartBuildsPerBranch = new ChartClass();
 
