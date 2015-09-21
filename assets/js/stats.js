@@ -63,6 +63,172 @@ function initCharts() {
 
     // visualization code goes here
     Keen.ready(function() {
+        /* Total unique repos */
+        var metricTotalRepos = new ChartClass();
+
+        // create query
+        metricTotalRepos.queries.push(new Keen.Query("count_unique", {
+            eventCollection: "build_jobs",
+            targetProperty: "job.repo",
+            timezone: TIMEZONE_SECS,
+            timeframe: keenTimeframe,
+            maxAge: keenMaxAge
+        }));
+        chartsTimeframe.push(metricTotalRepos);
+
+        // draw chart
+        metricTotalRepos.chart = new Keen.Dataviz()
+            .el(document.getElementById("metric_unique_repos"))
+            .title("Unique repos")
+            .width(200)
+            .colors([BLUE])
+            .attributes({
+                chartOptions: {prettyNumber: false}
+            })
+            .prepare();
+
+        metricTotalRepos.request = client.run(metricTotalRepos.queries, function(err, res){
+            if (err) {
+                // Display the API error
+                metricTotalRepos.chart.error(err.message);
+            } else {
+                metricTotalRepos.chart
+                    .parseRequest(this)
+                    .render();
+            }
+        });
+        chartsUpdate.push(metricTotalRepos);
+
+        /* Total builds */
+        var metricTotalBuilds = new ChartClass();
+
+        // create query
+        metricTotalBuilds.queries.push(new Keen.Query("count_unique", {
+            eventCollection: "build_jobs",
+            targetProperty: "job.build",
+            timezone: TIMEZONE_SECS,
+            timeframe: keenTimeframe,
+            maxAge: keenMaxAge
+        }));
+        chartsTimeframe.push(metricTotalBuilds);
+
+        // draw chart
+        metricTotalBuilds.chart = new Keen.Dataviz()
+            .el(document.getElementById("metric_total_builds"))
+            .title("Total builds")
+            .width(200)
+            .attributes({
+                chartOptions: {prettyNumber: false}
+            })
+            .prepare();
+
+        metricTotalBuilds.request = client.run(metricTotalBuilds.queries, function(err, res){
+            if (err) {
+                // Display the API error
+                metricTotalBuilds.chart.error(err.message);
+            } else {
+                metricTotalBuilds.chart
+                    .parseRequest(this)
+                    .render();
+            }
+        });
+        chartsUpdate.push(metricTotalBuilds);
+
+        /* Total build jobs */
+        var metricTotalBuildJobs = new ChartClass();
+
+        // create query
+        metricTotalBuildJobs.queries.push(new Keen.Query("count", {
+            eventCollection: "build_jobs",
+            timezone: TIMEZONE_SECS,
+            timeframe: keenTimeframe,
+            maxAge: keenMaxAge
+        }));
+        chartsTimeframe.push(metricTotalBuildJobs);
+
+        // draw chart
+        metricTotalBuildJobs.chart = new Keen.Dataviz()
+            .el(document.getElementById("metric_total_build_jobs"))
+            .title("Total build jobs")
+            .width(200)
+            .attributes({
+                chartOptions: {prettyNumber: false}
+            })
+            .prepare();
+
+        metricTotalBuildJobs.request = client.run(metricTotalBuildJobs.queries, function(err, res){
+            if (err) {
+                // Display the API error
+                metricTotalBuildJobs.chart.error(err.message);
+            } else {
+                metricTotalBuildJobs.chart
+                    .parseRequest(this)
+                    .render();
+            }
+        });
+        chartsUpdate.push(metricTotalBuildJobs);
+
+        /* Total sub stages */
+        var metricTotalSubStages = new ChartClass();
+
+        // create query
+        metricTotalSubStages.queries.push(new Keen.Query("count", {
+            eventCollection: "build_substages",
+            timezone: TIMEZONE_SECS,
+            timeframe: keenTimeframe,
+            maxAge: keenMaxAge
+        }));
+        chartsTimeframe.push(metricTotalSubStages);
+
+        // draw chart
+        metricTotalSubStages.chart = new Keen.Dataviz()
+            .el(document.getElementById("metric_total_substages"))
+            .title("Total substages")
+            .width(300)
+            .prepare();
+
+        metricTotalSubStages.request = client.run(metricTotalSubStages.queries, function(err, res){
+            if (err) {
+                // Display the API error
+                metricTotalSubStages.chart.error(err.message);
+            } else {
+                metricTotalSubStages.chart
+                    .parseRequest(this)
+                    .render();
+            }
+        });
+        chartsUpdate.push(metricTotalSubStages);
+
+        /* Total events */
+        var metricTotalEvents = new ChartClass();
+
+        // draw chart
+        metricTotalEvents.chart = new Keen.Dataviz()
+            .el(document.getElementById("metric_total_events"))
+            .title("Total events")
+            .width(300)
+            .colors([LAVENDER])
+            .prepare();
+
+        // combine result of total build jobs and total substages
+        metricTotalEvents.request = client.run(
+            metricTotalBuildJobs.queries.concat(metricTotalSubStages.queries),
+            function(err, res) {
+            if (err) {
+                // Display the API error
+                metricTotalEvents.chart.error(err.message);
+            } else {
+                var totalEvents = 0;
+                $.each(res, function() {
+                    totalEvents += this.result;
+                });
+                metricTotalEvents.chart
+                    .parseRawData({result: totalEvents})
+                    .render();
+            }
+        });
+        chartsUpdate.push(metricTotalEvents);
+
         /* Builds per project */
         chartBuildsPerProject = new ChartClass();
 
@@ -76,8 +242,8 @@ function initCharts() {
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
         }));
-        queriesTimeframe.push(chartBuildsPerProject.queries[0]);
-        queriesInterval.push(chartBuildsPerProject.queries[0]);
+        chartsTimeframe.push(chartBuildsPerProject);
+        chartsInterval.push(chartBuildsPerProject);
 
         // draw chart
         chartBuildsPerProject.chart = new Keen.Dataviz()
@@ -116,7 +282,7 @@ function initCharts() {
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
         }));
-        queriesTimeframe.push(chartBuildsPerProjectPie.queries[0]);
+        chartsTimeframe.push(chartBuildsPerProjectPie);
 
         // draw chart
         chartBuildsPerProjectPie.chart = new Keen.Dataviz()
@@ -149,8 +315,8 @@ function initCharts() {
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
         }));
-        queriesTimeframe.push(chartStagesPerProject.queries[0]);
-        queriesInterval.push(chartStagesPerProject.queries[0]);
+        chartsTimeframe.push(chartStagesPerProject);
+        chartsInterval.push(chartStagesPerProject);
 
         // draw chart
         chartStagesPerProject.chart = new Keen.Dataviz()
@@ -188,7 +354,7 @@ function initCharts() {
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
         }));
-        queriesTimeframe.push(chartStagesPerProjectPie.queries[0]);
+        chartsTimeframe.push(chartStagesPerProjectPie);
 
         // draw chart
         chartStagesPerProjectPie.chart = new Keen.Dataviz()
