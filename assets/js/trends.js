@@ -522,6 +522,47 @@ function initCharts() {
         });
         chartsUpdate.push(chartStageDurationBuildJob);
 
+        /* Average build job duration grouped by branch */
+        var chartJobDurationBranch = new ChartClass();
+
+        // create query
+        chartJobDurationBranch.queries.push(new Keen.Query("average", {
+            eventCollection: "build_jobs",
+            timezone: TIMEZONE_SECS,
+            timeframe: keenTimeframe,
+            maxAge: keenMaxAge,
+            targetProperty: "job.duration",
+            groupBy: "job.branch",
+        }));
+        chartsTimeframe.push(chartJobDurationBranch);
+
+        // draw chart
+        chartJobDurationBranch.chart = new Keen.Dataviz()
+            .el(document.getElementById("chart_job_duration_branch"))
+            .chartType("columnchart")
+            .title("Average build job duration grouped by branch")
+            .height(400)
+            .attributes({
+                chartOptions: {
+                    legend: {position: "none"},
+                    vAxis: {title: "duration [s]"},
+                    hAxis: {title: "branch name"}
+                }
+            })
+            .prepare();
+
+        chartJobDurationBranch.request = client.run(chartJobDurationBranch.queries, function(err, res) {
+            if (err) {
+                // Display the API error
+                chartJobDurationBranch.chart.error(err.message);
+            } else {
+                chartJobDurationBranch.chart
+                    .parseRequest(this)
+                    .render();
+            }
+        });
+        chartsUpdate.push(chartJobDurationBranch);
+
         /* Average build job duration grouped by build matrix */
         var chartJobDurationBuildMatrix = new ChartClass();
 
