@@ -11,6 +11,7 @@ v0.3 (not yet released)
 trigger, branch, build matrix, build result
 - issue #108 : Limit size of projects dropdown menu and make it scrollable
 - issue #91 : display stats of pull requests
+- add charts with average build job per branch and build matrix parameters
 
 v0.2 (released on 18Feb2015)
 - issue #19 : update Keen.io charts using query request refresh function
