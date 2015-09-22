@@ -590,13 +590,13 @@ function initCharts() {
         chartJobDurationBuildMatrix.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_job_duration_buildmatrix"))
             .chartType("columnchart")
-            .title("Average build job duration grouped by build matrix")
+            .title("Average build job duration grouped by build matrix parameters")
             .height(400)
             .attributes({
                 chartOptions: {
                     legend: {position: "none"},
                     vAxis: {title: "duration [s]"},
-                    hAxis: {title: "build matrix"}
+                    hAxis: {title: "build matrix parameters"}
                 }
             })
             .prepare();
