@@ -151,9 +151,6 @@ function initCharts() {
             .el(document.getElementById("metric_total_build_jobs"))
             .title("Total build jobs")
             .width(200)
-            .attributes({
-                chartOptions: {prettyNumber: false}
-            })
             .prepare();
 
         metricTotalBuildJobs.request = client.run(metricTotalBuildJobs.queries, function(err, res){
