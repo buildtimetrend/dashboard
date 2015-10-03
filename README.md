@@ -60,6 +60,7 @@ var config = {
 ### Url parameters
 
 - refresh : leave empty, or set to '0' to disable auto refreshing the charts. If url parameter `refresh` is defined and set to a positive integer value, auto refreshing the charts is enabled. `refresh` is defined in minutes, so a value of 10 will refresh the charts every 10 minutes. The refresh rate should at least be equal to maximum age of the Query cache, if it is less, the cache max age value will be used (typically, 10 min).
+- timeframe : the default timeframe can be set with this url parameter. Possible values : `day`, `week`, `month`, `year`. If it is not defined the default timeframe is used (`week`)
 
 Bugs and feature requests
 -------------------------
