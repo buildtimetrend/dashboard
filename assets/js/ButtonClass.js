@@ -31,9 +31,10 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  *  - all buttons are colourcoded : the active button is formated with
  *    CLASS_BUTTON_ACTIVE (default : "btn btn-success"),
  *    the others are formatted with CLASS_BUTTON_NORMAL (default: "btn btn-primary")
+ *  - the default button can be set with a url parameter
  *  - on initialisation, the default button is activated,
  *    and a custom caption is applied (see `caption`)
- *  - when another button is clicked, that button becomes theactive button
+ *  - when another button is clicked, that button becomes the active button
  *    and the formatting of all the buttons is updated accordingly.
  *  - `ButtonClass.currentButton` holds the current active button value
  *  - a custom click event can be attached to each button seperately (see `onClick`),
@@ -72,6 +73,11 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  * - Initialise the buttons :
  *
  * buttons.initButtons();
+ *
+ * - set the button using a url parameter :
+ *
+ * Use the buttonclass instance name as a url parameter and assign a button name as value :
+ * fe. index.html?buttons=button2
  *
  * - The currently active button name is stored in :
  *
@@ -212,7 +218,7 @@ function ButtonClass(name, buttonList, defaultButton, buttonPrefix) {
     };
     // loop over list of buttons to attach click events
     this.initButtons = function() {
-        this.setCurrentButton();
+        this.setCurrentButton(getUrlParameter(this.name));
 
         var buttonNames = Object.keys(this.buttonList);
         for (var i = 0; i < buttonNames.length; i++) {
