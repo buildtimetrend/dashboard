@@ -158,6 +158,12 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
             return button;
         }
     };
+
+    // Get button name
+    this.getButtonName = function(button) {
+        return "#" + this.buttonPrefix + button;
+    }
+
     // Set option buttons classes
     this.formatButtons = function() {
         // loop over all allowed buttons and set button class
@@ -173,7 +179,7 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
             }
 
             // apply classes to button divs
-            $("#" + this.buttonPrefix + buttonNames[i]).attr('class', buttonClass);
+            $(this.getButtonName(buttonNames[i])).attr('class', buttonClass);
         }
     };
     // Attach events to toggle buttons
@@ -186,7 +192,7 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
         // redeclared in the scope of the following anonymous function
         var classInstance = this;
 
-        $("#" + this.buttonPrefix + button).click(function() {
+        $(this.getButtonName(button)).click(function() {
             classInstance.setCurrentButton(button);
             classInstance.formatButtons();
 
@@ -211,7 +217,7 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
 
             this.attachButtonEvent(button);
 
-            $("#" + this.buttonPrefix + button)
+            $(this.getButtonName(button))
                 .html(this.getButtonCaption(button));
         }
 
