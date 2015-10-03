@@ -147,9 +147,6 @@ function initCharts() {
     // get Update Period settings
     var updatePeriod = getUpdatePeriod();
 
-    // initialize timeframe buttons
-    timeframeButtons.initButtons();
-
     var keenMaxAge = updatePeriod.keenMaxAge;
     var keenTimeframe = updatePeriod.keenTimeframe;
     var keenInterval = updatePeriod.keenInterval;
@@ -590,13 +587,13 @@ function initCharts() {
         chartJobDurationBuildMatrix.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_job_duration_buildmatrix"))
             .chartType("columnchart")
-            .title("Average build job duration grouped by build matrix")
+            .title("Average build job duration grouped by build matrix parameters")
             .height(400)
             .attributes({
                 chartOptions: {
                     legend: {position: "none"},
                     vAxis: {title: "duration [s]"},
-                    hAxis: {title: "build matrix"}
+                    hAxis: {title: "build matrix parameters"}
                 }
             })
             .prepare();
@@ -954,6 +951,8 @@ $(document).ready(function() {
     updateTitle();
     initLinks();
     initMessage();
+    // initialize timeframe buttons
+    timeframeButtons.initButtons();
     updateBadgeUrl();
     populateProjects();
     if (!isEmpty(config.repoName) &&

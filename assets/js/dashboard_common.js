@@ -40,7 +40,7 @@ var BLUE = '#5a9eed';
 var LAVENDER = '#c879bb';
 
 // Timeframe button constants
-var BUTTON_TIMEFRAME_PREFIX = "timeframe_";
+var BUTTON_TIMEFRAME_NAME = "timeframe";
 var BUTTON_TIMEFRAME_DEFAULT = "week";
 var BUTTONS_TIMEFRAME = {
     "day": {
@@ -70,9 +70,9 @@ var BUTTONS_TIMEFRAME = {
 };
 
 var timeframeButtons = new ButtonClass(
+    BUTTON_TIMEFRAME_NAME,
     BUTTONS_TIMEFRAME,
-    BUTTON_TIMEFRAME_DEFAULT,
-    BUTTON_TIMEFRAME_PREFIX
+    BUTTON_TIMEFRAME_DEFAULT
 );
 timeframeButtons.onClick = function() { updateCharts(); };
 

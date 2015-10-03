@@ -22,7 +22,7 @@
  */
 
 // Timeframe button constants
-var BUTTON_COUNT_PREFIX = "count_";
+var BUTTON_COUNT_NAME = "count";
 var BUTTON_COUNT_DEFAULT = "builds";
 var BUTTONS_COUNT = {
     "builds": {
@@ -38,25 +38,28 @@ var BUTTONS_COUNT = {
 };
 
 var countButtons = new ButtonClass(
+    BUTTON_COUNT_NAME,
     BUTTONS_COUNT,
-    BUTTON_COUNT_DEFAULT,
-    BUTTON_COUNT_PREFIX
+    BUTTON_COUNT_DEFAULT
 );
 countButtons.onClick = function() { updateCountCharts(); };
 
 var chartBuildsPerProject, chartBuildsPerProjectPie;
 
 function initCharts() {
-    // get Update Period settings
-    var updatePeriod = getUpdatePeriod();
-
     // initialize timeframe buttons
     timeframeButtons.initButtons();
     countButtons.initButtons();
 
+    // get Update Period settings
+    var updatePeriod = getUpdatePeriod();
+
     var keenMaxAge = updatePeriod.keenMaxAge;
     var keenTimeframe = updatePeriod.keenTimeframe;
     var keenInterval = updatePeriod.keenInterval;
+
+    // get count button target
+    var countSettings = countButtons.getCurrentButton();
 
     // display charts
     $('#charts').show();
@@ -151,9 +154,6 @@ function initCharts() {
             .el(document.getElementById("metric_total_build_jobs"))
             .title("Total build jobs")
             .width(200)
-            .attributes({
-                chartOptions: {prettyNumber: false}
-            })
             .prepare();
 
         metricTotalBuildJobs.request = client.run(metricTotalBuildJobs.queries, function(err, res){
@@ -234,8 +234,8 @@ function initCharts() {
 
         // create query
         chartBuildsPerProject.queries.push(new Keen.Query("count_unique", {
-            eventCollection: "build_jobs",
-            targetProperty: "job.build",
+            eventCollection: countSettings.keenEventCollection,
+            targetProperty: countSettings.keenTargetProperty,
             groupBy: "buildtime_trend.project_name",
             interval: keenInterval,
             timeframe: keenTimeframe,
@@ -248,7 +248,7 @@ function initCharts() {
         // draw chart
         chartBuildsPerProject.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_builds_per_project"))
-            .title("Builds per project")
+            .title(countSettings.caption + " per project")
             .chartType("columnchart")
             .height(400)
             .attributes({
@@ -275,8 +275,8 @@ function initCharts() {
 
         // create query
         chartBuildsPerProjectPie.queries.push(new Keen.Query("count_unique", {
-            eventCollection: "build_jobs",
-            targetProperty: "job.build",
+            eventCollection: countSettings.keenEventCollection,
+            targetProperty: countSettings.keenTargetProperty,
             groupBy: "buildtime_trend.project_name",
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
@@ -287,7 +287,7 @@ function initCharts() {
         // draw chart
         chartBuildsPerProjectPie.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_builds_per_project_pie"))
-            .title("Builds per project")
+            .title(countSettings.caption + " per project")
             .height(400)
             .prepare();
 
@@ -381,7 +381,7 @@ function initCharts() {
  * Refresh count charts eventCollection and targetProperty selected by countButtons.
  */
 function updateCountCharts() {
-  // get Update Period settings
+  // get count button target
   var countSettings = countButtons.getCurrentButton();
 
   // update queries
