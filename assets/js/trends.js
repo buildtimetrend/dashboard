@@ -147,9 +147,6 @@ function initCharts() {
     // get Update Period settings
     var updatePeriod = getUpdatePeriod();
 
-    // initialize timeframe buttons
-    timeframeButtons.initButtons();
-
     var keenMaxAge = updatePeriod.keenMaxAge;
     var keenTimeframe = updatePeriod.keenTimeframe;
     var keenInterval = updatePeriod.keenInterval;
@@ -954,6 +951,8 @@ $(document).ready(function() {
     updateTitle();
     initLinks();
     initMessage();
+    // initialize timeframe buttons
+    timeframeButtons.initButtons();
     updateBadgeUrl();
     populateProjects();
     if (!isEmpty(config.repoName) &&
