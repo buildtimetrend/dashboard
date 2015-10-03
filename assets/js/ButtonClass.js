@@ -51,6 +51,7 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  * - Create a class instance :
  *
  * var buttons = new ButtonClass(
+ *   "buttons" // Class instance name, used as prefix or to set value using a url parameter
  *   {
  *     "button1": {
  *        "caption": "First Button",
@@ -64,7 +65,8 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  *   },
  *   DEFAULT_BUTTON, // should match one of the buttons in the list,
  *                   // otherwise the first one is used.
- *   "prefix_" // prefix used for all buttons in the HTML button id
+ *   "prefix_" // prefix used for all buttons in the HTML button id, if not defined,
+ *             // class name is used as prefix
  * );
  *
  * - Initialise the buttons :
@@ -99,12 +101,13 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  * Remark : if an onClick event is defined for a specific button, that action is
  * executed after the general onClick event is executed.
  */
-function ButtonClass(buttonList, defaultButton, buttonPrefix) {
+function ButtonClass(name, buttonList, defaultButton, buttonPrefix) {
+    this.name = isEmpty(name) ? "" : name;
     this.buttonList = isEmpty(buttonList) ? {
         "button1": {},
         "button2": {}
     } : buttonList;
-    this.buttonPrefix = isEmpty(buttonPrefix) ? "" : buttonPrefix;
+    this.buttonPrefix = isEmpty(buttonPrefix) ? this.name + "_" : buttonPrefix;
     this.onClick = "";
 
     // Set default button
