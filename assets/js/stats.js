@@ -22,7 +22,7 @@
  */
 
 // Timeframe button constants
-var BUTTON_COUNT_PREFIX = "count_";
+var BUTTON_COUNT_NAME = "count";
 var BUTTON_COUNT_DEFAULT = "builds";
 var BUTTONS_COUNT = {
     "builds": {
@@ -38,9 +38,9 @@ var BUTTONS_COUNT = {
 };
 
 var countButtons = new ButtonClass(
+    BUTTON_COUNT_NAME,
     BUTTONS_COUNT,
-    BUTTON_COUNT_DEFAULT,
-    BUTTON_COUNT_PREFIX
+    BUTTON_COUNT_DEFAULT
 );
 countButtons.onClick = function() { updateCountCharts(); };
 
