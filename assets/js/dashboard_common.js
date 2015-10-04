@@ -134,14 +134,15 @@ function initFilterOptions(filterParams) {
             text : filterParams.caption
         }));
 
-    populateFilterOptions(filterParams);
+    populateFilterOptions(filterParams, getUrlParameter(filterParams.selectId));
 }
 
-function populateFilterOptions(filterParams) {
+function populateFilterOptions(filterParams, newValue) {
     // get Update Period settings
     var updatePeriod = getUpdatePeriod();
 
-    var currentVal = $('#' + filterParams.selectId).val();
+    // use current value if newValue is not defined
+    var newValue = defaultValue(newValue, $('#' + filterParams.selectId).val());
     var valFound = false;
 
     var querySelectUnique = new Keen.Query("select_unique", {
@@ -163,7 +164,7 @@ function populateFilterOptions(filterParams) {
         if (!err) {
             // loop over the possible options
             $.each(response.result, function (i, item) {
-                if (!valFound && !isEmpty(currentVal) && currentVal === item) {
+                if (!valFound && !isEmpty(newValue) && newValue === item) {
                     valFound = true;
                 }
 
@@ -176,8 +177,8 @@ function populateFilterOptions(filterParams) {
 
             // set to currently selected value
             if (valFound) {
-                $('#' + filterParams.selectId).val(currentVal);
-            } else if (! isEmpty(currentVal)) {
+                $('#' + filterParams.selectId).val(newValue);
+            } else if (! isEmpty(newValue)) {
                 // trigger change event to reset nonexistent value
                 $('#' + filterParams.selectId).trigger("change");
             }
