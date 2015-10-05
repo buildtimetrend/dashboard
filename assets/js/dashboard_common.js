@@ -142,7 +142,7 @@ function populateFilterOptions(filterParams, newValue) {
     var updatePeriod = getUpdatePeriod();
 
     // use current value if newValue is not defined
-    var newValue = defaultValue(newValue, $('#' + filterParams.selectId).val());
+    newValue = defaultValue(newValue, $('#' + filterParams.selectId).val());
     var valFound = false;
 
     var querySelectUnique = new Keen.Query("select_unique", {
