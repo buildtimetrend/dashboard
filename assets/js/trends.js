@@ -943,6 +943,8 @@ function initCharts() {
             }
         });
         chartsUpdate.push(chartAvgBuildtimeWeekDay);
+
+        updateChartFilters();
     });
 }
 
