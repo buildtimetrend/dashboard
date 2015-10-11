@@ -35,7 +35,7 @@ filterOptions = [
         "caption": "Build matrix"
     },
     {
-        "selectId": "filter_result",
+        "selectId": "filter_build_result",
         "queryField": "job.result",
         "keenEventCollection": "build_jobs",
         "caption": "Build results"
