@@ -142,15 +142,26 @@ function initFilterOptions(filterParams) {
             text : filterParams.caption
         }));
 
-    populateFilterOptions(filterParams, getUrlParameter(filterParams.selectId));
+    var urlParamValue = getUrlParameter(filterParams.selectId);
+
+    if (! isEmpty(urlParamValue)) {
+        $('#' + filterParams.selectId)
+            .append($('<option>', {
+                text : urlParamValue
+            }))
+            .val(urlParamValue);
+            filterValues[filterParams.queryField] = urlParamValue;
+    }
+
+    populateFilterOptions(filterParams, urlParamValue);
 }
 
-function populateFilterOptions(filterParams, newValue) {
+function populateFilterOptions(filterParams, extraValue) {
     // get Update Period settings
     var updatePeriod = getUpdatePeriod();
 
     // use current value if newValue is not defined
-    var updateValue = defaultValue(newValue, $('#' + filterParams.selectId).val());
+    var currentValue = $('#' + filterParams.selectId).val();
     var valFound = false;
 
     var querySelectUnique = new Keen.Query("select_unique", {
@@ -169,10 +180,20 @@ function populateFilterOptions(filterParams, newValue) {
                 text : filterParams.caption
             }));
 
+        if (! isEmpty(extraValue)) {
+            $('#' + filterParams.selectId)
+                .append($('<option>', {
+                    text : extraValue
+                }))
+            if (!isEmpty(currentValue) && currentValue === extraValue) {
+                valFound = true;
+            }
+        }
+
         if (!err) {
             // loop over the possible options
             $.each(response.result, function (i, item) {
-                if (!valFound && !isEmpty(updateValue) && updateValue === item) {
+                if (!valFound && !isEmpty(currentValue) && currentValue === item) {
                     valFound = true;
                 }
 
@@ -185,13 +206,11 @@ function populateFilterOptions(filterParams, newValue) {
 
             // set to currently selected value
             if (valFound) {
-                $('#' + filterParams.selectId).val(updateValue);
-            }
-            if (!(valFound && isEmpty(updateValue)) || !isEmpty(newValue)) {
+                $('#' + filterParams.selectId).val(currentValue);
+            } else if (!isEmpty(currentValue)) {
                 // trigger change event to reset nonexistent value
                 $('#' + filterParams.selectId).trigger("change");
             }
-
         }
     });
 }
