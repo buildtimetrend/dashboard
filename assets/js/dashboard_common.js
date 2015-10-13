@@ -94,7 +94,7 @@ var filterOptions = [
 ];*/
 
 var filterValues = {};
-function updateChartFilters() {
+function getFilterList() {
     var filterList = [];
 
     $.each(filterValues, function(index, value) {
@@ -103,9 +103,13 @@ function updateChartFilters() {
         }
     });
 
+    return filterList;
+}
+
+function updateChartFilters() {
     // update Filters for all related charts
     $.each(chartsUpdate, function () {
-        this.updateFilters(filterList);
+        this.updateFilters(getFilterList());
     });
 }
 
