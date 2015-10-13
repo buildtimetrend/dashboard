@@ -180,19 +180,14 @@ function populateFilterOptions(filterParams, extraValue) {
                 text : filterParams.caption
             }));
 
-        if (! isEmpty(extraValue)) {
-            $('#' + filterParams.selectId)
-                .append($('<option>', {
-                    text : extraValue
-                }))
-            if (!isEmpty(currentValue) && currentValue === extraValue) {
-                valFound = true;
-            }
-        }
-
         if (!err) {
+            items = response.result;
+            if (! isEmpty(extraValue)) {
+                items.push(extraValue);
+            }
+
             // loop over the possible options
-            $.each(response.result, function (i, item) {
+            $.each(items, function (i, item) {
                 if (!valFound && !isEmpty(currentValue) && currentValue === item) {
                     valFound = true;
                 }
