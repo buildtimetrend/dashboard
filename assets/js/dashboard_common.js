@@ -181,7 +181,7 @@ function populateFilterOptions(filterParams, extraValue) {
             }));
 
         if (!err) {
-            items = response.result;
+            var items = response.result;
             if (! isEmpty(extraValue)) {
                 items.push(extraValue);
             }
