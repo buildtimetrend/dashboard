@@ -171,7 +171,7 @@ function ButtonClass(name, buttonList, defaultButton, buttonPrefix) {
     // Get button name
     this.getButtonName = function(button) {
         return "#" + this.buttonPrefix + button;
-    }
+    };
 
     // Set option buttons classes
     this.formatButtons = function() {

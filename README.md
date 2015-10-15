@@ -59,8 +59,13 @@ var config = {
 
 ### Url parameters
 
-- refresh : leave empty, or set to '0' to disable auto refreshing the charts. If url parameter `refresh` is defined and set to a positive integer value, auto refreshing the charts is enabled. `refresh` is defined in minutes, so a value of 10 will refresh the charts every 10 minutes. The refresh rate should at least be equal to maximum age of the Query cache, if it is less, the cache max age value will be used (typically, 10 min).
-- timeframe : the default timeframe can be set with this url parameter. Possible values : `day`, `week`, `month`, `year`. If it is not defined the default timeframe is used (`week`)
+- `refresh` : leave empty, or set to '0' to disable auto refreshing the charts. If url parameter `refresh` is defined and set to a positive integer value, auto refreshing the charts is enabled. `refresh` is defined in minutes, so a value of 10 will refresh the charts every 10 minutes. The refresh rate should at least be equal to maximum age of the Query cache, if it is less, the cache max age value will be used (typically, 10 min).
+- `timeframe` : the default timeframe can be set with this url parameter. Possible values : `day`, `week`, `month`, `year`. If it is not defined the default timeframe is used (`week`)
+- `filter_*` : set the default filter value. When this url parameter is defined, the corresponding filter dropdown will be set to this value and it will be applied to the queries of all charts and metrics. Available filters :
+  - `filter_build_matrix` : Build matrix environment settings, usually a combination of language, language version and operating system : fe. `python 2.7 linux`
+  - `filter_build_result` : Build job result, possible values : `passed`, `errored`, `failed`, ...
+  - `filter_build_trigger` : What triggered the build job, possible values : `pull_request`, `push` (git push)
+  - `filter_build_branch` : Repository branch that was build : fe. `master`
 
 Bugs and feature requests
 -------------------------
