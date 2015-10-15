@@ -65,7 +65,7 @@ var config = {
   - `filter_build_matrix` : Build matrix environment settings, usually a combination of language, language version and operating system : fe. `python 2.7 linux`
   - `filter_build_result` : Build job result, possible values : `passed`, `errored`, `failed`, ...
   - `filter_build_trigger` : What triggered the build job, possible values : `pull_request`, `push` (git push)
-  - `filter_build_branch` : Repository branch that was build : fe. `master`
+  - `filter_branch` : Repository branch that was build : fe. `master`
 
 Bugs and feature requests
 -------------------------
