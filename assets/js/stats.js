@@ -194,6 +194,41 @@ function initCharts() {
         });
         chartsUpdate.push(metricTotalEvents);
 
+        /* Unique repos */
+        chartUniqueRepos = new ChartClass();
+
+        // create query
+        chartUniqueRepos.queries.push(new Keen.Query("count_unique", {
+            eventCollection: "build_jobs",
+            targetProperty: "job.repo",
+            interval: keenInterval,
+            timeframe: keenTimeframe,
+            maxAge: keenMaxAge,
+            timezone: TIMEZONE_SECS
+        }));
+        chartsTimeframe.push(chartUniqueRepos);
+        chartsInterval.push(chartUniqueRepos);
+
+        // draw chart
+        chartUniqueRepos.chart = new Keen.Dataviz()
+            .el(document.getElementById("chart_unique_repos"))
+            .title("Unique project repositories")
+            .chartType("areachart")
+            .height(400)
+            .prepare();
+
+        chartUniqueRepos.request = client.run(chartUniqueRepos.queries, function(err, res) {
+            if (err) {
+                // Display the API error
+                chartUniqueRepos.chart.error(err.message);
+            } else {
+                chartUniqueRepos.chart
+                    .parseRequest(this)
+                    .render();
+            }
+        });
+        chartsUpdate.push(chartUniqueRepos);
+
         /* Builds per project */
         chartBuildsPerProject = new ChartClass();
 
