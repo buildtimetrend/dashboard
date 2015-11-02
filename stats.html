@@ -52,6 +52,7 @@
             <ul class="dropdown-menu scrollable-menu" role="menu">
             </ul>
           </li>
+	  <li><a href="https://buildtimetrend.github.io/donate.html">Donate</a></li>
           <li><a href="https://buildtimetrend.github.io/">About Buildtime Trend</a></li>
         </ul>
       </div>
@@ -73,20 +74,27 @@
 
   <div id="charts" class="container-fluid" style="display: none;">
     <div class="row">
-      <div class="col-sm-4 col-md-2">
+      <div class="col-sm-6 col-md-3">
         <div id="metric_unique_repos"></div>
       </div>
-      <div class="col-sm-4 col-md-2">
-        <div id="metric_total_builds"></div>
+      <div class="col-sm-6 col-md-3">
+        <div id="metric_total_events"></div>
       </div>
-      <div class="col-sm-4 col-md-2">
+      <div class="col-sm-6 col-md-3">
         <div id="metric_total_build_jobs"></div>
       </div>
       <div class="col-sm-6 col-md-3">
         <div id="metric_total_substages"></div>
       </div>
-      <div class="col-sm-6 col-md-3">
-        <div id="metric_total_events"></div>
+   </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="chart-wrapper">
+          <div class="chart-stage">
+            <div id="chart_unique_repos"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -129,7 +137,6 @@
           </div>
         </div>
       </div>
-
       <div class="col-sm-6">
         <div class="chart-wrapper">
           <div class="chart-stage">
@@ -138,6 +145,7 @@
         </div>
       </div>
     </div>
+
   </div>
 
   <p>

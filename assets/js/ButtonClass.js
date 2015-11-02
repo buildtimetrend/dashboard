@@ -31,9 +31,10 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  *  - all buttons are colourcoded : the active button is formated with
  *    CLASS_BUTTON_ACTIVE (default : "btn btn-success"),
  *    the others are formatted with CLASS_BUTTON_NORMAL (default: "btn btn-primary")
+ *  - the default button can be set with a url parameter
  *  - on initialisation, the default button is activated,
  *    and a custom caption is applied (see `caption`)
- *  - when another button is clicked, that button becomes theactive button
+ *  - when another button is clicked, that button becomes the active button
  *    and the formatting of all the buttons is updated accordingly.
  *  - `ButtonClass.currentButton` holds the current active button value
  *  - a custom click event can be attached to each button seperately (see `onClick`),
@@ -51,6 +52,7 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  * - Create a class instance :
  *
  * var buttons = new ButtonClass(
+ *   "buttons" // Class instance name, used as prefix or to set value using a url parameter
  *   {
  *     "button1": {
  *        "caption": "First Button",
@@ -64,12 +66,18 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  *   },
  *   DEFAULT_BUTTON, // should match one of the buttons in the list,
  *                   // otherwise the first one is used.
- *   "prefix_" // prefix used for all buttons in the HTML button id
+ *   "prefix_" // prefix used for all buttons in the HTML button id, if not defined,
+ *             // class name is used as prefix
  * );
  *
  * - Initialise the buttons :
  *
  * buttons.initButtons();
+ *
+ * - set the button using a url parameter :
+ *
+ * Use the buttonclass instance name as a url parameter and assign a button name as value :
+ * fe. index.html?buttons=button2
  *
  * - The currently active button name is stored in :
  *
@@ -99,12 +107,13 @@ var CLASS_BUTTON_ACTIVE = "btn btn-success";
  * Remark : if an onClick event is defined for a specific button, that action is
  * executed after the general onClick event is executed.
  */
-function ButtonClass(buttonList, defaultButton, buttonPrefix) {
+function ButtonClass(name, buttonList, defaultButton, buttonPrefix) {
+    this.name = isEmpty(name) ? "" : name;
     this.buttonList = isEmpty(buttonList) ? {
         "button1": {},
         "button2": {}
     } : buttonList;
-    this.buttonPrefix = isEmpty(buttonPrefix) ? "" : buttonPrefix;
+    this.buttonPrefix = isEmpty(buttonPrefix) ? this.name + "_" : buttonPrefix;
     this.onClick = "";
 
     // Set default button
@@ -158,6 +167,12 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
             return button;
         }
     };
+
+    // Get button name
+    this.getButtonName = function(button) {
+        return "#" + this.buttonPrefix + button;
+    };
+
     // Set option buttons classes
     this.formatButtons = function() {
         // loop over all allowed buttons and set button class
@@ -173,7 +188,7 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
             }
 
             // apply classes to button divs
-            $("#" + this.buttonPrefix + buttonNames[i]).attr('class', buttonClass);
+            $(this.getButtonName(buttonNames[i])).attr('class', buttonClass);
         }
     };
     // Attach events to toggle buttons
@@ -186,7 +201,7 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
         // redeclared in the scope of the following anonymous function
         var classInstance = this;
 
-        $("#" + this.buttonPrefix + button).click(function() {
+        $(this.getButtonName(button)).click(function() {
             classInstance.setCurrentButton(button);
             classInstance.formatButtons();
 
@@ -203,7 +218,7 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
     };
     // loop over list of buttons to attach click events
     this.initButtons = function() {
-        this.setCurrentButton();
+        this.setCurrentButton(getUrlParameter(this.name));
 
         var buttonNames = Object.keys(this.buttonList);
         for (var i = 0; i < buttonNames.length; i++) {
@@ -211,7 +226,7 @@ function ButtonClass(buttonList, defaultButton, buttonPrefix) {
 
             this.attachButtonEvent(button);
 
-            $("#" + this.buttonPrefix + button)
+            $(this.getButtonName(button))
                 .html(this.getButtonCaption(button));
         }
 

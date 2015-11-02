@@ -40,7 +40,7 @@ var BLUE = '#5a9eed';
 var LAVENDER = '#c879bb';
 
 // Timeframe button constants
-var BUTTON_TIMEFRAME_PREFIX = "timeframe_";
+var BUTTON_TIMEFRAME_NAME = "timeframe";
 var BUTTON_TIMEFRAME_DEFAULT = "week";
 var BUTTONS_TIMEFRAME = {
     "day": {
@@ -70,9 +70,9 @@ var BUTTONS_TIMEFRAME = {
 };
 
 var timeframeButtons = new ButtonClass(
+    BUTTON_TIMEFRAME_NAME,
     BUTTONS_TIMEFRAME,
-    BUTTON_TIMEFRAME_DEFAULT,
-    BUTTON_TIMEFRAME_PREFIX
+    BUTTON_TIMEFRAME_DEFAULT
 );
 timeframeButtons.onClick = function() { updateCharts(); };
 
@@ -94,9 +94,7 @@ var filterOptions = [
 ];*/
 
 var filterValues = {};
-function updateFilter(parameter, value) {
-    filterValues[parameter] = value;
-
+function getFilterList() {
     var filterList = [];
 
     $.each(filterValues, function(index, value) {
@@ -105,10 +103,20 @@ function updateFilter(parameter, value) {
         }
     });
 
+    return filterList;
+}
+
+function updateChartFilters() {
     // update Filters for all related charts
     $.each(chartsUpdate, function () {
-        this.updateFilters(filterList);
+        this.updateFilters(getFilterList());
     });
+}
+
+function updateFilter(parameter, value) {
+    filterValues[parameter] = value;
+
+    updateChartFilters();
 }
 
 function createFilterOptions() {
@@ -134,14 +142,26 @@ function initFilterOptions(filterParams) {
             text : filterParams.caption
         }));
 
-    populateFilterOptions(filterParams);
+    var urlParamValue = getUrlParameter(filterParams.selectId);
+
+    if (! isEmpty(urlParamValue)) {
+        $('#' + filterParams.selectId)
+            .append($('<option>', {
+                text : urlParamValue
+            }))
+            .val(urlParamValue);
+            filterValues[filterParams.queryField] = urlParamValue;
+    }
+
+    populateFilterOptions(filterParams, urlParamValue);
 }
 
-function populateFilterOptions(filterParams) {
+function populateFilterOptions(filterParams, extraValue) {
     // get Update Period settings
     var updatePeriod = getUpdatePeriod();
 
-    var currentVal = $('#' + filterParams.selectId).val();
+    // use current value if newValue is not defined
+    var currentValue = $('#' + filterParams.selectId).val();
     var valFound = false;
 
     var querySelectUnique = new Keen.Query("select_unique", {
@@ -161,9 +181,14 @@ function populateFilterOptions(filterParams) {
             }));
 
         if (!err) {
+            var items = response.result;
+            if (! isEmpty(extraValue)) {
+                items.push(extraValue);
+            }
+
             // loop over the possible options
-            $.each(response.result, function (i, item) {
-                if (!valFound && !isEmpty(currentVal) && currentVal === item) {
+            $.each(items, function (i, item) {
+                if (!valFound && !isEmpty(currentValue) && currentValue === item) {
                     valFound = true;
                 }
 
@@ -176,8 +201,8 @@ function populateFilterOptions(filterParams) {
 
             // set to currently selected value
             if (valFound) {
-                $('#' + filterParams.selectId).val(currentVal);
-            } else if (! isEmpty(currentVal)) {
+                $('#' + filterParams.selectId).val(currentValue);
+            } else if (!isEmpty(currentValue)) {
                 // trigger change event to reset nonexistent value
                 $('#' + filterParams.selectId).trigger("change");
             }

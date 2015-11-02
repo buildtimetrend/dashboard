@@ -22,8 +22,8 @@
  */
 
 // Timeframe button constants
-var BUTTON_COUNT_PREFIX = "count_";
-var BUTTON_COUNT_DEFAULT = "builds";
+var BUTTON_COUNT_NAME = "count";
+var BUTTON_COUNT_DEFAULT = "jobs";
 var BUTTONS_COUNT = {
     "builds": {
         "caption": "Builds",
@@ -38,25 +38,28 @@ var BUTTONS_COUNT = {
 };
 
 var countButtons = new ButtonClass(
+    BUTTON_COUNT_NAME,
     BUTTONS_COUNT,
-    BUTTON_COUNT_DEFAULT,
-    BUTTON_COUNT_PREFIX
+    BUTTON_COUNT_DEFAULT
 );
 countButtons.onClick = function() { updateCountCharts(); };
 
 var chartBuildsPerProject, chartBuildsPerProjectPie;
 
 function initCharts() {
-    // get Update Period settings
-    var updatePeriod = getUpdatePeriod();
-
     // initialize timeframe buttons
     timeframeButtons.initButtons();
     countButtons.initButtons();
 
+    // get Update Period settings
+    var updatePeriod = getUpdatePeriod();
+
     var keenMaxAge = updatePeriod.keenMaxAge;
     var keenTimeframe = updatePeriod.keenTimeframe;
     var keenInterval = updatePeriod.keenInterval;
+
+    // get count button target
+    var countSettings = countButtons.getCurrentButton();
 
     // display charts
     $('#charts').show();
@@ -80,7 +83,7 @@ function initCharts() {
         metricTotalRepos.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_unique_repos"))
             .title("Unique repos")
-            .width(200)
+            .width(300)
             .colors([BLUE])
             .attributes({
                 chartOptions: {prettyNumber: false}
@@ -99,41 +102,6 @@ function initCharts() {
         });
         chartsUpdate.push(metricTotalRepos);
 
-        /* Total builds */
-        var metricTotalBuilds = new ChartClass();
-
-        // create query
-        metricTotalBuilds.queries.push(new Keen.Query("count_unique", {
-            eventCollection: "build_jobs",
-            targetProperty: "job.build",
-            timezone: TIMEZONE_SECS,
-            timeframe: keenTimeframe,
-            maxAge: keenMaxAge
-        }));
-        chartsTimeframe.push(metricTotalBuilds);
-
-        // draw chart
-        metricTotalBuilds.chart = new Keen.Dataviz()
-            .el(document.getElementById("metric_total_builds"))
-            .title("Total builds")
-            .width(200)
-            .attributes({
-                chartOptions: {prettyNumber: false}
-            })
-            .prepare();
-
-        metricTotalBuilds.request = client.run(metricTotalBuilds.queries, function(err, res){
-            if (err) {
-                // Display the API error
-                metricTotalBuilds.chart.error(err.message);
-            } else {
-                metricTotalBuilds.chart
-                    .parseRequest(this)
-                    .render();
-            }
-        });
-        chartsUpdate.push(metricTotalBuilds);
-
         /* Total build jobs */
         var metricTotalBuildJobs = new ChartClass();
 
@@ -150,7 +118,7 @@ function initCharts() {
         metricTotalBuildJobs.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_total_build_jobs"))
             .title("Total build jobs")
-            .width(200)
+            .width(300)
             .prepare();
 
         metricTotalBuildJobs.request = client.run(metricTotalBuildJobs.queries, function(err, res){
@@ -226,13 +194,48 @@ function initCharts() {
         });
         chartsUpdate.push(metricTotalEvents);
 
+        /* Unique repos */
+        chartUniqueRepos = new ChartClass();
+
+        // create query
+        chartUniqueRepos.queries.push(new Keen.Query("count_unique", {
+            eventCollection: "build_jobs",
+            targetProperty: "job.repo",
+            interval: keenInterval,
+            timeframe: keenTimeframe,
+            maxAge: keenMaxAge,
+            timezone: TIMEZONE_SECS
+        }));
+        chartsTimeframe.push(chartUniqueRepos);
+        chartsInterval.push(chartUniqueRepos);
+
+        // draw chart
+        chartUniqueRepos.chart = new Keen.Dataviz()
+            .el(document.getElementById("chart_unique_repos"))
+            .title("Unique project repositories")
+            .chartType("areachart")
+            .height(400)
+            .prepare();
+
+        chartUniqueRepos.request = client.run(chartUniqueRepos.queries, function(err, res) {
+            if (err) {
+                // Display the API error
+                chartUniqueRepos.chart.error(err.message);
+            } else {
+                chartUniqueRepos.chart
+                    .parseRequest(this)
+                    .render();
+            }
+        });
+        chartsUpdate.push(chartUniqueRepos);
+
         /* Builds per project */
         chartBuildsPerProject = new ChartClass();
 
         // create query
         chartBuildsPerProject.queries.push(new Keen.Query("count_unique", {
-            eventCollection: "build_jobs",
-            targetProperty: "job.build",
+            eventCollection: countSettings.keenEventCollection,
+            targetProperty: countSettings.keenTargetProperty,
             groupBy: "buildtime_trend.project_name",
             interval: keenInterval,
             timeframe: keenTimeframe,
@@ -245,7 +248,7 @@ function initCharts() {
         // draw chart
         chartBuildsPerProject.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_builds_per_project"))
-            .title("Builds per project")
+            .title(countSettings.caption + " per project")
             .chartType("columnchart")
             .height(400)
             .attributes({
@@ -272,8 +275,8 @@ function initCharts() {
 
         // create query
         chartBuildsPerProjectPie.queries.push(new Keen.Query("count_unique", {
-            eventCollection: "build_jobs",
-            targetProperty: "job.build",
+            eventCollection: countSettings.keenEventCollection,
+            targetProperty: countSettings.keenTargetProperty,
             groupBy: "buildtime_trend.project_name",
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
@@ -284,7 +287,7 @@ function initCharts() {
         // draw chart
         chartBuildsPerProjectPie.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_builds_per_project_pie"))
-            .title("Builds per project")
+            .title(countSettings.caption + " per project")
             .height(400)
             .prepare();
 
@@ -378,7 +381,7 @@ function initCharts() {
  * Refresh count charts eventCollection and targetProperty selected by countButtons.
  */
 function updateCountCharts() {
-  // get Update Period settings
+  // get count button target
   var countSettings = countButtons.getCurrentButton();
 
   // update queries
