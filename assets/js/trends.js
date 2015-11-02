@@ -38,13 +38,13 @@ filterOptions = [
         "selectId": "filter_build_result",
         "queryField": "job.result",
         "keenEventCollection": "build_jobs",
-        "caption": "Build results"
+        "caption": "Build result"
     },
     {
         "selectId": "filter_build_trigger",
         "queryField": "job.build_trigger",
         "keenEventCollection": "build_jobs",
-        "caption": "Build triggers"
+        "caption": "Build trigger"
     },
     {
         "selectId": "filter_branch",
