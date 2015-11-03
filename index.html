@@ -95,8 +95,26 @@
     <div class="row">
       <div class="col-sm-6">
         <div class="chart-wrapper">
+          <div class="chart-title">
+            Average build stage duration
+          </div>
           <div class="chart-stage">
-            <div id="chart_stage_duration"></div>
+	    <div class="row">
+              <div class="col-xs-3">
+                <div class="tabbable tabs-left">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a href="#chart_stage_duration" data-toggle="tab">Column</a></li>
+                    <li><a href="#chart_stage_fraction" data-toggle="tab">Pie</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-xs-9">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="chart_stage_duration"></div>
+                  <div class="tab-pane" id="chart_stage_fraction"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -104,7 +122,6 @@
       <div class="col-sm-6">
         <div class="chart-wrapper">
           <div class="chart-stage">
-            <div id="chart_stage_fraction"></div>
           </div>
         </div>
       </div>
