@@ -409,15 +409,6 @@ $(document).ready(function() {
     initMessage();
     populateProjects();
 
-    $('#chart_builds_per_project a').click(function (e) {
-      e.preventDefault()
-      $(this).tab('show')
-    })
-    $('#chart_builds_per_project_pie a').click(function (e) {
-      e.preventDefault()
-      $(this).tab('show')
-    })
-
     if (!isEmpty(keenConfig.projectId) && !isEmpty(keenConfig.readKey)) {
         initCharts();
     }
