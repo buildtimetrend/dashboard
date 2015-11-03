@@ -195,7 +195,7 @@ function initCharts() {
         chartsUpdate.push(metricTotalEvents);
 
         /* Unique repos */
-        chartUniqueRepos = new ChartClass();
+        var chartUniqueRepos = new ChartClass();
 
         // create query
         chartUniqueRepos.queries.push(new Keen.Query("count_unique", {
