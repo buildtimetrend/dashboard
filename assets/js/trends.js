@@ -458,7 +458,7 @@ function initCharts() {
 
         // draw chart
         chartStageDurationBuild.chart = new Keen.Dataviz()
-            .el(document.getElementById("chart_stage_duration_build"))
+            .el(document.getElementById("chart_duration_build"))
             .chartType("columnchart")
             .title("Total build duration grouped by build ID")
             .height(400)
@@ -500,7 +500,7 @@ function initCharts() {
 
         // draw chart
         chartStageDurationBuildJob.chart = new Keen.Dataviz()
-            .el(document.getElementById("chart_stage_duration_buildjob"))
+            .el(document.getElementById("chart_duration_buildjob"))
             .chartType("columnchart")
             .title("Total build job duration grouped by build job ID")
             .height(400)
