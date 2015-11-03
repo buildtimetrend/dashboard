@@ -118,28 +118,28 @@
           </div>
         </div>
       </div>
-
       <div class="col-sm-6">
         <div class="chart-wrapper">
-          <div class="chart-stage">
+          <div class="chart-title">
+            Total build(job) duration
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="chart-wrapper">
           <div class="chart-stage">
-            <div id="chart_stage_duration_build"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm-6">
-        <div class="chart-wrapper">
-          <div class="chart-stage">
-            <div id="chart_stage_duration_buildjob"></div>
+	    <div class="row">
+              <div class="col-xs-3">
+                <div class="tabbable tabs-left">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a href="#chart_stage_duration_build" data-toggle="tab">Builds</a></li>
+                    <li><a href="#chart_stage_duration_buildjob" data-toggle="tab">Build jobs</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-xs-9">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="chart_stage_duration_build"></div>
+                  <div class="tab-pane" id="chart_stage_duration_buildjob"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
