@@ -374,6 +374,36 @@ function initCharts() {
             }
         });
         chartsUpdate.push(chartStagesPerProjectPie);
+
+        /* Total events per project (piechart)*/
+        var chartEventsPerProjectPie = new ChartClass();
+
+        // draw chart
+        chartEventsPerProjectPie.chart = new Keen.Dataviz()
+            .el(document.getElementById("chart_total_events_pie"))
+            .title("Total events per project")
+            .height(400)
+            .prepare();
+
+        chartEventsPerProjectPie.request = client.run(
+            chartStagesPerProject.queries.concat(chartBuildsPerProject.queries),
+            function(err, res) {
+            if (err) {
+                // Display the API error
+                chartEventsPerProjectPie.chart.error(err.message);
+            } else {
+                /* TODO merge series
+                var totalEvents = 0;
+                $.each(res, function() {
+                    totalEvents += this.result;
+                });*/
+                chartEventsPerProjectPie.chart
+                    .parseRequest(this)
+                    //.parseRawData({result: totalEvents})
+                    .render();
+            }
+        });
+        chartsUpdate.push(chartEventsPerProjectPie);
     });
 }
 
