@@ -9,7 +9,7 @@
   <script type="text/javascript" src="config.js"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="https://d26b395fwzu5fz.cloudfront.net/3.2.4/keen.min.js"></script>
+  <script type="text/javascript" src="https://d26b395fwzu5fz.cloudfront.net/3.3.0/keen.min.js"></script>
   <script type="text/javascript">
 //<![CDATA[
     // configure Keen.io API client, keenConfig is defined in config.js
@@ -95,16 +95,51 @@
     <div class="row">
       <div class="col-sm-6">
         <div class="chart-wrapper">
+          <div class="chart-title">
+            Average build stage duration
+          </div>
           <div class="chart-stage">
-            <div id="chart_stage_duration"></div>
+	    <div class="row">
+              <div class="col-xs-3">
+                <div class="tabbable tabs-left">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a href="#chart_stage_duration" data-toggle="tab">Column</a></li>
+                    <li><a href="#chart_stage_fraction" data-toggle="tab">Pie</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-xs-9">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="chart_stage_duration"></div>
+                  <div class="tab-pane" id="chart_stage_fraction"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
       <div class="col-sm-6">
         <div class="chart-wrapper">
+          <div class="chart-title">
+            Total build(job) duration
+          </div>
           <div class="chart-stage">
-            <div id="chart_stage_fraction"></div>
+	    <div class="row">
+              <div class="col-xs-3">
+                <div class="tabbable tabs-left">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a href="#chart_duration_build" data-toggle="tab">Builds</a></li>
+                    <li><a href="#chart_duration_buildjob" data-toggle="tab">Build jobs</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-xs-9">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="chart_duration_build"></div>
+                  <div class="tab-pane" id="chart_duration_buildjob"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -113,52 +148,51 @@
     <div class="row">
       <div class="col-sm-6">
         <div class="chart-wrapper">
+          <div class="chart-title">
+            Average build job duration
+          </div>
           <div class="chart-stage">
-            <div id="chart_stage_duration_build"></div>
+	    <div class="row">
+              <div class="col-xs-3">
+                <div class="tabbable tabs-left">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a href="#chart_job_duration_buildmatrix" data-toggle="tab">By build matrix</a></li>
+                    <li><a href="#chart_job_duration_branch" data-toggle="tab">By branch</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-xs-9">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="chart_job_duration_buildmatrix"></div>
+                  <div class="tab-pane" id="chart_job_duration_branch"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
       <div class="col-sm-6">
         <div class="chart-wrapper">
-          <div class="chart-stage">
-            <div id="chart_stage_duration_buildjob"></div>
+          <div class="chart-title">
+            Builds per branch
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="chart-wrapper">
           <div class="chart-stage">
-            <div id="chart_job_duration_branch"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm-6">
-        <div class="chart-wrapper">
-          <div class="chart-stage">
-            <div id="chart_job_duration_buildmatrix"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="chart-wrapper">
-          <div class="chart-stage">
-            <div id="chart_builds"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm-6">
-        <div class="chart-wrapper">
-          <div class="chart-stage">
-            <div id="chart_total_builds_branch"></div>
+	    <div class="row">
+              <div class="col-xs-3">
+                <div class="tabbable tabs-left">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a href="#chart_builds_branch" data-toggle="tab">Column</a></li>
+                    <li><a href="#chart_builds_branch_pie" data-toggle="tab">Pie</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-xs-9">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="chart_builds_branch"></div>
+                  <div class="tab-pane" id="chart_builds_branch_pie"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
