@@ -425,7 +425,7 @@ function initCharts() {
         // draw chart
         chartStageFraction.chart = new Keen.Dataviz()
             .el(document.getElementById("chart_stage_fraction"))
-            .title("Build stage fraction of total build duration")
+            .title("Average build stage duration (%)")
             .height(400)
             .prepare();
 
