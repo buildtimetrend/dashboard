@@ -148,34 +148,51 @@
     <div class="row">
       <div class="col-sm-6">
         <div class="chart-wrapper">
+          <div class="chart-title">
+            Average build job duration
+          </div>
           <div class="chart-stage">
-            <div id="chart_job_duration_branch"></div>
+	    <div class="row">
+              <div class="col-xs-3">
+                <div class="tabbable tabs-left">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a href="#chart_job_duration_buildmatrix" data-toggle="tab">By build matrix</a></li>
+                    <li><a href="#chart_job_duration_branch" data-toggle="tab">By branch</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-xs-9">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="chart_job_duration_buildmatrix"></div>
+                  <div class="tab-pane" id="chart_job_duration_branch"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
       <div class="col-sm-6">
         <div class="chart-wrapper">
-          <div class="chart-stage">
-            <div id="chart_job_duration_buildmatrix"></div>
+          <div class="chart-title">
+            Builds per branch
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="chart-wrapper">
           <div class="chart-stage">
-            <div id="chart_builds"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm-6">
-        <div class="chart-wrapper">
-          <div class="chart-stage">
-            <div id="chart_total_builds_branch"></div>
+	    <div class="row">
+              <div class="col-xs-3">
+                <div class="tabbable tabs-left">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a href="#chart_builds" data-toggle="tab">Column</a></li>
+                    <li><a href="#chart_total_builds_branch" data-toggle="tab">Pie</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-xs-9">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="chart_builds"></div>
+                  <div class="tab-pane" id="chart_total_builds_branch"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
