@@ -14,6 +14,7 @@ trigger, branch, build matrix, build result
 - issue #45 : add charts with average build job per branch and build matrix parameters
 - issue #113 : use url parameter to set default timeframe
 - issue #121 : use url parameter to set query filters
+- upgrade to Keen Javascript API 3.3.0
 
 v0.2 (released on 18Feb2015)
 - issue #19 : update Keen.io charts using query request refresh function
