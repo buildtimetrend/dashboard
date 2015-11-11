@@ -636,7 +636,7 @@ function initCharts() {
 
         // draw chart
         chartBuildsPerBranch.chart = new Keen.Dataviz()
-            .el(document.getElementById("chart_builds"))
+            .el(document.getElementById("chart_builds_branch"))
             .title("Builds per branch")
             .chartType("columnchart")
             .height(400)
@@ -677,7 +677,7 @@ function initCharts() {
 
         // draw chart
         chartTotalBuildsBranch.chart = new Keen.Dataviz()
-            .el(document.getElementById("chart_total_builds_branch"))
+            .el(document.getElementById("chart_builds_branch_pie"))
             .title("Builds per branch (%)")
             .height(400)
             .prepare();
