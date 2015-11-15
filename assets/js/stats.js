@@ -386,20 +386,46 @@ function initCharts() {
             .prepare();
 
         chartEventsPerProjectPie.request = client.run(
-            chartStagesPerProject.queries.concat(chartBuildsPerProject.queries),
+            chartStagesPerProjectPie.queries.concat(chartBuildsPerProjectPie.queries),
             function(err, res) {
             if (err) {
                 // Display the API error
                 chartEventsPerProjectPie.chart.error(err.message);
             } else {
-                /* TODO merge series
-                var totalEvents = 0;
+                /* Merge series (sum results)
+                 *
+                 * First merge the results of the different series into
+                 * a key-value list, using the key name to check if an
+                 * object already exists.
+                 * Add the value to the list if it doesn't exist, if it does exist,
+                 * add its value to the value of the existing value.
+                 * Secondly, remove the key name from the list,
+                 * by inserting every value into an array.
+                 *
+                 * Using a key-value list will be faster (O(n log n)),
+                 * than iterating all existing objects to check if the name is the same (O(n^2))
+                 */
+                var propertyName = 'buildtime_trend.project_name'
+                // use named keys to lookup if object already exists
+                var mergedHash = {};
                 $.each(res, function() {
-                    totalEvents += this.result;
-                });*/
+                    $.each(this.result, function() {
+                        if (mergedHash[this[propertyName]]) {
+                            mergedHash[this[propertyName]].result += this.result;
+                        } else {
+                            mergedHash[this[propertyName]] = this;
+                        }
+                    });
+                });
+
+                // convert merged result to array (without keys)
+                var mergedResult = [];
+                $.each(mergedHash, function() {
+                    mergedResult.push(this);
+                });
+
                 chartEventsPerProjectPie.chart
-                    .parseRequest(this)
-                    //.parseRawData({result: totalEvents})
+                    .parseRawData({result: mergedResult})
                     .render();
             }
         });
