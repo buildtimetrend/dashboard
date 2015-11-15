@@ -402,7 +402,7 @@ function initCharts() {
                  * Secondly, remove the key name from the list,
                  * by inserting every value into an array.
                  *
-                 * Using a key-value list will be faster (O(n log n)),
+                 * Using a key-value list will be much faster (O(n)),
                  * than iterating all existing objects to check if the name is the same (O(n^2))
                  */
                 var propertyName = 'buildtime_trend.project_name'
