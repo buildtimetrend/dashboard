@@ -58,6 +58,8 @@ function initCharts() {
     var keenTimeframe = updatePeriod.keenTimeframe;
     var keenInterval = updatePeriod.keenInterval;
 
+    var PROJECT_NAME_PROPERTY = 'buildtime_trend.project_name';
+
     // get count button target
     var countSettings = countButtons.getCurrentButton();
 
@@ -236,7 +238,7 @@ function initCharts() {
         chartBuildsPerProject.queries.push(new Keen.Query("count_unique", {
             eventCollection: countSettings.keenEventCollection,
             targetProperty: countSettings.keenTargetProperty,
-            groupBy: "buildtime_trend.project_name",
+            groupBy: PROJECT_NAME_PROPERTY,
             interval: keenInterval,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
@@ -277,7 +279,7 @@ function initCharts() {
         chartBuildsPerProjectPie.queries.push(new Keen.Query("count_unique", {
             eventCollection: countSettings.keenEventCollection,
             targetProperty: countSettings.keenTargetProperty,
-            groupBy: "buildtime_trend.project_name",
+            groupBy: PROJECT_NAME_PROPERTY,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
@@ -309,7 +311,7 @@ function initCharts() {
         // create query
         chartStagesPerProject.queries.push(new Keen.Query("count", {
             eventCollection: "build_substages",
-            groupBy: "buildtime_trend.project_name",
+            groupBy: PROJECT_NAME_PROPERTY,
             interval: keenInterval,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
@@ -349,7 +351,7 @@ function initCharts() {
         // create query
         chartStagesPerProjectPie.queries.push(new Keen.Query("count", {
             eventCollection: "build_substages",
-            groupBy: "buildtime_trend.project_name",
+            groupBy: PROJECT_NAME_PROPERTY,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
@@ -405,15 +407,14 @@ function initCharts() {
                  * Using a key-value list will be much faster (O(n)),
                  * than iterating all existing objects to check if the name is the same (O(n^2))
                  */
-                var propertyName = 'buildtime_trend.project_name'
                 // use named keys to lookup if object already exists
                 var mergedHash = {};
                 $.each(res, function() {
                     $.each(this.result, function() {
-                        if (mergedHash[this[propertyName]]) {
-                            mergedHash[this[propertyName]].result += this.result;
+                        if (mergedHash[this[PROJECT_NAME_PROPERTY]]) {
+                            mergedHash[this[PROJECT_NAME_PROPERTY]].result += this.result;
                         } else {
-                            mergedHash[this[propertyName]] = this;
+                            mergedHash[this[PROJECT_NAME_PROPERTY]] = this;
                         }
                     });
                 });
