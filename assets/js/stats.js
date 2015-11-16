@@ -46,6 +46,16 @@ countButtons.onClick = function() { updateCountCharts(); };
 
 var chartBuildsPerProject, chartBuildsPerProjectPie;
 
+/* Merge values into a hashtable, add results if key exists */
+function mergeSum(object, mergedHashTable, propertyName) {
+    var key = object[propertyName];
+    if (mergedHashTable[key]) {
+        mergedHashTable[key].result += object.result;
+    } else {
+        mergedHashTable[key] = object;
+    }
+}
+
 function initCharts() {
     // initialize timeframe buttons
     timeframeButtons.initButtons();
@@ -57,6 +67,8 @@ function initCharts() {
     var keenMaxAge = updatePeriod.keenMaxAge;
     var keenTimeframe = updatePeriod.keenTimeframe;
     var keenInterval = updatePeriod.keenInterval;
+
+    var PROJECT_NAME_PROPERTY = 'buildtime_trend.project_name';
 
     // get count button target
     var countSettings = countButtons.getCurrentButton();
@@ -236,7 +248,7 @@ function initCharts() {
         chartBuildsPerProject.queries.push(new Keen.Query("count_unique", {
             eventCollection: countSettings.keenEventCollection,
             targetProperty: countSettings.keenTargetProperty,
-            groupBy: "buildtime_trend.project_name",
+            groupBy: PROJECT_NAME_PROPERTY,
             interval: keenInterval,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
@@ -277,7 +289,7 @@ function initCharts() {
         chartBuildsPerProjectPie.queries.push(new Keen.Query("count_unique", {
             eventCollection: countSettings.keenEventCollection,
             targetProperty: countSettings.keenTargetProperty,
-            groupBy: "buildtime_trend.project_name",
+            groupBy: PROJECT_NAME_PROPERTY,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
@@ -309,7 +321,7 @@ function initCharts() {
         // create query
         chartStagesPerProject.queries.push(new Keen.Query("count", {
             eventCollection: "build_substages",
-            groupBy: "buildtime_trend.project_name",
+            groupBy: PROJECT_NAME_PROPERTY,
             interval: keenInterval,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
@@ -334,7 +346,7 @@ function initCharts() {
         chartStagesPerProject.request = client.run(chartStagesPerProject.queries, function(err, res) {
             if (err) {
                 // Display the API error
-                chartStagesPerProject.charterror(err.message);
+                chartStagesPerProject.chart.error(err.message);
             } else {
                 chartStagesPerProject.chart
                     .parseRequest(this)
@@ -349,7 +361,7 @@ function initCharts() {
         // create query
         chartStagesPerProjectPie.queries.push(new Keen.Query("count", {
             eventCollection: "build_substages",
-            groupBy: "buildtime_trend.project_name",
+            groupBy: PROJECT_NAME_PROPERTY,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
             timezone: TIMEZONE_SECS
@@ -375,6 +387,59 @@ function initCharts() {
         });
         chartsUpdate.push(chartStagesPerProjectPie);
 
+        /* Total events per project */
+        var chartEventsPerProject = new ChartClass();
+
+        // draw chart
+        chartEventsPerProject.chart = new Keen.Dataviz()
+            .el(document.getElementById("chart_total_events"))
+            .title("Total events per project")
+            .chartType("columnchart")
+            .height(400)
+            .attributes({
+                chartOptions: {
+                    isStacked: true
+                }
+            })
+            .prepare();
+
+        chartEventsPerProject.request = client.run(
+            chartStagesPerProject.queries.concat(chartBuildsPerProject.queries),
+            function(err, res) {
+            if (err) {
+                // Display the API error
+                chartEventsPerProject.chart.error(err.message);
+            } else {
+                var result1 = res[0].result;
+                var mergedResult = [];
+                var i=0;
+
+                // Loop over X-axis values
+                while (i < result1.length) {
+                    var mergedHash = {};
+                    // loop over query results
+                    $.each(res, function() {
+                        // loop over series values
+                        $.each(this["result"][i]["value"], function() {
+                            mergeSum(this, mergedHash, PROJECT_NAME_PROPERTY);
+                        });
+                    });
+
+                    // construct merged data set
+                    mergedResult[i]={
+                        timeframe: result1[i]["timeframe"],
+                        value: removeKeys(mergedHash)
+                    }
+                    i++;
+                }
+
+                chartEventsPerProject.chart
+                    .parseRawData({result: mergedResult})
+                    .render();
+            }
+        });
+        chartsUpdate.push(chartEventsPerProject);
+
         /* Total events per project (piechart)*/
         var chartEventsPerProjectPie = new ChartClass();
 
@@ -386,20 +451,35 @@ function initCharts() {
             .prepare();
 
         chartEventsPerProjectPie.request = client.run(
-            chartStagesPerProject.queries.concat(chartBuildsPerProject.queries),
+            chartStagesPerProjectPie.queries.concat(chartBuildsPerProjectPie.queries),
             function(err, res) {
             if (err) {
                 // Display the API error
                 chartEventsPerProjectPie.chart.error(err.message);
             } else {
-                /* TODO merge series
-                var totalEvents = 0;
+                /* Merge series (sum results)
+                 *
+                 * First merge the results of the different series into
+                 * a key-value list, using the key name to check if an
+                 * object already exists.
+                 * Add the value to the list if it doesn't exist, if it does exist,
+                 * add its value to the value of the existing value.
+                 * Secondly, remove the key name from the list,
+                 * by inserting every value into an array.
+                 *
+                 * Using a key-value list will be much faster (O(n)),
+                 * than iterating all existing objects to check if the name is the same (O(n^2))
+                 */
+                // use named keys to lookup if object already exists
+                var mergedHash = {};
                 $.each(res, function() {
-                    totalEvents += this.result;
-                });*/
+                    $.each(this.result, function() {
+                        mergeSum(this, mergedHash, PROJECT_NAME_PROPERTY);
+                    });
+                });
+
                 chartEventsPerProjectPie.chart
-                    .parseRequest(this)
-                    //.parseRawData({result: totalEvents})
+                    .parseRawData({result: removeKeys(mergedHash)})
                     .render();
             }
         });
