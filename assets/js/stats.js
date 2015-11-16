@@ -414,14 +414,18 @@ function initCharts() {
                 var mergedResult = [];
                 var i=0;
 
+                // Loop over X-axis values
                 while (i < result1.length) {
                     var mergedHash = {};
+                    // loop over query results
                     $.each(res, function() {
+                        // loop over series values
                         $.each(this["result"][i]["value"], function() {
                             mergeSum(this, mergedHash, PROJECT_NAME_PROPERTY);
                         });
                     });
 
+                    // construct merged data set
                     mergedResult[i]={
                         timeframe: result1[i]["timeframe"],
                         value: removeKeys(mergedHash)
