@@ -346,7 +346,7 @@ function initCharts() {
         chartStagesPerProject.request = client.run(chartStagesPerProject.queries, function(err, res) {
             if (err) {
                 // Display the API error
-                chartStagesPerProject.charterror(err.message);
+                chartStagesPerProject.chart.error(err.message);
             } else {
                 chartStagesPerProject.chart
                     .parseRequest(this)
