@@ -377,6 +377,69 @@ function initCharts() {
         });
         chartsUpdate.push(chartStagesPerProjectPie);
 
+        /* Total events per project */
+        var chartEventsPerProject = new ChartClass();
+
+        // draw chart
+        chartEventsPerProject.chart = new Keen.Dataviz()
+            .el(document.getElementById("chart_total_events"))
+            .title("Total events per project")
+            .chartType("columnchart")
+            .height(400)
+            .attributes({
+                chartOptions: {
+                    isStacked: true
+                }
+            })
+            .prepare();
+
+        chartEventsPerProject.request = client.run(
+            chartStagesPerProject.queries.concat(chartBuildsPerProject.queries),
+            function(err, res) {
+            if (err) {
+                // Display the API error
+                chartEventsPerProject.chart.error(err.message);
+            } else {
+                var result1 = res[0].result;
+                var mergedResult = [];
+                var i=0;
+
+                while (i < result1.length) {
+                    var mergedHash = {};
+                    $.each(res, function() {
+                        $.each(this["result"][i]["value"], function() {
+                            if (mergedHash[this[PROJECT_NAME_PROPERTY]]) {
+                                mergedHash[this[PROJECT_NAME_PROPERTY]].result += this.result;
+                            } else {
+                                mergedHash[this[PROJECT_NAME_PROPERTY]] = this;
+                            }
+                        });
+                    });
+
+                    // convert merged result to array (without keys)
+                    var mergedValues = [];
+                    $.each(mergedHash, function() {
+                        mergedValues.push(this);
+                    });
+
+                    mergedResult[i]={
+                        timeframe: result1[i]["timeframe"],
+                        value: mergedValues
+                    /*    [
+                            { category: "Pageviews", result: result1[i]["value"] },
+                            { category: "Visitors", result: result2[i]["value"] }
+                        ]*/
+                    }
+                    i++;
+                }
+
+                chartEventsPerProject.chart
+                    .parseRawData({result: mergedResult})
+                    .render();
+            }
+        });
+        chartsUpdate.push(chartEventsPerProject);
+
         /* Total events per project (piechart)*/
         var chartEventsPerProjectPie = new ChartClass();
 
