@@ -416,19 +416,9 @@ function initCharts() {
                         });
                     });
 
-                    // convert merged result to array (without keys)
-                    var mergedValues = [];
-                    $.each(mergedHash, function() {
-                        mergedValues.push(this);
-                    });
-
                     mergedResult[i]={
                         timeframe: result1[i]["timeframe"],
-                        value: mergedValues
-                    /*    [
-                            { category: "Pageviews", result: result1[i]["value"] },
-                            { category: "Visitors", result: result2[i]["value"] }
-                        ]*/
+                        value: removeKeys(mergedHash)
                     }
                     i++;
                 }
@@ -482,14 +472,8 @@ function initCharts() {
                     });
                 });
 
-                // convert merged result to array (without keys)
-                var mergedResult = [];
-                $.each(mergedHash, function() {
-                    mergedResult.push(this);
-                });
-
                 chartEventsPerProjectPie.chart
-                    .parseRawData({result: mergedResult})
+                    .parseRawData({result: removeKeys(mergedHash)})
                     .render();
             }
         });
