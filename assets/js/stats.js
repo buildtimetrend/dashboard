@@ -46,6 +46,16 @@ countButtons.onClick = function() { updateCountCharts(); };
 
 var chartBuildsPerProject, chartBuildsPerProjectPie;
 
+/* Merge values into a hashtable, add results if key exists */
+function mergeSum(object, mergedHashTable, propertyName) {
+    var key = object[propertyName];
+    if (mergedHashTable[key]) {
+        mergedHashTable[key].result += object.result;
+    } else {
+        mergedHashTable[key] = object;
+    }
+}
+
 function initCharts() {
     // initialize timeframe buttons
     timeframeButtons.initButtons();
@@ -408,11 +418,7 @@ function initCharts() {
                     var mergedHash = {};
                     $.each(res, function() {
                         $.each(this["result"][i]["value"], function() {
-                            if (mergedHash[this[PROJECT_NAME_PROPERTY]]) {
-                                mergedHash[this[PROJECT_NAME_PROPERTY]].result += this.result;
-                            } else {
-                                mergedHash[this[PROJECT_NAME_PROPERTY]] = this;
-                            }
+                            mergeSum(this, mergedHash, PROJECT_NAME_PROPERTY);
                         });
                     });
 
@@ -464,11 +470,7 @@ function initCharts() {
                 var mergedHash = {};
                 $.each(res, function() {
                     $.each(this.result, function() {
-                        if (mergedHash[this[PROJECT_NAME_PROPERTY]]) {
-                            mergedHash[this[PROJECT_NAME_PROPERTY]].result += this.result;
-                        } else {
-                            mergedHash[this[PROJECT_NAME_PROPERTY]] = this;
-                        }
+                        mergeSum(this, mergedHash, PROJECT_NAME_PROPERTY);
                     });
                 });
 
