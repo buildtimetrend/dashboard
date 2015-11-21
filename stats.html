@@ -98,6 +98,31 @@
       </div>
       <div class="col-sm-6">
         <div class="chart-wrapper">
+          <div class="chart-stage">
+	    <div class="row">
+              <div class="col-xs-3">
+                <div class="tabbable tabs-left">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a href="#chart_total_events_pie" data-toggle="tab">Pie</a></li>
+                    <li><a href="#chart_total_events" data-toggle="tab">Column</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-xs-9">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="chart_total_events_pie"></div>
+                  <div class="tab-pane" id="chart_total_events"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="chart-wrapper">
           <div class="chart-title">
 	    Total<span class="btn-group-xs">
               <button type="button" id="count_builds" class="btn btn-default">Builds</button>
@@ -118,31 +143,6 @@
                 <div class="tab-content">
                   <div class="tab-pane active" id="chart_builds_per_project_pie"></div>
                   <div class="tab-pane" id="chart_builds_per_project"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-   </div>
-
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="chart-wrapper">
-          <div class="chart-stage">
-	    <div class="row">
-              <div class="col-xs-3">
-                <div class="tabbable tabs-left">
-                  <ul class="nav nav-tabs">
-                    <li class="active"><a href="#chart_total_events_pie" data-toggle="tab">Pie</a></li>
-                    <li><a href="#chart_total_events" data-toggle="tab">Column</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-xs-9">
-                <div class="tab-content">
-                  <div class="tab-pane active" id="chart_total_events_pie"></div>
-                  <div class="tab-pane" id="chart_total_events"></div>
                 </div>
               </div>
             </div>

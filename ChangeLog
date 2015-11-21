@@ -1,5 +1,6 @@
 v0.4 (not yet released)
-- issue #129 : Add programming languages to projects chart
+- [stats] issue #129 : Add programming languages to projects chart
+- [stats] switch 'events per project' and 'build/jobs per project' charts
 
 v0.3 (released on 16Nov2015)
 - issue #21 : add charts with build job results
