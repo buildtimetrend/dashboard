@@ -213,6 +213,7 @@ function initCharts() {
         chartUniqueRepos.queries.push(new Keen.Query("count_unique", {
             eventCollection: "build_jobs",
             targetProperty: "job.repo",
+            groupBy: "job.build_matrix.language",
             interval: keenInterval,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
@@ -227,6 +228,11 @@ function initCharts() {
             .title("Unique project repositories")
             .chartType("areachart")
             .height(400)
+            .attributes({
+                chartOptions: {
+                    isStacked: true
+                }
+            })
             .prepare();
 
         chartUniqueRepos.request = client.run(chartUniqueRepos.queries, function(err, res) {
@@ -420,16 +426,16 @@ function initCharts() {
                     // loop over query results
                     $.each(res, function() {
                         // loop over series values
-                        $.each(this["result"][i]["value"], function() {
+                        $.each(this.result[i].value, function() {
                             mergeSum(this, mergedHash, PROJECT_NAME_PROPERTY);
                         });
                     });
 
                     // construct merged data set
                     mergedResult[i]={
-                        timeframe: result1[i]["timeframe"],
+                        timeframe: result1[i].timeframe,
                         value: removeKeys(mergedHash)
-                    }
+                    };
                     i++;
                 }
 
