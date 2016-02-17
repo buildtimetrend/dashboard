@@ -1,6 +1,7 @@
 v0.4 (not yet released)
 - [stats] issue #python-lib/129 : Add programming languages to projects chart
 - [stats] switch 'events per project' and 'build/jobs per project' charts
+- [trends,stats] issue #dashboard/1 : Remove fixed width for metrics, to make them responsive
 
 v0.3 (released on 16Nov2015)
 - issue #python-lib/21 : add charts with build job results
