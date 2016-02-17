@@ -95,7 +95,6 @@ function initCharts() {
         metricTotalRepos.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_unique_repos"))
             .title("Unique repos")
-            .width(300)
             .colors([BLUE])
             .attributes({
                 chartOptions: {prettyNumber: false}
@@ -130,7 +129,6 @@ function initCharts() {
         metricTotalBuildJobs.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_total_build_jobs"))
             .title("Total build jobs")
-            .width(300)
             .prepare();
 
         metricTotalBuildJobs.request = client.run(metricTotalBuildJobs.queries, function(err, res){
@@ -161,7 +159,6 @@ function initCharts() {
         metricTotalSubStages.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_total_substages"))
             .title("Total substages")
-            .width(300)
             .prepare();
 
         metricTotalSubStages.request = client.run(metricTotalSubStages.queries, function(err, res){
@@ -183,7 +180,6 @@ function initCharts() {
         metricTotalEvents.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_total_events"))
             .title("Total events")
-            .width(300)
             .colors([LAVENDER])
             .prepare();
 

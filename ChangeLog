@@ -1,39 +1,40 @@
 v0.4 (not yet released)
-- [stats] issue #129 : Add programming languages to projects chart
+- [stats] issue #python-lib/129 : Add programming languages to projects chart
 - [stats] switch 'events per project' and 'build/jobs per project' charts
+- [trends,stats] issue #dashboard/1 : Remove fixed width for metrics, to make them responsive
 
 v0.3 (released on 16Nov2015)
-- issue #21 : add charts with build job results
-- issue #52 : upgrade to Keen JS API 3.2
-- issue #23 : add charts with build job results grouped by branch or by build environment parameters
-- issue #70 : use bootstrap buttons and ButtonClass on dashboard to select timeframe
-- issue #93 : upgrade to bootstrap 3.3.5
-- issue #88 : use caching for Keen.io charts
-- issue #99 : Enable auto refreshing dashboard charts with `refresh` url parameter
-- issue #108 : Make projects menu scrollable
-- issue #100, #103 : Filter on build properties for chart data, like build
+- issue #python-lib/21 : add charts with build job results
+- issue #python-lib/52 : upgrade to Keen JS API 3.2
+- issue #python-lib/23 : add charts with build job results grouped by branch or by build environment parameters
+- issue #python-lib/70 : use bootstrap buttons and ButtonClass on dashboard to select timeframe
+- issue #python-lib/93 : upgrade to bootstrap 3.3.5
+- issue #python-lib/88 : use caching for Keen.io charts
+- issue #python-lib/99 : Enable auto refreshing dashboard charts with `refresh` url parameter
+- issue #python-lib/108 : Make projects menu scrollable
+- issue #python-lib/100, #103 : Filter on build properties for chart data, like build
 trigger, branch, build matrix, build result
-- issue #108 : Limit size of projects dropdown menu and make it scrollable
-- issue #91 : display stats of pull requests
-- issue #45 : add charts with average build job per branch and build matrix parameters
-- issue #113 : use url parameter to set default timeframe
-- issue #121 : use url parameter to set query filters
+- issue #python-lib/108 : Limit size of projects dropdown menu and make it scrollable
+- issue #python-lib/91 : display stats of pull requests
+- issue #python-lib/45 : add charts with average build job per branch and build matrix parameters
+- issue #python-lib/113 : use url parameter to set default timeframe
+- issue #python-lib/121 : use url parameter to set query filters
 - upgrade to Keen Javascript API 3.3.0
-- issue #84 : Add admin dashboard with service usage statistics
+- issue #python-lib/84 : Add admin dashboard with service usage statistics
 
 v0.2 (released on 18Feb2015)
-- issue #19 : update Keen.io charts using query request refresh function
-- issue #26 : add chart displaying builds per time of day or day of week
-- issue #44 : Display buildtime averages of different timeframes in the same chart
-- issue #15 : use Keen.io dashboard template for trends dashboard
-- issue #58 : split project in a client
+- issue #python-lib/19 : update Keen.io charts using query request refresh function
+- issue #python-lib/26 : add chart displaying builds per time of day or day of week
+- issue #python-lib/44 : Display buildtime averages of different timeframes in the same chart
+- issue #python-lib/15 : use Keen.io dashboard template for trends dashboard
+- issue #python-lib/58 : split project in a client
 (https://github.com/buildtimetrend/python-client), library
 (https://github.com/buildtimetrend/python-lib) and dashboard (current project)
 - rename 'trends' folder to 'dashboard'
-- issue #17 : add parameterized (repo name, interval) build status badge to dashboard
-- issue #18 : link to project website and project repo on dashboard
+- issue #python-lib/17 : add parameterized (repo name, interval) build status badge to dashboard
+- issue #python-lib/18 : link to project website and project repo on dashboard
 - run queries in GMT timezone
 - schema change : save build job data in build_jobs.job (was builds.build)
 
 before v0.2, dashboard was part of the Buildtime Trend client repo. A seperate
-repo was created for the dashboard, see issue #58
+repo was created for the dashboard, see issue #python-lib/58

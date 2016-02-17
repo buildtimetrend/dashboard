@@ -178,7 +178,6 @@ function initCharts() {
         metricTotalBuildJobs.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_total_builds"))
             .title("Total build jobs")
-            .width(200)
             .attributes({
                 chartOptions: {prettyNumber: false}
             })
@@ -224,7 +223,6 @@ function initCharts() {
             .attributes({
                 chartOptions: {prettyNumber: false}
             })
-            .width(200)
             .prepare();
 
         // combine queries for conditional coloring of TotalBuildspassed
@@ -286,7 +284,6 @@ function initCharts() {
             .attributes({
                 chartOptions: {prettyNumber: false}
             })
-            .width(200)
             .prepare();
 
         // combine queries for conditional coloring of TotalBuildsfailed
@@ -338,7 +335,6 @@ function initCharts() {
         metricAverageBuildTime.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_average_build_time"))
             .title("Average job duration")
-            .width(300)
             .attributes({
                 chartOptions: {
                     suffix: " min"
