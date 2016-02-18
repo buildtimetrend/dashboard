@@ -2,7 +2,7 @@
 /**
  * Common functions and variables to enable a dashboard.
  *
- * Copyright (C) 2014-2015 Dieter Adriaenssens <ruleant@users.sourceforge.net>
+ * Copyright (C) 2014-2016 Dieter Adriaenssens <ruleant@users.sourceforge.net>
  *
  * This file is part of buildtimetrend/dashboard
  * <https://github.com/buildtimetrend/dashboard/>
