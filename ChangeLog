@@ -2,6 +2,7 @@ v0.4 (not yet released)
 - [stats] issue buildtimetrend/python-lib#129 : Add programming languages to projects chart
 - [stats] switch 'events per project' and 'build/jobs per project' charts
 - [trends,stats] issue buildtimetrend/dashboard#1 : Remove fixed width for metrics, to make them responsive
+- upgrade to Keen Javascript API 3.4.0
 
 v0.3 (released on 16Nov2015)
 - issue buildtimetrend/python-lib#21 : add charts with build job results
