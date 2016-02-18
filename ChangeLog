@@ -4,6 +4,7 @@ v0.4 (not yet released)
 - [trends,stats] issue buildtimetrend/dashboard#1 : Remove fixed width for metrics, to make them responsive
 - upgrade to Keen Javascript API 3.4.0
 - upgrade to bootstrap 3.3.6
+- upgrade to jQuery 1.12.0
 
 v0.3 (released on 16Nov2015)
 - issue buildtimetrend/python-lib#21 : add charts with build job results
