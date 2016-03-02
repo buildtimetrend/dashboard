@@ -378,7 +378,7 @@ function initCharts() {
         // create chart
         metricDaysSinceLastFailed.chart = new Keen.Dataviz()
             .el(document.getElementById("metric_days_since_last_fail"))
-            .title("days without fail")
+            .title("days without failing")
             .attributes({
                 chartOptions: {prettyNumber: false}
             })
