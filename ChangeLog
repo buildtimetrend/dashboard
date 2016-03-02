@@ -6,6 +6,7 @@ v0.4 (not yet released)
 - upgrade to bootstrap 3.3.6
 - upgrade to jQuery 1.12.0
 - [trends] issue buildtimetrend/python-lib#38 : Add 'days without fail' metric
+- [trends,stats] issue buildtimetrend/python-dashboard#3 : Show spinner when charts are being updated
 
 v0.3 (released on 16Nov2015)
 - issue buildtimetrend/python-lib#21 : add charts with build job results
