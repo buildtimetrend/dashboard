@@ -391,16 +391,21 @@ function initCharts() {
                 // Display the API error
                 metricDaysSinceLastFailed.chart.error(err.message);
             } else {
+                var chartColor = [GREEN];
                 var lastFailedBuild = res.result;
                 var now = Date.now() / 1000;
                 var daysSinceFail = 0;
                 if (lastFailedBuild > 0) {
                     daysSinceFail = Math.floor((now - lastFailedBuild) / (3600 * 24));
+                    if (daysSinceFail == 0) {
+                        chartColor = [RED];
+                    }
                 }
 
                 // draw chart
                 metricDaysSinceLastFailed.chart
                     .parseRawData({result: daysSinceFail})
+                    .colors(chartColor)
                     .render();
             }
         });
