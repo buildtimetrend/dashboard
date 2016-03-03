@@ -355,6 +355,62 @@ function initCharts() {
         });
         chartsUpdate.push(metricAverageBuildTime);
 
+        /* Days since last failed build job */
+        var metricDaysSinceLastFailed = new ChartClass();
+
+        metricDaysSinceLastFailed.filters = [
+            {
+                "operator": "ne",
+                "property_name": "job.result",
+                "property_value": "passed"
+            }
+        ];
+
+        // create query
+        metricDaysSinceLastFailed.queries.push(new Keen.Query("maximum", {
+            eventCollection: "build_jobs",
+            timezone: TIMEZONE_SECS,
+            targetProperty: "job.finished_at.timestamp_seconds",
+            maxAge: keenMaxAge,
+            filters: metricDaysSinceLastFailed.filters.concat(filterList)
+        }));
+
+        // create chart
+        metricDaysSinceLastFailed.chart = new Keen.Dataviz()
+            .el(document.getElementById("metric_days_since_last_fail"))
+            .title("days since last fail")
+            .attributes({
+                chartOptions: {prettyNumber: false}
+            })
+            .prepare();
+
+        metricDaysSinceLastFailed.request = client.run(
+            metricDaysSinceLastFailed.queries,
+            function(err, res) {
+            if (err) {
+                // Display the API error
+                metricDaysSinceLastFailed.chart.error(err.message);
+            } else {
+                var chartColor = [GREEN];
+                var lastFailedBuild = res.result;
+                var now = Date.now() / 1000;
+                var daysSinceFail = 0;
+                if (lastFailedBuild > 0) {
+                    daysSinceFail = Math.floor((now - lastFailedBuild) / (3600 * 24));
+                    if (daysSinceFail === 0) {
+                        chartColor = [RED];
+                    }
+                }
+
+                // draw chart
+                metricDaysSinceLastFailed.chart
+                    .parseRawData({result: daysSinceFail})
+                    .colors(chartColor)
+                    .render();
+            }
+        });
+        chartsUpdate.push(metricDaysSinceLastFailed);
+
         /* average stage duration */
         var chartStageDuration = new ChartClass();
 

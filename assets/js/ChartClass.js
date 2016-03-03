@@ -51,6 +51,7 @@ function ChartClass() {
         });
 
         if (refresh) {
+            this.chart.prepare();
             this.request.refresh();
         }
     };

@@ -510,7 +510,9 @@ function updateCountCharts() {
   chartBuildsPerProjectPie.chart.title(countSettings.caption + " per project");
 
   // refresh all query requests
+  chartBuildsPerProject.chart.prepare();
   chartBuildsPerProject.request.refresh();
+  chartBuildsPerProjectPie.chart.prepare();
   chartBuildsPerProjectPie.request.refresh();
 }
 
