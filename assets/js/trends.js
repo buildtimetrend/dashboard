@@ -397,7 +397,7 @@ function initCharts() {
                 var daysSinceFail = 0;
                 if (lastFailedBuild > 0) {
                     daysSinceFail = Math.floor((now - lastFailedBuild) / (3600 * 24));
-                    if (daysSinceFail == 0) {
+                    if (daysSinceFail === 0) {
                         chartColor = [RED];
                     }
                 }
