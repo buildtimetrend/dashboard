@@ -167,9 +167,17 @@ function populateProjects() {
 
 // Get badge url
 function getBadgeUrl() {
+    var serviceUrl = 'https://buildtimetrend.herokuapp.com';
+
     // check if config.serviceUrl is set by something else than the default value
-    if (isEmpty(config.serviceUrl) || config.serviceUrl === 'service_url') {
-        config.serviceUrl = 'https://buildtimetrend.herokuapp.com';
+    if ( !(isEmpty(config.serviceUrl) || config.serviceUrl === 'service_url')) {
+        serviceUrl = config.serviceUrl;
     }
-    return config.serviceUrl + '/badge/';
+
+    // add trailing slash if it is missing
+    if (serviceUrl.substr(-1) !== "/") {
+        serviceUrl += "/";
+    }
+
+    return serviceUrl + 'badge/';
 }
