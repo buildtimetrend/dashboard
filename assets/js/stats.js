@@ -77,7 +77,7 @@ function initCharts() {
     $('#charts').show();
 
     // visualization code goes here
-    Keen.ready(function() {
+    //Keen.ready(function() {
         /* Total unique repos */
         var metricTotalRepos = new ChartClass();
 
@@ -92,7 +92,7 @@ function initCharts() {
         chartsTimeframe.push(metricTotalRepos);
 
         // draw chart
-        metricTotalRepos.chart = new Keen.Dataviz()
+        metricTotalRepos.chart = new Dataviz()
             .el(document.getElementById("metric_unique_repos"))
             .title("Unique repos")
             .colors([BLUE])
@@ -107,7 +107,7 @@ function initCharts() {
                 metricTotalRepos.chart.error(err.message);
             } else {
                 metricTotalRepos.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -126,7 +126,7 @@ function initCharts() {
         chartsTimeframe.push(metricTotalBuildJobs);
 
         // draw chart
-        metricTotalBuildJobs.chart = new Keen.Dataviz()
+        metricTotalBuildJobs.chart = new Dataviz()
             .el(document.getElementById("metric_total_build_jobs"))
             .title("Total build jobs")
             .prepare();
@@ -137,7 +137,7 @@ function initCharts() {
                 metricTotalBuildJobs.chart.error(err.message);
             } else {
                 metricTotalBuildJobs.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -156,7 +156,7 @@ function initCharts() {
         chartsTimeframe.push(metricTotalSubStages);
 
         // draw chart
-        metricTotalSubStages.chart = new Keen.Dataviz()
+        metricTotalSubStages.chart = new Dataviz()
             .el(document.getElementById("metric_total_substages"))
             .title("Total substages")
             .prepare();
@@ -167,7 +167,7 @@ function initCharts() {
                 metricTotalSubStages.chart.error(err.message);
             } else {
                 metricTotalSubStages.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -177,7 +177,7 @@ function initCharts() {
         var metricTotalEvents = new ChartClass();
 
         // draw chart
-        metricTotalEvents.chart = new Keen.Dataviz()
+        metricTotalEvents.chart = new Dataviz()
             .el(document.getElementById("metric_total_events"))
             .title("Total events")
             .colors([LAVENDER])
@@ -196,7 +196,7 @@ function initCharts() {
                     totalEvents += this.result;
                 });
                 metricTotalEvents.chart
-                    .parseRawData({result: totalEvents})
+                    .data({result: totalEvents})
                     .render();
             }
         });
@@ -219,7 +219,7 @@ function initCharts() {
         chartsInterval.push(chartUniqueRepos);
 
         // draw chart
-        chartUniqueRepos.chart = new Keen.Dataviz()
+        chartUniqueRepos.chart = new Dataviz()
             .el(document.getElementById("chart_unique_repos"))
             .title("Unique project repositories")
             .chartType("areachart")
@@ -237,7 +237,7 @@ function initCharts() {
                 chartUniqueRepos.chart.error(err.message);
             } else {
                 chartUniqueRepos.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -260,7 +260,7 @@ function initCharts() {
         chartsInterval.push(chartBuildsPerProject);
 
         // draw chart
-        chartBuildsPerProject.chart = new Keen.Dataviz()
+        chartBuildsPerProject.chart = new Dataviz()
             .el(document.getElementById("chart_builds_per_project"))
             .title(countSettings.caption + " per project")
             .chartType("columnchart")
@@ -278,7 +278,7 @@ function initCharts() {
                 chartBuildsPerProject.chart.error(err.message);
             } else {
                 chartBuildsPerProject.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -299,7 +299,7 @@ function initCharts() {
         chartsTimeframe.push(chartBuildsPerProjectPie);
 
         // draw chart
-        chartBuildsPerProjectPie.chart = new Keen.Dataviz()
+        chartBuildsPerProjectPie.chart = new Dataviz()
             .el(document.getElementById("chart_builds_per_project_pie"))
             .title(countSettings.caption + " per project")
             .height(400)
@@ -311,7 +311,7 @@ function initCharts() {
                 chartBuildsPerProjectPie.chart.error(err.message);
             } else {
                 chartBuildsPerProjectPie.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -333,7 +333,7 @@ function initCharts() {
         chartsInterval.push(chartStagesPerProject);
 
         // draw chart
-        chartStagesPerProject.chart = new Keen.Dataviz()
+        chartStagesPerProject.chart = new Dataviz()
             .el(document.getElementById("chart_stages_per_project"))
             .title("Substages per project")
             .chartType("columnchart")
@@ -351,7 +351,7 @@ function initCharts() {
                 chartStagesPerProject.chart.error(err.message);
             } else {
                 chartStagesPerProject.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -371,7 +371,7 @@ function initCharts() {
         chartsTimeframe.push(chartStagesPerProjectPie);
 
         // draw chart
-        chartStagesPerProjectPie.chart = new Keen.Dataviz()
+        chartStagesPerProjectPie.chart = new Dataviz()
             .el(document.getElementById("chart_stages_per_project_pie"))
             .title("Substages per project")
             .height(400)
@@ -383,7 +383,7 @@ function initCharts() {
                 chartStagesPerProjectPie.chart.error(err.message);
             } else {
                 chartStagesPerProjectPie.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -393,7 +393,7 @@ function initCharts() {
         var chartEventsPerProject = new ChartClass();
 
         // draw chart
-        chartEventsPerProject.chart = new Keen.Dataviz()
+        chartEventsPerProject.chart = new Dataviz()
             .el(document.getElementById("chart_total_events"))
             .title("Total events per project")
             .chartType("columnchart")
@@ -436,7 +436,7 @@ function initCharts() {
                 }
 
                 chartEventsPerProject.chart
-                    .parseRawData({result: mergedResult})
+                    .data({result: mergedResult})
                     .render();
             }
         });
@@ -446,7 +446,7 @@ function initCharts() {
         var chartEventsPerProjectPie = new ChartClass();
 
         // draw chart
-        chartEventsPerProjectPie.chart = new Keen.Dataviz()
+        chartEventsPerProjectPie.chart = new Dataviz()
             .el(document.getElementById("chart_total_events_pie"))
             .title("Total events per project")
             .height(400)
@@ -481,12 +481,12 @@ function initCharts() {
                 });
 
                 chartEventsPerProjectPie.chart
-                    .parseRawData({result: removeKeys(mergedHash)})
+                    .data({result: removeKeys(mergedHash)})
                     .render();
             }
         });
         chartsUpdate.push(chartEventsPerProjectPie);
-    });
+    //});
 }
 
 /**
