@@ -222,7 +222,7 @@ function initCharts() {
         chartUniqueRepos.chart = new Dataviz()
             .el(document.getElementById("chart_unique_repos"))
             .title("Unique project repositories")
-            .chartType("areachart")
+            .type('area')
             .height(400)
             .attributes({
                 chartOptions: {
@@ -263,7 +263,7 @@ function initCharts() {
         chartBuildsPerProject.chart = new Dataviz()
             .el(document.getElementById("chart_builds_per_project"))
             .title(countSettings.caption + " per project")
-            .chartType("columnchart")
+            .type('bar')
             .height(400)
             .attributes({
                 chartOptions: {
@@ -337,7 +337,7 @@ function initCharts() {
         chartStagesPerProject.chart = new Dataviz()
             .el(document.getElementById("chart_stages_per_project"))
             .title("Substages per project")
-            .chartType("columnchart")
+            .type('bar')
             .height(400)
             .attributes({
                 chartOptions: {
@@ -398,7 +398,7 @@ function initCharts() {
         chartEventsPerProject.chart = new Dataviz()
             .el(document.getElementById("chart_total_events"))
             .title("Total events per project")
-            .chartType("columnchart")
+            .type('bar')
             .height(400)
             .attributes({
                 chartOptions: {
