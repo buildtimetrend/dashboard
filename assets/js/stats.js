@@ -302,6 +302,7 @@ function initCharts() {
         chartBuildsPerProjectPie.chart = new Dataviz()
             .el(document.getElementById("chart_builds_per_project_pie"))
             .title(countSettings.caption + " per project")
+            .type('pie')
             .height(400)
             .prepare();
 
@@ -374,6 +375,7 @@ function initCharts() {
         chartStagesPerProjectPie.chart = new Dataviz()
             .el(document.getElementById("chart_stages_per_project_pie"))
             .title("Substages per project")
+            .type('pie')
             .height(400)
             .prepare();
 
@@ -449,6 +451,7 @@ function initCharts() {
         chartEventsPerProjectPie.chart = new Dataviz()
             .el(document.getElementById("chart_total_events_pie"))
             .title("Total events per project")
+            .type('pie')
             .height(400)
             .prepare();
 
