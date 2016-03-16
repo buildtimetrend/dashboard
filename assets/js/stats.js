@@ -93,7 +93,7 @@ function initCharts() {
 
         // draw chart
         metricTotalRepos.chart = new Dataviz()
-            .el(document.getElementById("metric_unique_repos"))
+            .el('#metric_unique_repos')
             .type('metric')
             .title("Unique repos")
             .colors([BLUE])
@@ -128,7 +128,7 @@ function initCharts() {
 
         // draw chart
         metricTotalBuildJobs.chart = new Dataviz()
-            .el(document.getElementById("metric_total_build_jobs"))
+            .el('#metric_total_build_jobs')
             .type('metric')
             .title("Total build jobs")
             .prepare();
@@ -159,7 +159,7 @@ function initCharts() {
 
         // draw chart
         metricTotalSubStages.chart = new Dataviz()
-            .el(document.getElementById("metric_total_substages"))
+            .el('#metric_total_substages')
             .type('metric')
             .title("Total substages")
             .prepare();
@@ -181,7 +181,7 @@ function initCharts() {
 
         // draw chart
         metricTotalEvents.chart = new Dataviz()
-            .el(document.getElementById("metric_total_events"))
+            .el('#metric_total_events')
             .type('metric')
             .title("Total events")
             .colors([LAVENDER])
@@ -224,7 +224,7 @@ function initCharts() {
 
         // draw chart
         chartUniqueRepos.chart = new Dataviz()
-            .el(document.getElementById("chart_unique_repos"))
+            .el('#chart_unique_repos')
             .title("Unique project repositories")
             .type('area')
             .height(400)
@@ -265,7 +265,7 @@ function initCharts() {
 
         // draw chart
         chartBuildsPerProject.chart = new Dataviz()
-            .el(document.getElementById("chart_builds_per_project"))
+            .el('#chart_builds_per_project')
             .title(countSettings.caption + " per project")
             .type('bar')
             .height(400)
@@ -304,7 +304,7 @@ function initCharts() {
 
         // draw chart
         chartBuildsPerProjectPie.chart = new Dataviz()
-            .el(document.getElementById("chart_builds_per_project_pie"))
+            .el('#chart_builds_per_project_pie')
             .title(countSettings.caption + " per project")
             .type('pie')
             .height(400)
@@ -339,7 +339,7 @@ function initCharts() {
 
         // draw chart
         chartStagesPerProject.chart = new Dataviz()
-            .el(document.getElementById("chart_stages_per_project"))
+            .el('#chart_stages_per_project')
             .title("Substages per project")
             .type('bar')
             .height(400)
@@ -377,7 +377,7 @@ function initCharts() {
 
         // draw chart
         chartStagesPerProjectPie.chart = new Dataviz()
-            .el(document.getElementById("chart_stages_per_project_pie"))
+            .el('#chart_stages_per_project_pie')
             .title("Substages per project")
             .type('pie')
             .height(400)
@@ -400,7 +400,7 @@ function initCharts() {
 
         // draw chart
         chartEventsPerProject.chart = new Dataviz()
-            .el(document.getElementById("chart_total_events"))
+            .el('#chart_total_events')
             .title("Total events per project")
             .type('bar')
             .height(400)
@@ -453,7 +453,7 @@ function initCharts() {
 
         // draw chart
         chartEventsPerProjectPie.chart = new Dataviz()
-            .el(document.getElementById("chart_total_events_pie"))
+            .el('#chart_total_events_pie')
             .title("Total events per project")
             .type('pie')
             .height(400)
