@@ -94,6 +94,7 @@ function initCharts() {
         // draw chart
         metricTotalRepos.chart = new Dataviz()
             .el(document.getElementById("metric_unique_repos"))
+            .type('metric')
             .title("Unique repos")
             .colors([BLUE])
             .attributes({
@@ -128,6 +129,7 @@ function initCharts() {
         // draw chart
         metricTotalBuildJobs.chart = new Dataviz()
             .el(document.getElementById("metric_total_build_jobs"))
+            .type('metric')
             .title("Total build jobs")
             .prepare();
 
@@ -158,6 +160,7 @@ function initCharts() {
         // draw chart
         metricTotalSubStages.chart = new Dataviz()
             .el(document.getElementById("metric_total_substages"))
+            .type('metric')
             .title("Total substages")
             .prepare();
 
@@ -179,6 +182,7 @@ function initCharts() {
         // draw chart
         metricTotalEvents.chart = new Dataviz()
             .el(document.getElementById("metric_total_events"))
+            .type('metric')
             .title("Total events")
             .colors([LAVENDER])
             .prepare();
