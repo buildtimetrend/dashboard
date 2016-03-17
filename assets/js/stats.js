@@ -229,9 +229,7 @@ function initCharts() {
             .type('area')
             .height(400)
             .attributes({
-                chartOptions: {
-                    isStacked: true
-                }
+                stacked: true
             })
             .prepare();
 
@@ -270,9 +268,7 @@ function initCharts() {
             .type('bar')
             .height(400)
             .attributes({
-                chartOptions: {
-                    isStacked: true
-                }
+                stacked: true
             })
            .prepare();
 
@@ -344,9 +340,7 @@ function initCharts() {
             .type('bar')
             .height(400)
             .attributes({
-                chartOptions: {
-                    isStacked: true
-                }
+                stacked: true
             })
            .prepare();
 
@@ -405,9 +399,7 @@ function initCharts() {
             .type('bar')
             .height(400)
             .attributes({
-                chartOptions: {
-                    isStacked: true
-                }
+                stacked: true
             })
             .prepare();
 
