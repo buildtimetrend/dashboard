@@ -189,7 +189,7 @@ function initCharts() {
             metricTotalBuildJobs.chart.error(err.message);
             } else {
                 metricTotalBuildJobs.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -249,7 +249,7 @@ function initCharts() {
 
                 // draw chart
                 metricTotalBuildJobsPassed.chart
-                    .parseRawData({result: totalBuildsPassed})
+                    .data({result: totalBuildsPassed})
                     .colors(chartColor)
                     .render();
             }
@@ -310,7 +310,7 @@ function initCharts() {
 
                 // draw chart
                 metricTotalBuildJobsFailed.chart
-                    .parseRawData({result: totalBuildsFailed})
+                    .data({result: totalBuildsFailed})
                     .colors(chartColor)
                     .render();
             }
@@ -349,7 +349,7 @@ function initCharts() {
             } else {
                 res.result = Math.round(res.result / 60);
                 metricAverageBuildTime.chart
-                    .parseRawData(res)
+                    .data(res)
                     .render();
             }
         });
@@ -404,7 +404,7 @@ function initCharts() {
 
                 // draw chart
                 metricDaysSinceLastFailed.chart
-                    .parseRawData({result: daysSinceFail})
+                    .data({result: daysSinceFail})
                     .colors(chartColor)
                     .render();
             }
@@ -451,7 +451,7 @@ function initCharts() {
                 chartStageDuration.chart.error(err.message);
             } else {
                 chartStageDuration.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -487,7 +487,7 @@ function initCharts() {
                 chartStageFraction.chart.error(err.message);
             } else {
                 chartStageFraction.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -529,7 +529,7 @@ function initCharts() {
                 chartStageDurationBuild.chart.error(err.message);
             } else {
                 chartStageDurationBuild.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -571,7 +571,7 @@ function initCharts() {
                 chartStageDurationBuildJob.chart.error(err.message);
             } else {
                 chartStageDurationBuildJob.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -613,7 +613,7 @@ function initCharts() {
                 chartJobDurationBranch.chart.error(err.message);
             } else {
                 chartJobDurationBranch.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -663,7 +663,7 @@ function initCharts() {
                 chartJobDurationBuildMatrix.chart.error(err.message);
             } else {
                 chartJobDurationBuildMatrix.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -706,7 +706,7 @@ function initCharts() {
                 chartBuildsPerBranch.chart.error(err.message);
             } else {
                 chartBuildsPerBranch.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -740,7 +740,7 @@ function initCharts() {
                 chartTotalBuildsBranch.chart.error(err.message);
             } else {
                 chartTotalBuildsBranch.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -788,7 +788,7 @@ function initCharts() {
                 chartJobResult.chart.error(err.message);
             } else {
                 chartJobResult.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -830,7 +830,7 @@ function initCharts() {
                 chartJobResultMatrix.chart.error(err.message);
             } else {
                 chartJobResultMatrix.chart
-                    .parseRequest(this)
+                    .data(res)
                     .render();
             }
         });
@@ -920,7 +920,7 @@ function initCharts() {
                 );
 
                 chartAvgBuildtimeHour.chart
-                    .parseRawData({result : chartData})
+                    .data({result : chartData})
                     .render();
             }
         });
@@ -1000,7 +1000,7 @@ function initCharts() {
                 );
 
                 chartAvgBuildtimeWeekDay.chart
-                    .parseRawData({result : chartData})
+                    .data({result : chartData})
                     .render();
             }
         });
