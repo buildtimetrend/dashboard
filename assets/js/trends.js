@@ -155,7 +155,7 @@ function initCharts() {
     $('#charts').show();
 
     // visualization code goes here
-    Keen.ready(function() {
+    //Keen.ready(function() {
         // initialise filter option buttons
         createFilterOptions();
 
@@ -175,7 +175,7 @@ function initCharts() {
         chartsTimeframe.push(metricTotalBuildJobs);
 
         // draw chart
-        metricTotalBuildJobs.chart = new Keen.Dataviz()
+        metricTotalBuildJobs.chart = new Dataviz()
             .el(document.getElementById("metric_total_builds"))
             .title("Total build jobs")
             .attributes({
@@ -217,7 +217,7 @@ function initCharts() {
         chartsTimeframe.push(metricTotalBuildJobsPassed);
 
         // create chart
-        metricTotalBuildJobsPassed.chart = new Keen.Dataviz()
+        metricTotalBuildJobsPassed.chart = new Dataviz()
             .el(document.getElementById("metric_total_builds_passed"))
             .title("Build jobs passed")
             .attributes({
@@ -278,7 +278,7 @@ function initCharts() {
         chartsTimeframe.push(metricTotalBuildJobsFailed);
 
         // create chart
-        metricTotalBuildJobsFailed.chart = new Keen.Dataviz()
+        metricTotalBuildJobsFailed.chart = new Dataviz()
             .el(document.getElementById("metric_total_builds_failed"))
             .title("Build jobs failed")
             .attributes({
@@ -332,7 +332,7 @@ function initCharts() {
         chartsTimeframe.push(metricAverageBuildTime);
 
         // draw chart
-        metricAverageBuildTime.chart = new Keen.Dataviz()
+        metricAverageBuildTime.chart = new Dataviz()
             .el(document.getElementById("metric_average_build_time"))
             .title("Average job duration")
             .attributes({
@@ -376,7 +376,7 @@ function initCharts() {
         }));
 
         // create chart
-        metricDaysSinceLastFailed.chart = new Keen.Dataviz()
+        metricDaysSinceLastFailed.chart = new Dataviz()
             .el(document.getElementById("metric_days_since_last_fail"))
             .title("days since last fail")
             .attributes({
@@ -432,7 +432,7 @@ function initCharts() {
 
 
         // draw chart
-        chartStageDuration.chart = new Keen.Dataviz()
+        chartStageDuration.chart = new Dataviz()
             .el(document.getElementById("chart_stage_duration"))
             .title("Average build stage duration")
             .chartType("columnchart")
@@ -475,7 +475,7 @@ function initCharts() {
         chartsTimeframe.push(chartStageFraction);
 
         // draw chart
-        chartStageFraction.chart = new Keen.Dataviz()
+        chartStageFraction.chart = new Dataviz()
             .el(document.getElementById("chart_stage_fraction"))
             .title("Average build stage duration (%)")
             .height(400)
@@ -509,7 +509,7 @@ function initCharts() {
         chartsTimeframe.push(chartStageDurationBuild);
 
         // draw chart
-        chartStageDurationBuild.chart = new Keen.Dataviz()
+        chartStageDurationBuild.chart = new Dataviz()
             .el(document.getElementById("chart_duration_build"))
             .chartType("columnchart")
             .title("Total build duration grouped by build ID")
@@ -551,7 +551,7 @@ function initCharts() {
         chartsTimeframe.push(chartStageDurationBuildJob);
 
         // draw chart
-        chartStageDurationBuildJob.chart = new Keen.Dataviz()
+        chartStageDurationBuildJob.chart = new Dataviz()
             .el(document.getElementById("chart_duration_buildjob"))
             .chartType("columnchart")
             .title("Total build job duration grouped by build job ID")
@@ -593,7 +593,7 @@ function initCharts() {
         chartsTimeframe.push(chartJobDurationBranch);
 
         // draw chart
-        chartJobDurationBranch.chart = new Keen.Dataviz()
+        chartJobDurationBranch.chart = new Dataviz()
             .el(document.getElementById("chart_job_duration_branch"))
             .chartType("columnchart")
             .title("Average build job duration grouped by branch")
@@ -643,7 +643,7 @@ function initCharts() {
         chartsTimeframe.push(chartJobDurationBuildMatrix);
 
         // draw chart
-        chartJobDurationBuildMatrix.chart = new Keen.Dataviz()
+        chartJobDurationBuildMatrix.chart = new Dataviz()
             .el(document.getElementById("chart_job_duration_buildmatrix"))
             .chartType("columnchart")
             .title("Average build job duration grouped by build matrix parameters")
@@ -687,7 +687,7 @@ function initCharts() {
         chartsInterval.push(chartBuildsPerBranch);
 
         // draw chart
-        chartBuildsPerBranch.chart = new Keen.Dataviz()
+        chartBuildsPerBranch.chart = new Dataviz()
             .el(document.getElementById("chart_builds_branch"))
             .title("Builds per branch")
             .chartType("columnchart")
@@ -728,7 +728,7 @@ function initCharts() {
         chartsTimeframe.push(chartTotalBuildsBranch);
 
         // draw chart
-        chartTotalBuildsBranch.chart = new Keen.Dataviz()
+        chartTotalBuildsBranch.chart = new Dataviz()
             .el(document.getElementById("chart_builds_branch_pie"))
             .title("Builds per branch (%)")
             .height(400)
@@ -764,7 +764,7 @@ function initCharts() {
         chartsInterval.push(chartJobResult);
 
         // draw chart
-        chartJobResult.chart = new Keen.Dataviz()
+        chartJobResult.chart = new Dataviz()
             .el(document.getElementById("chart_jobs_result"))
             .title("Build job results")
             .chartType("columnchart")
@@ -818,7 +818,7 @@ function initCharts() {
         chartsTimeframe.push(chartJobResultMatrix);
 
         // draw chart
-        chartJobResultMatrix.chart = new Keen.Dataviz()
+        chartJobResultMatrix.chart = new Dataviz()
             .el(document.getElementById("chart_jobs_result_branch"))
             .height(400)
             .title("Build jobs grouped by build matrix parameters")
@@ -877,7 +877,7 @@ function initCharts() {
         }));
 
         // create chart
-        chartAvgBuildtimeHour.chart = new Keen.Dataviz()
+        chartAvgBuildtimeHour.chart = new Dataviz()
             .el(document.getElementById("chart_avg_buildtime_hour"))
             .chartType("columnchart")
             .title("Average buildtime per time of day")
@@ -967,7 +967,7 @@ function initCharts() {
         }));
 
         // create chart
-        chartAvgBuildtimeWeekDay.chart = new Keen.Dataviz()
+        chartAvgBuildtimeWeekDay.chart = new Dataviz()
             .el(document.getElementById("chart_avg_buildtime_weekday"))
             .chartType("columnchart")
             .title("Average buildtime per day of week")
@@ -1007,7 +1007,7 @@ function initCharts() {
         chartsUpdate.push(chartAvgBuildtimeWeekDay);
 
         updateChartFilters();
-    });
+    //});
 }
 
 // initialize page
