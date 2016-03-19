@@ -176,7 +176,7 @@ function initCharts() {
 
         // draw chart
         metricTotalBuildJobs.chart = new Dataviz()
-            .el(document.getElementById("metric_total_builds"))
+            .el('#metric_total_builds')
             .type('metric')
             .title("Total build jobs")
             .attributes({
@@ -219,7 +219,7 @@ function initCharts() {
 
         // create chart
         metricTotalBuildJobsPassed.chart = new Dataviz()
-            .el(document.getElementById("metric_total_builds_passed"))
+            .el('#metric_total_builds_passed')
             .title("Build jobs passed")
             .type('metric')
             .attributes({
@@ -281,7 +281,7 @@ function initCharts() {
 
         // create chart
         metricTotalBuildJobsFailed.chart = new Dataviz()
-            .el(document.getElementById("metric_total_builds_failed"))
+            .el('#metric_total_builds_failed')
             .title("Build jobs failed")
             .type('metric')
             .attributes({
@@ -336,7 +336,7 @@ function initCharts() {
 
         // draw chart
         metricAverageBuildTime.chart = new Dataviz()
-            .el(document.getElementById("metric_average_build_time"))
+            .el('#metric_average_build_time')
             .title("Average job duration")
             .type('metric')
             .attributes({
@@ -381,7 +381,7 @@ function initCharts() {
 
         // create chart
         metricDaysSinceLastFailed.chart = new Dataviz()
-            .el(document.getElementById("metric_days_since_last_fail"))
+            .el('#metric_days_since_last_fail')
             .title("days since last fail")
             .type('metric')
             .attributes({
@@ -438,7 +438,7 @@ function initCharts() {
 
         // draw chart
         chartStageDuration.chart = new Dataviz()
-            .el(document.getElementById("chart_stage_duration"))
+            .el('#chart_stage_duration')
             .title("Average build stage duration")
             .type('bar')
             .height(400)
@@ -481,7 +481,7 @@ function initCharts() {
 
         // draw chart
         chartStageFraction.chart = new Dataviz()
-            .el(document.getElementById("chart_stage_fraction"))
+            .el('#chart_stage_fraction')
             .title("Average build stage duration (%)")
             .type('pie')
             .height(400)
@@ -516,7 +516,7 @@ function initCharts() {
 
         // draw chart
         chartStageDurationBuild.chart = new Dataviz()
-            .el(document.getElementById("chart_duration_build"))
+            .el('#chart_duration_build')
             .type('bar')
             .title("Total build duration grouped by build ID")
             .height(400)
@@ -558,7 +558,7 @@ function initCharts() {
 
         // draw chart
         chartStageDurationBuildJob.chart = new Dataviz()
-            .el(document.getElementById("chart_duration_buildjob"))
+            .el('#chart_duration_buildjob')
             .type('bar')
             .title("Total build job duration grouped by build job ID")
             .height(400)
@@ -600,7 +600,7 @@ function initCharts() {
 
         // draw chart
         chartJobDurationBranch.chart = new Dataviz()
-            .el(document.getElementById("chart_job_duration_branch"))
+            .el('#chart_job_duration_branch')
             .type('bar')
             .title("Average build job duration grouped by branch")
             .height(400)
@@ -650,7 +650,7 @@ function initCharts() {
 
         // draw chart
         chartJobDurationBuildMatrix.chart = new Dataviz()
-            .el(document.getElementById("chart_job_duration_buildmatrix"))
+            .el('#chart_job_duration_buildmatrix')
             .type('bar')
             .title("Average build job duration grouped by build matrix parameters")
             .height(400)
@@ -694,7 +694,7 @@ function initCharts() {
 
         // draw chart
         chartBuildsPerBranch.chart = new Dataviz()
-            .el(document.getElementById("chart_builds_branch"))
+            .el('#chart_builds_branch')
             .title("Builds per branch")
             .type('bar')
             .height(400)
@@ -735,7 +735,7 @@ function initCharts() {
 
         // draw chart
         chartTotalBuildsBranch.chart = new Dataviz()
-            .el(document.getElementById("chart_builds_branch_pie"))
+            .el('#chart_builds_branch_pie')
             .title("Builds per branch (%)")
             .type('pie')
             .height(400)
@@ -772,7 +772,7 @@ function initCharts() {
 
         // draw chart
         chartJobResult.chart = new Dataviz()
-            .el(document.getElementById("chart_jobs_result"))
+            .el('#chart_jobs_result')
             .title("Build job results")
             .type('bar')
             .height(400)
@@ -826,7 +826,7 @@ function initCharts() {
 
         // draw chart
         chartJobResultMatrix.chart = new Dataviz()
-            .el(document.getElementById("chart_jobs_result_branch"))
+            .el('#chart_jobs_result_branch')
             .height(400)
             .title("Build jobs grouped by build matrix parameters")
             .type('pie')
@@ -886,7 +886,7 @@ function initCharts() {
 
         // create chart
         chartAvgBuildtimeHour.chart = new Dataviz()
-            .el(document.getElementById("chart_avg_buildtime_hour"))
+            .el('#chart_avg_buildtime_hour')
             .type('bar')
             .title("Average buildtime per time of day")
             .height(400)
@@ -976,7 +976,7 @@ function initCharts() {
 
         // create chart
         chartAvgBuildtimeWeekDay.chart = new Dataviz()
-            .el(document.getElementById("chart_avg_buildtime_weekday"))
+            .el('#chart_avg_buildtime_weekday')
             .type('bar')
             .title("Average buildtime per day of week")
             .height(400)
