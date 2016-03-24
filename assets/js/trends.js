@@ -445,7 +445,11 @@ function initCharts() {
             .attributes({
                 chartOptions: {
                     isStacked: true,
-                    vAxis: {title: "duration [s]"}
+                    axis: {
+                        y: {
+                            label: "duration [s]"
+                        }
+                    }
                 }
             })
             .prepare();
@@ -523,8 +527,14 @@ function initCharts() {
             .attributes({
                 chartOptions: {
                     legend: {position: "none"},
-                    vAxis: {title: "duration [s]"},
-                    hAxis: {title: "build ID"}
+                    axis: {
+                        x: {
+                            label: "build ID"
+                        },
+                        y: {
+                            label: "duration [s]"
+                        }
+                    }
                 }
             })
             .prepare();
@@ -565,8 +575,14 @@ function initCharts() {
             .attributes({
                 chartOptions: {
                     legend: {position: "none"},
-                    vAxis: {title: "duration [s]"},
-                    hAxis: {title: "build job ID"}
+                    axis: {
+                        x: {
+                            label: "build job ID"
+                        },
+                        y: {
+                            label: "duration [s]"
+                        }
+                    }
                 }
             })
             .prepare();
@@ -607,8 +623,14 @@ function initCharts() {
             .attributes({
                 chartOptions: {
                     legend: {position: "none"},
-                    vAxis: {title: "duration [s]"},
-                    hAxis: {title: "branch name"}
+                    axis: {
+                        x: {
+                            label: "branch name"
+                        },
+                        y: {
+                            label: "duration [s]"
+                        }
+                    }
                 }
             })
             .prepare();
@@ -657,8 +679,14 @@ function initCharts() {
             .attributes({
                 chartOptions: {
                     legend: {position: "none"},
-                    vAxis: {title: "duration [s]"},
-                    hAxis: {title: "build matrix parameters"}
+                    axis: {
+                        x: {
+                            label: "build matrix parameters"
+                        },
+                        y: {
+                            label: "duration [s]"
+                        }
+                    }
                 }
             })
             .prepare();
@@ -701,7 +729,11 @@ function initCharts() {
             .attributes({
                 chartOptions: {
                     isStacked: true,
-                    vAxis: {title: "build count"}
+                    axis: {
+                        y: {
+                            label: "build count"
+                        }
+                    }
                 }
             })
             .prepare();
@@ -779,7 +811,11 @@ function initCharts() {
             .attributes({
                 chartOptions: {
                     isStacked: true,
-                    vAxis: {title: "build job count"}
+                    axis: {
+                        y: {
+                            label: "build job count"
+                        }
+                    }
                 },
                 colorMapping: {
                     "passed": GREEN,
@@ -892,9 +928,15 @@ function initCharts() {
             .height(400)
             .attributes({
                 chartOptions: {
-                    vAxis: { title: "duration [s]" },
+                    axis: {
+                        x: {
+                            label: "Time of day [24-hour format, UTC]"
+                        },
+                        y: {
+                            label: "duration [s]"
+                        }
+                    },
                     hAxis: {
-                        title: "Time of day [24-hour format, UTC]",
                         slantedText: "true",
                         slantedTextAngle: "90"
                     }
@@ -982,8 +1024,14 @@ function initCharts() {
             .height(400)
             .attributes({
                 chartOptions: {
-                    vAxis: { title: "duration [s]" },
-                    hAxis: { title: "Day of week" }
+                    axis: {
+                        x: {
+                            label: "Day of week"
+                        },
+                        y: {
+                            label: "duration [s]"
+                        }
+                    }
                 }
             })
             .prepare();
