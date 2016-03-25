@@ -526,7 +526,6 @@ function initCharts() {
             .height(400)
             .attributes({
                 chartOptions: {
-                    legend: {position: "none"},
                     axis: {
                         x: {
                             label: "build ID"
@@ -574,7 +573,6 @@ function initCharts() {
             .height(400)
             .attributes({
                 chartOptions: {
-                    legend: {position: "none"},
                     axis: {
                         x: {
                             label: "build job ID"
@@ -622,7 +620,6 @@ function initCharts() {
             .height(400)
             .attributes({
                 chartOptions: {
-                    legend: {position: "none"},
                     axis: {
                         x: {
                             label: "branch name"
@@ -678,7 +675,6 @@ function initCharts() {
             .height(400)
             .attributes({
                 chartOptions: {
-                    legend: {position: "none"},
                     axis: {
                         x: {
                             label: "build matrix parameters"
