@@ -528,6 +528,10 @@ function initCharts() {
                 chartOptions: {
                     axis: {
                         x: {
+                            tick : {
+                                rotate: 60,
+                                multiline: false
+                            },
                             label: "build ID"
                         },
                         y: {
@@ -575,6 +579,10 @@ function initCharts() {
                 chartOptions: {
                     axis: {
                         x: {
+                            tick : {
+                                rotate: 60,
+                                multiline: false
+                            },
                             label: "build job ID"
                         },
                         y: {
@@ -926,15 +934,15 @@ function initCharts() {
                 chartOptions: {
                     axis: {
                         x: {
+                            tick : {
+                                rotate: 45,
+                                multiline: false
+                            },
                             label: "Time of day [24-hour format, UTC]"
                         },
                         y: {
                             label: "duration [s]"
                         }
-                    },
-                    hAxis: {
-                        slantedText: "true",
-                        slantedTextAngle: "90"
                     }
                 }
             })
