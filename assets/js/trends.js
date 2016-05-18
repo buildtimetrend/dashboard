@@ -184,7 +184,7 @@ function initCharts() {
             })
             .prepare();
 
-        metricTotalBuildJobs.request = client.run(metricTotalBuildJobs.queries, function(err, res){
+        metricTotalBuildJobs.request = function() {client.run(metricTotalBuildJobs.queries, function(err, res){
             if (err) {
             // Display the API error
             metricTotalBuildJobs.chart.error(err.message);
@@ -193,7 +193,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(metricTotalBuildJobs);
 
         /* Total builds passed */
@@ -228,7 +228,7 @@ function initCharts() {
             .prepare();
 
         // combine queries for conditional coloring of TotalBuildspassed
-        metricTotalBuildJobsPassed.request = client.run(
+        metricTotalBuildJobsPassed.request = function() {client.run(
             metricTotalBuildJobs.queries.concat(metricTotalBuildJobsPassed.queries),
             function(err, res) {
             if (err) {
@@ -255,7 +255,7 @@ function initCharts() {
                     .colors(chartColor)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(metricTotalBuildJobsPassed);
 
         /* Total builds failed */
@@ -290,7 +290,7 @@ function initCharts() {
             .prepare();
 
         // combine queries for conditional coloring of TotalBuildsfailed
-        metricTotalBuildJobsFailed.request= client.run(
+        metricTotalBuildJobsFailed.request= function() {client.run(
             metricTotalBuildJobs.queries.concat(metricTotalBuildJobsFailed.queries),
             function(err, res) {
             if (err) {
@@ -317,7 +317,7 @@ function initCharts() {
                     .colors(chartColor)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(metricTotalBuildJobsFailed);
 
         /* average build time of all stages */
@@ -346,7 +346,7 @@ function initCharts() {
             })
             .prepare();
 
-        metricAverageBuildTime.request = client.run(metricAverageBuildTime.queries, function(err, res) {
+        metricAverageBuildTime.request = function() {client.run(metricAverageBuildTime.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 metricAverageBuildTime.chart.error(err.message);
@@ -356,7 +356,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(metricAverageBuildTime);
 
         /* Days since last failed build job */
@@ -389,7 +389,7 @@ function initCharts() {
             })
             .prepare();
 
-        metricDaysSinceLastFailed.request = client.run(
+        metricDaysSinceLastFailed.request = function() {client.run(
             metricDaysSinceLastFailed.queries,
             function(err, res) {
             if (err) {
@@ -413,7 +413,7 @@ function initCharts() {
                     .colors(chartColor)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(metricDaysSinceLastFailed);
 
         /* average stage duration */
@@ -454,7 +454,7 @@ function initCharts() {
             })
             .prepare();
 
-        chartStageDuration.request = client.run(chartStageDuration.queries, function(err, res) {
+        chartStageDuration.request = function() {client.run(chartStageDuration.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 chartStageDuration.chart.error(err.message);
@@ -463,7 +463,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartStageDuration);
 
         /* Stage duration fraction */
@@ -491,7 +491,7 @@ function initCharts() {
             .height(400)
             .prepare();
 
-        chartStageFraction.request = client.run(chartStageFraction.queries, function(err, res) {
+        chartStageFraction.request = function() {client.run(chartStageFraction.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 chartStageFraction.chart.error(err.message);
@@ -500,7 +500,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartStageFraction);
 
         /* Total build duration grouped by build ID */
@@ -545,7 +545,7 @@ function initCharts() {
             })
             .prepare();
 
-        chartStageDurationBuild.request = client.run(chartStageDurationBuild.queries, function(err, res) {
+        chartStageDurationBuild.request = function() {client.run(chartStageDurationBuild.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 chartStageDurationBuild.chart.error(err.message);
@@ -554,7 +554,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartStageDurationBuild);
 
         /* Total build job duration grouped by build job ID */
@@ -599,7 +599,7 @@ function initCharts() {
             })
             .prepare();
 
-        chartStageDurationBuildJob.request = client.run(chartStageDurationBuildJob.queries, function(err, res) {
+        chartStageDurationBuildJob.request = function() {client.run(chartStageDurationBuildJob.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 chartStageDurationBuildJob.chart.error(err.message);
@@ -608,7 +608,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartStageDurationBuildJob);
 
         /* Average build job duration grouped by branch */
@@ -646,7 +646,7 @@ function initCharts() {
             })
             .prepare();
 
-        chartJobDurationBranch.request = client.run(chartJobDurationBranch.queries, function(err, res) {
+        chartJobDurationBranch.request = function() {client.run(chartJobDurationBranch.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 chartJobDurationBranch.chart.error(err.message);
@@ -655,7 +655,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartJobDurationBranch);
 
         /* Average build job duration grouped by build matrix */
@@ -701,7 +701,7 @@ function initCharts() {
             })
             .prepare();
 
-        chartJobDurationBuildMatrix.request = client.run(chartJobDurationBuildMatrix.queries, function(err, res) {
+        chartJobDurationBuildMatrix.request = function() {client.run(chartJobDurationBuildMatrix.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 chartJobDurationBuildMatrix.chart.error(err.message);
@@ -710,7 +710,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartJobDurationBuildMatrix);
 
         /* Builds per branch */
@@ -748,7 +748,7 @@ function initCharts() {
             })
             .prepare();
 
-        chartBuildsPerBranch.request = client.run(chartBuildsPerBranch.queries, function(err, res) {
+        chartBuildsPerBranch.request = function() {client.run(chartBuildsPerBranch.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 chartBuildsPerBranch.chart.error(err.message);
@@ -757,7 +757,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartBuildsPerBranch);
 
         /* Builds per branch */
@@ -783,7 +783,7 @@ function initCharts() {
             .height(400)
             .prepare();
 
-        chartTotalBuildsBranch.request = client.run(chartTotalBuildsBranch.queries, function(err, res) {
+        chartTotalBuildsBranch.request = function() {client.run(chartTotalBuildsBranch.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 chartTotalBuildsBranch.chart.error(err.message);
@@ -792,7 +792,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartTotalBuildsBranch);
 
         /* Build job result */
@@ -835,7 +835,7 @@ function initCharts() {
             })
             .prepare();
 
-        chartJobResult.request = client.run(chartJobResult.queries, function(err, res) {
+        chartJobResult.request = function() {client.run(chartJobResult.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 chartJobResult.chart.error(err.message);
@@ -844,7 +844,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartJobResult);
 
         /* Build job result per branch */
@@ -878,7 +878,7 @@ function initCharts() {
             .type('pie')
             .prepare();
 
-        chartJobResultMatrix.request = client.run(chartJobResultMatrix.queries, function(err, res) {
+        chartJobResultMatrix.request = function() {client.run(chartJobResultMatrix.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 chartJobResultMatrix.chart.error(err.message);
@@ -887,7 +887,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartJobResultMatrix);
 
         /* Average buildtime per time of day */
@@ -958,7 +958,8 @@ function initCharts() {
             .prepare();
 
         // generate chart
-        chartAvgBuildtimeHour.request = client.run(
+        chartAvgBuildtimeHour.request = function() {
+        client.run(
                 chartAvgBuildtimeHour.queries,
                 function(err, res)
         {
@@ -986,7 +987,7 @@ function initCharts() {
                     .data({result : chartData})
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartAvgBuildtimeHour);
 
         /* Average buildtime per day of week */
@@ -1050,7 +1051,7 @@ function initCharts() {
             .prepare();
 
         // generate chart
-        chartAvgBuildtimeWeekDay.request = client.run(
+        chartAvgBuildtimeWeekDay.request = function() {client.run(
             chartAvgBuildtimeWeekDay.queries,
             function(err, res)
         {
@@ -1072,7 +1073,7 @@ function initCharts() {
                     .data({result : chartData})
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartAvgBuildtimeWeekDay);
 
         updateChartFilters();

@@ -102,7 +102,7 @@ function initCharts() {
             })
             .prepare();
 
-        metricTotalRepos.request = client.run(metricTotalRepos.queries, function(err, res){
+        metricTotalRepos.request = function() {client.run(metricTotalRepos.queries, function(err, res){
             if (err) {
                 // Display the API error
                 metricTotalRepos.chart.error(err.message);
@@ -111,7 +111,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(metricTotalRepos);
 
         /* Total build jobs */
@@ -133,7 +133,7 @@ function initCharts() {
             .title("Total build jobs")
             .prepare();
 
-        metricTotalBuildJobs.request = client.run(metricTotalBuildJobs.queries, function(err, res){
+        metricTotalBuildJobs.request = function() {client.run(metricTotalBuildJobs.queries, function(err, res){
             if (err) {
                 // Display the API error
                 metricTotalBuildJobs.chart.error(err.message);
@@ -142,7 +142,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(metricTotalBuildJobs);
 
         /* Total sub stages */
@@ -164,7 +164,7 @@ function initCharts() {
             .title("Total substages")
             .prepare();
 
-        metricTotalSubStages.request = client.run(metricTotalSubStages.queries, function(err, res){
+        metricTotalSubStages.request = function() {client.run(metricTotalSubStages.queries, function(err, res){
             if (err) {
                 // Display the API error
                 metricTotalSubStages.chart.error(err.message);
@@ -173,7 +173,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(metricTotalSubStages);
 
         /* Total events */
@@ -188,7 +188,7 @@ function initCharts() {
             .prepare();
 
         // combine result of total build jobs and total substages
-        metricTotalEvents.request = client.run(
+        metricTotalEvents.request = function() {client.run(
             metricTotalBuildJobs.queries.concat(metricTotalSubStages.queries),
             function(err, res) {
             if (err) {
@@ -203,7 +203,7 @@ function initCharts() {
                     .data({result: totalEvents})
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(metricTotalEvents);
 
         /* Unique repos */
@@ -233,7 +233,7 @@ function initCharts() {
             })
             .prepare();
 
-        chartUniqueRepos.request = client.run(chartUniqueRepos.queries, function(err, res) {
+        chartUniqueRepos.request = function() {client.run(chartUniqueRepos.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 chartUniqueRepos.chart.error(err.message);
@@ -242,7 +242,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartUniqueRepos);
 
         /* Builds per project */
@@ -272,7 +272,7 @@ function initCharts() {
             })
            .prepare();
 
-        chartBuildsPerProject.request = client.run(chartBuildsPerProject.queries, function(err, res) {
+        chartBuildsPerProject.request = function() {client.run(chartBuildsPerProject.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 chartBuildsPerProject.chart.error(err.message);
@@ -281,7 +281,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartBuildsPerProject);
 
         /* Builds per project (piechart) */
@@ -306,7 +306,7 @@ function initCharts() {
             .height(400)
             .prepare();
 
-        chartBuildsPerProjectPie.request = client.run(chartBuildsPerProjectPie.queries, function(err, res) {
+        chartBuildsPerProjectPie.request = function() {client.run(chartBuildsPerProjectPie.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 chartBuildsPerProjectPie.chart.error(err.message);
@@ -315,7 +315,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartBuildsPerProjectPie);
 
         /* Substages per project */
@@ -344,7 +344,7 @@ function initCharts() {
             })
            .prepare();
 
-        chartStagesPerProject.request = client.run(chartStagesPerProject.queries, function(err, res) {
+        chartStagesPerProject.request = function() {client.run(chartStagesPerProject.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 chartStagesPerProject.chart.error(err.message);
@@ -353,7 +353,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartStagesPerProject);
 
         /* Substages per project (piechart)*/
@@ -377,7 +377,7 @@ function initCharts() {
             .height(400)
             .prepare();
 
-        chartStagesPerProjectPie.request = client.run(chartStagesPerProjectPie.queries, function(err, res) {
+        chartStagesPerProjectPie.request = function() {client.run(chartStagesPerProjectPie.queries, function(err, res) {
             if (err) {
                 // Display the API error
                 chartStagesPerProjectPie.chart.error(err.message);
@@ -386,7 +386,7 @@ function initCharts() {
                     .data(res)
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartStagesPerProjectPie);
 
         /* Total events per project */
@@ -403,7 +403,7 @@ function initCharts() {
             })
             .prepare();
 
-        chartEventsPerProject.request = client.run(
+        chartEventsPerProject.request = function() {client.run(
             chartStagesPerProject.queries.concat(chartBuildsPerProject.queries),
             function(err, res) {
             if (err) {
@@ -437,7 +437,7 @@ function initCharts() {
                     .data({result: mergedResult})
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartEventsPerProject);
 
         /* Total events per project (piechart)*/
@@ -451,7 +451,7 @@ function initCharts() {
             .height(400)
             .prepare();
 
-        chartEventsPerProjectPie.request = client.run(
+        chartEventsPerProjectPie.request = function() {client.run(
             chartStagesPerProjectPie.queries.concat(chartBuildsPerProjectPie.queries),
             function(err, res) {
             if (err) {
@@ -483,7 +483,7 @@ function initCharts() {
                     .data({result: removeKeys(mergedHash)})
                     .render();
             }
-        });
+        })};
         chartsUpdate.push(chartEventsPerProjectPie);
     //});
 }
@@ -510,9 +510,9 @@ function updateCountCharts() {
 
   // refresh all query requests
   chartBuildsPerProject.chart.prepare();
-  chartBuildsPerProject.request.refresh();
+  chartBuildsPerProject.request();
   chartBuildsPerProjectPie.chart.prepare();
-  chartBuildsPerProjectPie.request.refresh();
+  chartBuildsPerProjectPie.request();
 }
 
 // initialize page

@@ -240,7 +240,7 @@ function updateCharts() {
     // refresh all updated query requests
     $.each(chartsUpdate, function () {
         this.chart.prepare();
-        this.request.refresh();
+        this.request();
     });
 
     // repopulate filter options
