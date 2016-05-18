@@ -529,6 +529,9 @@ function initCharts() {
                     axis: {
                         x: {
                             tick : {
+                                culling: {
+                                    max: 8 // the number of tick texts will be adjusted to less than this value
+                                },
                                 rotate: 60,
                                 multiline: false
                             },
@@ -580,6 +583,9 @@ function initCharts() {
                     axis: {
                         x: {
                             tick : {
+                                culling: {
+                                    max: 8 // the number of tick texts will be adjusted to less than this value
+                                },
                                 rotate: 60,
                                 multiline: false
                             },
@@ -935,6 +941,9 @@ function initCharts() {
                     axis: {
                         x: {
                             tick : {
+                                culling: {
+                                    max: 10 // the number of tick texts will be adjusted to less than this value
+                                },
                                 rotate: 45,
                                 multiline: false
                             },
