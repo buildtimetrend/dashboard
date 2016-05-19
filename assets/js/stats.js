@@ -485,6 +485,8 @@ function initCharts() {
             }
         })};
         chartsUpdate.push(chartEventsPerProjectPie);
+
+        updateCharts();
     //});
 }
 
