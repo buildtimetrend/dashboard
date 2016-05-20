@@ -165,8 +165,8 @@ function initCharts() {
         var metricTotalBuildJobs = new ChartClass();
 
         // create query
-        metricTotalBuildJobs.queries.push(new Keen.Query("count", {
-            eventCollection: "build_jobs",
+        metricTotalBuildJobs.queries.push(new Keen.Query('count', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
@@ -178,7 +178,7 @@ function initCharts() {
         metricTotalBuildJobs.chart = new Dataviz()
             .el('#metric_total_builds')
             .type('metric')
-            .title("Total build jobs")
+            .title('Total build jobs')
             .attributes({
                 chartOptions: {prettyNumber: false}
             })
@@ -208,8 +208,8 @@ function initCharts() {
         ];
 
         // create query
-        metricTotalBuildJobsPassed.queries.push(new Keen.Query("count", {
-            eventCollection: "build_jobs",
+        metricTotalBuildJobsPassed.queries.push(new Keen.Query('count', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
@@ -220,7 +220,7 @@ function initCharts() {
         // create chart
         metricTotalBuildJobsPassed.chart = new Dataviz()
             .el('#metric_total_builds_passed')
-            .title("Build jobs passed")
+            .title('Build jobs passed')
             .type('metric')
             .attributes({
                 chartOptions: {prettyNumber: false}
@@ -270,8 +270,8 @@ function initCharts() {
         ];
 
         // create query
-        metricTotalBuildJobsFailed.queries.push(new Keen.Query("count", {
-            eventCollection: "build_jobs",
+        metricTotalBuildJobsFailed.queries.push(new Keen.Query('count', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
@@ -282,7 +282,7 @@ function initCharts() {
         // create chart
         metricTotalBuildJobsFailed.chart = new Dataviz()
             .el('#metric_total_builds_failed')
-            .title("Build jobs failed")
+            .title('Build jobs failed')
             .type('metric')
             .attributes({
                 chartOptions: {prettyNumber: false}
@@ -324,12 +324,12 @@ function initCharts() {
         var metricAverageBuildTime = new ChartClass();
 
         // create query
-        metricAverageBuildTime.queries.push(new Keen.Query("average", {
-            eventCollection: "build_jobs",
+        metricAverageBuildTime.queries.push(new Keen.Query('average', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
-            targetProperty: "job.duration",
+            targetProperty: 'job.duration',
             filters: filterList
         }));
         chartsTimeframe.push(metricAverageBuildTime);
@@ -337,11 +337,11 @@ function initCharts() {
         // draw chart
         metricAverageBuildTime.chart = new Dataviz()
             .el('#metric_average_build_time')
-            .title("Average job duration")
+            .title('Average job duration')
             .type('metric')
             .attributes({
                 chartOptions: {
-                    suffix: " min"
+                    suffix: ' min'
                 }
             })
             .prepare();
@@ -371,10 +371,10 @@ function initCharts() {
         ];
 
         // create query
-        metricDaysSinceLastFailed.queries.push(new Keen.Query("maximum", {
-            eventCollection: "build_jobs",
+        metricDaysSinceLastFailed.queries.push(new Keen.Query('maximum', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
-            targetProperty: "job.finished_at.timestamp_seconds",
+            targetProperty: 'job.finished_at.timestamp_seconds',
             maxAge: keenMaxAge,
             filters: metricDaysSinceLastFailed.filters.concat(filterList)
         }));
@@ -382,7 +382,7 @@ function initCharts() {
         // create chart
         metricDaysSinceLastFailed.chart = new Dataviz()
             .el('#metric_days_since_last_fail')
-            .title("days since last fail")
+            .title('days since last fail')
             .type('metric')
             .attributes({
                 chartOptions: {prettyNumber: false}
@@ -422,14 +422,14 @@ function initCharts() {
         chartStageDuration.filters = [{"property_name":"stage.name","operator":"exists","property_value":true}];
 
         // create query
-        chartStageDuration.queries.push(new Keen.Query("average", {
-            eventCollection: "build_stages",
+        chartStageDuration.queries.push(new Keen.Query('average', {
+            eventCollection: 'build_stages',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             interval: keenInterval,
             maxAge: keenMaxAge,
-            targetProperty: "stage.duration",
-            groupBy: "stage.name",
+            targetProperty: 'stage.duration',
+            groupBy: 'stage.name',
             filters: chartStageDuration.filters.concat(filterList)
         }));
         chartsTimeframe.push(chartStageDuration);
@@ -439,7 +439,7 @@ function initCharts() {
         // draw chart
         chartStageDuration.chart = new Dataviz()
             .el('#chart_stage_duration')
-            .title("Average build stage duration")
+            .title('Average build stage duration')
             .type('bar')
             .height(400)
             .attributes({
@@ -447,7 +447,7 @@ function initCharts() {
                     isStacked: true,
                     axis: {
                         y: {
-                            label: "duration [s]"
+                            label: 'duration [s]'
                         }
                     }
                 }
@@ -472,13 +472,13 @@ function initCharts() {
         chartStageFraction.filters = [{"property_name":"stage.name","operator":"exists","property_value":true}];
 
         // create query
-        chartStageFraction.queries.push(new Keen.Query("average", {
-            eventCollection: "build_stages",
+        chartStageFraction.queries.push(new Keen.Query('average', {
+            eventCollection: 'build_stages',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
-            targetProperty: "stage.duration",
-            groupBy: "stage.name",
+            targetProperty: 'stage.duration',
+            groupBy: 'stage.name',
             filters: chartStageDuration.filters.concat(filterList)
         }));
         chartsTimeframe.push(chartStageFraction);
@@ -486,7 +486,7 @@ function initCharts() {
         // draw chart
         chartStageFraction.chart = new Dataviz()
             .el('#chart_stage_fraction')
-            .title("Average build stage duration (%)")
+            .title('Average build stage duration (%)')
             .type('pie')
             .height(400)
             .prepare();
@@ -507,13 +507,13 @@ function initCharts() {
         var chartStageDurationBuild = new ChartClass();
 
         // create query
-        chartStageDurationBuild.queries.push(new Keen.Query("sum", {
-            eventCollection: "build_jobs",
+        chartStageDurationBuild.queries.push(new Keen.Query('sum', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
-            targetProperty: "job.duration",
-            groupBy: "job.build",
+            targetProperty: 'job.duration',
+            groupBy: 'job.build',
             filters: filterList
         }));
         chartsTimeframe.push(chartStageDurationBuild);
@@ -522,7 +522,7 @@ function initCharts() {
         chartStageDurationBuild.chart = new Dataviz()
             .el('#chart_duration_build')
             .type('bar')
-            .title("Total build duration grouped by build ID")
+            .title('Total build duration grouped by build ID')
             .height(400)
             .attributes({
                 chartOptions: {
@@ -535,10 +535,10 @@ function initCharts() {
                                 rotate: 60,
                                 multiline: false
                             },
-                            label: "build ID"
+                            label: 'build ID'
                         },
                         y: {
-                            label: "duration [s]"
+                            label: 'duration [s]'
                         }
                     }
                 }
@@ -561,13 +561,13 @@ function initCharts() {
         var chartStageDurationBuildJob = new ChartClass();
 
         // create query
-        chartStageDurationBuildJob.queries.push(new Keen.Query("sum", {
-            eventCollection: "build_jobs",
+        chartStageDurationBuildJob.queries.push(new Keen.Query('sum', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
-            targetProperty: "job.duration",
-            groupBy: "job.job",
+            targetProperty: 'job.duration',
+            groupBy: 'job.job',
             filters: filterList
         }));
         chartsTimeframe.push(chartStageDurationBuildJob);
@@ -576,7 +576,7 @@ function initCharts() {
         chartStageDurationBuildJob.chart = new Dataviz()
             .el('#chart_duration_buildjob')
             .type('bar')
-            .title("Total build job duration grouped by build job ID")
+            .title('Total build job duration grouped by build job ID')
             .height(400)
             .attributes({
                 chartOptions: {
@@ -589,10 +589,10 @@ function initCharts() {
                                 rotate: 60,
                                 multiline: false
                             },
-                            label: "build job ID"
+                            label: 'build job ID'
                         },
                         y: {
-                            label: "duration [s]"
+                            label: 'duration [s]'
                         }
                     }
                 }
@@ -615,13 +615,13 @@ function initCharts() {
         var chartJobDurationBranch = new ChartClass();
 
         // create query
-        chartJobDurationBranch.queries.push(new Keen.Query("average", {
-            eventCollection: "build_jobs",
+        chartJobDurationBranch.queries.push(new Keen.Query('average', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
-            targetProperty: "job.duration",
-            groupBy: "job.branch",
+            targetProperty: 'job.duration',
+            groupBy: 'job.branch',
             filters: filterList
         }));
         chartsTimeframe.push(chartJobDurationBranch);
@@ -630,16 +630,16 @@ function initCharts() {
         chartJobDurationBranch.chart = new Dataviz()
             .el('#chart_job_duration_branch')
             .type('bar')
-            .title("Average build job duration grouped by branch")
+            .title('Average build job duration grouped by branch')
             .height(400)
             .attributes({
                 chartOptions: {
                     axis: {
                         x: {
-                            label: "branch name"
+                            label: 'branch name'
                         },
                         y: {
-                            label: "duration [s]"
+                            label: 'duration [s]'
                         }
                     }
                 }
@@ -670,13 +670,13 @@ function initCharts() {
         ];
 
         // create query
-        chartJobDurationBuildMatrix.queries.push(new Keen.Query("average", {
-            eventCollection: "build_jobs",
+        chartJobDurationBuildMatrix.queries.push(new Keen.Query('average', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
-            targetProperty: "job.duration",
-            groupBy: "job.build_matrix.summary",
+            targetProperty: 'job.duration',
+            groupBy: 'job.build_matrix.summary',
             filters: chartJobDurationBuildMatrix.filters.concat(filterList)
         }));
         chartsTimeframe.push(chartJobDurationBuildMatrix);
@@ -685,16 +685,16 @@ function initCharts() {
         chartJobDurationBuildMatrix.chart = new Dataviz()
             .el('#chart_job_duration_buildmatrix')
             .type('bar')
-            .title("Average build job duration grouped by build matrix parameters")
+            .title('Average build job duration grouped by build matrix parameters')
             .height(400)
             .attributes({
                 chartOptions: {
                     axis: {
                         x: {
-                            label: "build matrix parameters"
+                            label: 'build matrix parameters'
                         },
                         y: {
-                            label: "duration [s]"
+                            label: 'duration [s]'
                         }
                     }
                 }
@@ -717,14 +717,14 @@ function initCharts() {
         var chartBuildsPerBranch = new ChartClass();
 
         // create query
-        chartBuildsPerBranch.queries.push(new Keen.Query("count_unique", {
-            eventCollection: "build_jobs",
+        chartBuildsPerBranch.queries.push(new Keen.Query('count_unique', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             interval: keenInterval,
             maxAge: keenMaxAge,
-            targetProperty: "job.build",
-            groupBy: "job.branch",
+            targetProperty: 'job.build',
+            groupBy: 'job.branch',
             filters: filterList
         }));
         chartsTimeframe.push(chartBuildsPerBranch);
@@ -733,7 +733,7 @@ function initCharts() {
         // draw chart
         chartBuildsPerBranch.chart = new Dataviz()
             .el('#chart_builds_branch')
-            .title("Builds per branch")
+            .title('Builds per branch')
             .type('bar')
             .height(400)
             .attributes({
@@ -741,7 +741,7 @@ function initCharts() {
                     isStacked: true,
                     axis: {
                         y: {
-                            label: "build count"
+                            label: 'build count'
                         }
                     }
                 }
@@ -764,13 +764,13 @@ function initCharts() {
         var chartTotalBuildsBranch = new ChartClass();
 
         // create query
-        chartTotalBuildsBranch.queries.push(new Keen.Query("count_unique", {
-            eventCollection: "build_jobs",
+        chartTotalBuildsBranch.queries.push(new Keen.Query('count_unique', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
-            targetProperty: "job.build",
-            groupBy: "job.branch",
+            targetProperty: 'job.build',
+            groupBy: 'job.branch',
             filters: filterList
         }));
         chartsTimeframe.push(chartTotalBuildsBranch);
@@ -778,7 +778,7 @@ function initCharts() {
         // draw chart
         chartTotalBuildsBranch.chart = new Dataviz()
             .el('#chart_builds_branch_pie')
-            .title("Builds per branch (%)")
+            .title('Builds per branch (%)')
             .type('pie')
             .height(400)
             .prepare();
@@ -799,14 +799,14 @@ function initCharts() {
         var chartJobResult = new ChartClass();
 
         // create query
-        chartJobResult.queries.push(new Keen.Query("count_unique", {
-            eventCollection: "build_jobs",
+        chartJobResult.queries.push(new Keen.Query('count_unique', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             interval: keenInterval,
             maxAge: keenMaxAge,
-            targetProperty: "job.job",
-            groupBy: "job.result",
+            targetProperty: 'job.job',
+            groupBy: 'job.result',
             filters: filterList
         }));
         chartsTimeframe.push(chartJobResult);
@@ -815,7 +815,7 @@ function initCharts() {
         // draw chart
         chartJobResult.chart = new Dataviz()
             .el('#chart_jobs_result')
-            .title("Build job results")
+            .title('Build job results')
             .type('bar')
             .height(400)
             .attributes({
@@ -859,13 +859,13 @@ function initCharts() {
         ];
 
         // create query
-        chartJobResultMatrix.queries.push(new Keen.Query("count_unique", {
-            eventCollection: "build_jobs",
+        chartJobResultMatrix.queries.push(new Keen.Query('count_unique', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
-            targetProperty: "job.job",
-            groupBy: "job.build_matrix.summary",
+            targetProperty: 'job.job',
+            groupBy: 'job.build_matrix.summary',
             filters: chartJobResultMatrix.filters.concat(filterList)
         }));
         chartsTimeframe.push(chartJobResultMatrix);
@@ -874,7 +874,7 @@ function initCharts() {
         chartJobResultMatrix.chart = new Dataviz()
             .el('#chart_jobs_result_branch')
             .height(400)
-            .title("Build jobs grouped by build matrix parameters")
+            .title('Build jobs grouped by build matrix parameters')
             .type('pie')
             .prepare();
 
@@ -902,31 +902,31 @@ function initCharts() {
         ];
 
         // create query
-        chartAvgBuildtimeHour.queries.push(new Keen.Query("average", {
-            eventCollection: "build_jobs",
+        chartAvgBuildtimeHour.queries.push(new Keen.Query('average', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_WEEK,
             maxAge: keenMaxAge,
-            targetProperty: "job.duration",
-            groupBy: "job.started_at.hour_24",
+            targetProperty: 'job.duration',
+            groupBy: 'job.started_at.hour_24',
             filters: chartAvgBuildtimeHour.filters.concat(filterList)
         }));
-        chartAvgBuildtimeHour.queries.push(new Keen.Query("average", {
-            eventCollection: "build_jobs",
+        chartAvgBuildtimeHour.queries.push(new Keen.Query('average', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_MONTH,
             maxAge: keenMaxAge,
-            targetProperty: "job.duration",
-            groupBy: "job.started_at.hour_24",
+            targetProperty: 'job.duration',
+            groupBy: 'job.started_at.hour_24',
             filters: chartAvgBuildtimeHour.filters.concat(filterList)
         }));
-        chartAvgBuildtimeHour.queries.push(new Keen.Query("average", {
-            eventCollection: "build_jobs",
+        chartAvgBuildtimeHour.queries.push(new Keen.Query('average', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_YEAR,
             maxAge: keenMaxAge,
-            targetProperty: "job.duration",
-            groupBy: "job.started_at.hour_24",
+            targetProperty: 'job.duration',
+            groupBy: 'job.started_at.hour_24',
             filters: chartAvgBuildtimeHour.filters.concat(filterList)
         }));
 
@@ -934,7 +934,7 @@ function initCharts() {
         chartAvgBuildtimeHour.chart = new Dataviz()
             .el('#chart_avg_buildtime_hour')
             .type('bar')
-            .title("Average buildtime per time of day")
+            .title('Average buildtime per time of day')
             .height(400)
             .attributes({
                 chartOptions: {
@@ -947,10 +947,10 @@ function initCharts() {
                                 rotate: 45,
                                 multiline: false
                             },
-                            label: "Time of day [24-hour format, UTC]"
+                            label: 'Time of day [24-hour format, UTC]'
                         },
                         y: {
-                            label: "duration [s]"
+                            label: 'duration [s]'
                         }
                     }
                 }
@@ -1002,31 +1002,31 @@ function initCharts() {
         ];
 
         // create query
-        chartAvgBuildtimeWeekDay.queries.push(new Keen.Query("average", {
-            eventCollection: "build_jobs",
+        chartAvgBuildtimeWeekDay.queries.push(new Keen.Query('average', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_WEEK,
             maxAge: keenMaxAge,
-            targetProperty: "job.duration",
-            groupBy: "job.started_at.day_of_week",
+            targetProperty: 'job.duration',
+            groupBy: 'job.started_at.day_of_week',
             filters: chartAvgBuildtimeWeekDay.filters.concat(filterList)
         }));
-        chartAvgBuildtimeWeekDay.queries.push(new Keen.Query("average", {
-            eventCollection: "build_jobs",
+        chartAvgBuildtimeWeekDay.queries.push(new Keen.Query('average', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_MONTH,
             maxAge: keenMaxAge,
-            targetProperty: "job.duration",
-            groupBy: "job.started_at.day_of_week",
+            targetProperty: 'job.duration',
+            groupBy: 'job.started_at.day_of_week',
             filters: chartAvgBuildtimeWeekDay.filters.concat(filterList)
         }));
-        chartAvgBuildtimeWeekDay.queries.push(new Keen.Query("average", {
-            eventCollection: "build_jobs",
+        chartAvgBuildtimeWeekDay.queries.push(new Keen.Query('average', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: TIMEFRAME_LAST_YEAR,
             maxAge: keenMaxAge,
-            targetProperty: "job.duration",
-            groupBy: "job.started_at.day_of_week",
+            targetProperty: 'job.duration',
+            groupBy: 'job.started_at.day_of_week',
             filters: chartAvgBuildtimeWeekDay.filters.concat(filterList)
         }));
 
@@ -1034,16 +1034,16 @@ function initCharts() {
         chartAvgBuildtimeWeekDay.chart = new Dataviz()
             .el('#chart_avg_buildtime_weekday')
             .type('bar')
-            .title("Average buildtime per day of week")
+            .title('Average buildtime per day of week')
             .height(400)
             .attributes({
                 chartOptions: {
                     axis: {
                         x: {
-                            label: "Day of week"
+                            label: 'Day of week'
                         },
                         y: {
-                            label: "duration [s]"
+                            label: 'duration [s]'
                         }
                     }
                 }
