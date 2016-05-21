@@ -29,28 +29,28 @@ timeframeButtons.onClick = function() {
 
 filterOptions = [
     {
-        "selectId": "filter_build_matrix",
-        "queryField": "job.build_matrix.summary",
-        "keenEventCollection": "build_jobs",
-        "caption": "Build matrix"
+        'selectId': 'filter_build_matrix',
+        'queryField': 'job.build_matrix.summary',
+        'keenEventCollection': 'build_jobs',
+        'caption': 'Build matrix'
     },
     {
-        "selectId": "filter_build_result",
-        "queryField": "job.result",
-        "keenEventCollection": "build_jobs",
-        "caption": "Build result"
+        'selectId': 'filter_build_result',
+        'queryField': 'job.result',
+        'keenEventCollection': 'build_jobs',
+        'caption': 'Build result'
     },
     {
-        "selectId": "filter_build_trigger",
-        "queryField": "job.build_trigger",
-        "keenEventCollection": "build_jobs",
-        "caption": "Build trigger"
+        'selectId': 'filter_build_trigger',
+        'queryField': 'job.build_trigger',
+        'keenEventCollection': 'build_jobs',
+        'caption': 'Build trigger'
     },
     {
-        "selectId": "filter_branch",
-        "queryField": "job.branch",
-        "keenEventCollection": "build_jobs",
-        "caption": "Branch"
+        'selectId': 'filter_branch',
+        'queryField': 'job.branch',
+        'keenEventCollection': 'build_jobs',
+        'caption': 'Branch'
     }
 ];
 
@@ -96,7 +96,7 @@ function mergeSeries(data, indexCaptions, valueFieldname, seriesCaptions) {
  */
 function formatDuration(duration) {
     if (isNaN(duration) || duration < 0) {
-        return "unknown";
+        return 'unknown';
     }
 
     // round duration
@@ -104,16 +104,16 @@ function formatDuration(duration) {
 
     var seconds = duration % 60;
     duration = duration / 60;
-    var formattedString = seconds.toFixed(0) + "s";
+    var formattedString = seconds.toFixed(0) + 's';
 
     if (duration >= 1) {
         var minutes = Math.floor(duration % 60);
         duration = duration / 60;
-        formattedString = minutes + "m " + formattedString;
+        formattedString = minutes + 'm ' + formattedString;
 
         if (duration >= 1) {
             var hours = Math.floor(duration % 60);
-            formattedString = hours + "h " + formattedString;
+            formattedString = hours + 'h ' + formattedString;
         }
     }
 
@@ -140,7 +140,7 @@ function updateBadgeUrl() {
     }
 
     // change badge url
-    $("#badge-url").attr('src', htmlEntities(badgeUrl));
+    $('#badge-url').attr('src', htmlEntities(badgeUrl));
 }
 
 function initCharts() {
@@ -204,9 +204,9 @@ function initCharts() {
 
     metricTotalBuildJobsPassed.filters = [
         {
-            "property_name": "job.result",
-            "operator": "eq",
-            "property_value":"passed"
+            'property_name': 'job.result',
+            'operator': 'eq',
+            'property_value':'passed'
         }
     ];
 
@@ -269,9 +269,9 @@ function initCharts() {
 
     metricTotalBuildJobsFailed.filters = [
         {
-            "property_name": "job.result",
-            "operator": "in",
-            "property_value": ["failed","errored"]
+            'property_name': 'job.result',
+            'operator': 'in',
+            'property_value': ['failed','errored']
         }
     ];
 
@@ -378,9 +378,9 @@ function initCharts() {
 
     metricDaysSinceLastFailed.filters = [
         {
-            "operator": "ne",
-            "property_name": "job.result",
-            "property_value": "passed"
+            'operator': 'ne',
+            'property_name': 'job.result',
+            'property_value': 'passed'
         }
     ];
 
@@ -436,7 +436,7 @@ function initCharts() {
     /* average stage duration */
     var chartStageDuration = new ChartClass();
 
-    chartStageDuration.filters = [{"property_name":"stage.name","operator":"exists","property_value":true}];
+    chartStageDuration.filters = [{'property_name':'stage.name','operator':'exists','property_value':true}];
 
     // create query
     chartStageDuration.queries.push(new Keen.Query('average', {
@@ -490,7 +490,7 @@ function initCharts() {
     /* Stage duration fraction */
     var chartStageFraction = new ChartClass();
 
-    chartStageFraction.filters = [{"property_name":"stage.name","operator":"exists","property_value":true}];
+    chartStageFraction.filters = [{'property_name':'stage.name','operator':'exists','property_value':true}];
 
     // create query
     chartStageFraction.queries.push(new Keen.Query('average', {
@@ -704,9 +704,9 @@ function initCharts() {
 
     chartJobDurationBuildMatrix.filters = [
         {
-            "property_name": "job.build_matrix.summary",
-            "operator": "exists",
-            "property_value": true
+            'property_name': 'job.build_matrix.summary',
+            'operator': 'exists',
+            'property_value': true
         }
     ];
 
@@ -879,14 +879,14 @@ function initCharts() {
                 isStacked: true,
                 axis: {
                     y: {
-                        label: "build job count"
+                        label: 'build job count'
                     }
                 }
             },
             colorMapping: {
-                "passed": GREEN,
-                "failed": RED,
-                "errored": YELLOW
+                'passed': GREEN,
+                'failed': RED,
+                'errored': YELLOW
             }
         })
         .prepare();
@@ -913,9 +913,9 @@ function initCharts() {
 
     chartJobResultMatrix.filters = [
         {
-            "property_name": "job.build_matrix.summary",
-            "operator": "exists",
-            "property_value": true
+            'property_name': 'job.build_matrix.summary',
+            'operator': 'exists',
+            'property_value': true
         }
     ];
 
@@ -961,9 +961,9 @@ function initCharts() {
 
     chartAvgBuildtimeHour.filters = [
         {
-            "property_name": "job.started_at.hour_24",
-            "operator": "exists",
-            "property_value": true
+            'property_name': 'job.started_at.hour_24',
+            'operator': 'exists',
+            'property_value': true
         }
     ];
 
@@ -1038,13 +1038,13 @@ function initCharts() {
                     // populate array with an entry per hour
                     var i;
                     for (i = 0; i < 24; i++) {
-                        indexCaptions[i]= String(i) + ":00";
+                        indexCaptions[i]= String(i) + ':00';
                     }
 
                     var chartData = mergeSeries(
                         res,
                         indexCaptions,
-                        "job.started_at.hour_24",
+                        'job.started_at.hour_24',
                         timeframeCaptions
                     );
 
@@ -1062,9 +1062,9 @@ function initCharts() {
 
     chartAvgBuildtimeWeekDay.filters = [
         {
-            "property_name": "job.started_at.day_of_week",
-            "operator": "exists",
-            "property_value": true
+            'property_name': 'job.started_at.day_of_week',
+            'operator': 'exists',
+            'property_value': true
         }
     ];
 
@@ -1127,12 +1127,12 @@ function initCharts() {
                     chartAvgBuildtimeWeekDay.chart.error(err.message);
                 } else {
                     var timeframeCaptions = [CAPTION_LAST_WEEK, CAPTION_LAST_MONTH, CAPTION_LAST_YEAR];
-                    var indexCaptions = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+                    var indexCaptions = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
                     var chartData = mergeSeries(
                         res,
                         indexCaptions,
-                        "job.started_at.day_of_week",
+                        'job.started_at.day_of_week',
                         timeframeCaptions
                     );
 

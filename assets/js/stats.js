@@ -22,18 +22,18 @@
  */
 
 // Timeframe button constants
-var BUTTON_COUNT_NAME = "count";
-var BUTTON_COUNT_DEFAULT = "jobs";
+var BUTTON_COUNT_NAME = 'count';
+var BUTTON_COUNT_DEFAULT = 'jobs';
 var BUTTONS_COUNT = {
-    "builds": {
-        "caption": "Builds",
-        "keenEventCollection": "build_jobs",
-        "keenTargetProperty": "job.build"
+    'builds': {
+        'caption': 'Builds',
+        'keenEventCollection': 'build_jobs',
+        'keenTargetProperty': 'job.build'
     },
-    "jobs": {
-        "caption": "Build jobs",
-        "keenEventCollection": "build_jobs",
-        "keenTargetProperty": "job.job"
+    'jobs': {
+        'caption': 'Build jobs',
+        'keenEventCollection': 'build_jobs',
+        'keenTargetProperty': 'job.job'
     }
 };
 
@@ -82,9 +82,9 @@ function initCharts() {
         var metricTotalRepos = new ChartClass();
 
         // create query
-        metricTotalRepos.queries.push(new Keen.Query("count_unique", {
-            eventCollection: "build_jobs",
-            targetProperty: "job.repo",
+        metricTotalRepos.queries.push(new Keen.Query('count_unique', {
+            eventCollection: 'build_jobs',
+            targetProperty: 'job.repo',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge
@@ -95,7 +95,7 @@ function initCharts() {
         metricTotalRepos.chart = new Dataviz()
             .el('#metric_unique_repos')
             .type('metric')
-            .title("Unique repos")
+            .title('Unique repos')
             .colors([BLUE])
             .attributes({
                 chartOptions: {prettyNumber: false}
@@ -118,8 +118,8 @@ function initCharts() {
         var metricTotalBuildJobs = new ChartClass();
 
         // create query
-        metricTotalBuildJobs.queries.push(new Keen.Query("count", {
-            eventCollection: "build_jobs",
+        metricTotalBuildJobs.queries.push(new Keen.Query('count', {
+            eventCollection: 'build_jobs',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge
@@ -130,7 +130,7 @@ function initCharts() {
         metricTotalBuildJobs.chart = new Dataviz()
             .el('#metric_total_build_jobs')
             .type('metric')
-            .title("Total build jobs")
+            .title('Total build jobs')
             .prepare();
 
         metricTotalBuildJobs.request = function() {client.run(metricTotalBuildJobs.queries, function(err, res){
@@ -149,8 +149,8 @@ function initCharts() {
         var metricTotalSubStages = new ChartClass();
 
         // create query
-        metricTotalSubStages.queries.push(new Keen.Query("count", {
-            eventCollection: "build_substages",
+        metricTotalSubStages.queries.push(new Keen.Query('count', {
+            eventCollection: 'build_substages',
             timezone: TIMEZONE_SECS,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge
@@ -161,7 +161,7 @@ function initCharts() {
         metricTotalSubStages.chart = new Dataviz()
             .el('#metric_total_substages')
             .type('metric')
-            .title("Total substages")
+            .title('Total substages')
             .prepare();
 
         metricTotalSubStages.request = function() {client.run(metricTotalSubStages.queries, function(err, res){
@@ -183,7 +183,7 @@ function initCharts() {
         metricTotalEvents.chart = new Dataviz()
             .el('#metric_total_events')
             .type('metric')
-            .title("Total events")
+            .title('Total events')
             .colors([LAVENDER])
             .prepare();
 
@@ -210,10 +210,10 @@ function initCharts() {
         var chartUniqueRepos = new ChartClass();
 
         // create query
-        chartUniqueRepos.queries.push(new Keen.Query("count_unique", {
-            eventCollection: "build_jobs",
-            targetProperty: "job.repo",
-            groupBy: "job.build_matrix.language",
+        chartUniqueRepos.queries.push(new Keen.Query('count_unique', {
+            eventCollection: 'build_jobs',
+            targetProperty: 'job.repo',
+            groupBy: 'job.build_matrix.language',
             interval: keenInterval,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
@@ -225,7 +225,7 @@ function initCharts() {
         // draw chart
         chartUniqueRepos.chart = new Dataviz()
             .el('#chart_unique_repos')
-            .title("Unique project repositories")
+            .title('Unique project repositories')
             .type('area')
             .height(400)
             .attributes({
@@ -249,7 +249,7 @@ function initCharts() {
         chartBuildsPerProject = new ChartClass();
 
         // create query
-        chartBuildsPerProject.queries.push(new Keen.Query("count_unique", {
+        chartBuildsPerProject.queries.push(new Keen.Query('count_unique', {
             eventCollection: countSettings.keenEventCollection,
             targetProperty: countSettings.keenTargetProperty,
             groupBy: PROJECT_NAME_PROPERTY,
@@ -264,7 +264,7 @@ function initCharts() {
         // draw chart
         chartBuildsPerProject.chart = new Dataviz()
             .el('#chart_builds_per_project')
-            .title(countSettings.caption + " per project")
+            .title(countSettings.caption + ' per project')
             .type('bar')
             .height(400)
             .attributes({
@@ -288,7 +288,7 @@ function initCharts() {
         chartBuildsPerProjectPie = new ChartClass();
 
         // create query
-        chartBuildsPerProjectPie.queries.push(new Keen.Query("count_unique", {
+        chartBuildsPerProjectPie.queries.push(new Keen.Query('count_unique', {
             eventCollection: countSettings.keenEventCollection,
             targetProperty: countSettings.keenTargetProperty,
             groupBy: PROJECT_NAME_PROPERTY,
@@ -301,7 +301,7 @@ function initCharts() {
         // draw chart
         chartBuildsPerProjectPie.chart = new Dataviz()
             .el('#chart_builds_per_project_pie')
-            .title(countSettings.caption + " per project")
+            .title(countSettings.caption + ' per project')
             .type('pie')
             .height(400)
             .prepare();
@@ -322,8 +322,8 @@ function initCharts() {
         var chartStagesPerProject = new ChartClass();
 
         // create query
-        chartStagesPerProject.queries.push(new Keen.Query("count", {
-            eventCollection: "build_substages",
+        chartStagesPerProject.queries.push(new Keen.Query('count', {
+            eventCollection: 'build_substages',
             groupBy: PROJECT_NAME_PROPERTY,
             interval: keenInterval,
             timeframe: keenTimeframe,
@@ -336,7 +336,7 @@ function initCharts() {
         // draw chart
         chartStagesPerProject.chart = new Dataviz()
             .el('#chart_stages_per_project')
-            .title("Substages per project")
+            .title('Substages per project')
             .type('bar')
             .height(400)
             .attributes({
@@ -360,8 +360,8 @@ function initCharts() {
         var chartStagesPerProjectPie = new ChartClass();
 
         // create query
-        chartStagesPerProjectPie.queries.push(new Keen.Query("count", {
-            eventCollection: "build_substages",
+        chartStagesPerProjectPie.queries.push(new Keen.Query('count', {
+            eventCollection: 'build_substages',
             groupBy: PROJECT_NAME_PROPERTY,
             timeframe: keenTimeframe,
             maxAge: keenMaxAge,
@@ -372,7 +372,7 @@ function initCharts() {
         // draw chart
         chartStagesPerProjectPie.chart = new Dataviz()
             .el('#chart_stages_per_project_pie')
-            .title("Substages per project")
+            .title('Substages per project')
             .type('pie')
             .height(400)
             .prepare();
@@ -395,7 +395,7 @@ function initCharts() {
         // draw chart
         chartEventsPerProject.chart = new Dataviz()
             .el('#chart_total_events')
-            .title("Total events per project")
+            .title('Total events per project')
             .type('bar')
             .height(400)
             .attributes({
@@ -446,7 +446,7 @@ function initCharts() {
         // draw chart
         chartEventsPerProjectPie.chart = new Dataviz()
             .el('#chart_total_events_pie')
-            .title("Total events per project")
+            .title('Total events per project')
             .type('pie')
             .height(400)
             .prepare();
@@ -507,8 +507,8 @@ function updateCountCharts() {
     targetProperty: countSettings.keenTargetProperty
   });
 
-  chartBuildsPerProject.chart.title(countSettings.caption + " per project");
-  chartBuildsPerProjectPie.chart.title(countSettings.caption + " per project");
+  chartBuildsPerProject.chart.title(countSettings.caption + ' per project');
+  chartBuildsPerProjectPie.chart.title(countSettings.caption + ' per project');
 
   // refresh all query requests
   chartBuildsPerProject.chart.prepare();
