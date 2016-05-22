@@ -138,21 +138,21 @@ function populateProjects() {
             badgeUrl = getBadgeUrl() + projectRepo;
 
             // add project link to dropdown menu
-            projectLinkDropdown = '<li><a href='' + projectUrl + ''>' +
+            projectLinkDropdown = '<li><a href="' + projectUrl + '">' +
               projectRepo + '</a></li>';
             $('#projects.dropdown ul').append(projectLinkDropdown);
 
             // add project link to project overview
-            projectLinkOverview = '<li class='list-group-item'>' +
-              '<h4 class='list-group-item-heading'>' + projectRepo + '</h4>' +
-              '<a role='button' class='btn btn-primary' href='' +
-              projectUrl + ''>Dashboard</a>' +
-              ' <a href='' + projectUrl + ''><img id='badge-url' src='' +
-                  badgeUrl + '/latest' alt='Latest Buildtime' /></a>' +
-              ' <a href='' + projectUrl + ''><img id='badge-url' src='' +
-                  badgeUrl + '/builds' alt='Total Builds' /></a>' +
-              ' <a href='' + projectUrl + ''><img id='badge-url' src='' +
-                  badgeUrl + '/passed' alt='Successful builds' /></a>' +
+            projectLinkOverview = '<li class="list-group-item">' +
+              '<h4 class="list-group-item-heading">' + projectRepo + '</h4>' +
+              '<a role="button" class="btn btn-primary" href="' +
+              projectUrl + '">Dashboard</a>' +
+              ' <a href="' + projectUrl + '"><img id="badge-url" src="' +
+                  badgeUrl + '/latest" alt="Latest Buildtime" /></a>' +
+              ' <a href="' + projectUrl + '"><img id="badge-url" src="' +
+                  badgeUrl + '/builds" alt="Total Builds" /></a>' +
+              ' <a href="' + projectUrl + '"><img id="badge-url" src="' +
+                  badgeUrl + '/passed" alt="Successful builds" /></a>' +
               '</li>';
             $('#project-overview').append(projectLinkOverview);
         }
