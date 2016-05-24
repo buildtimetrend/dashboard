@@ -32,7 +32,7 @@
 function ChartClass() {
     this.queries = [];
     this.chart = null;
-    this.request = null;
+    this.request = function() {};
     this.filters = [];
 
     // Set default button
@@ -52,7 +52,7 @@ function ChartClass() {
 
         if (refresh) {
             this.chart.prepare();
-            this.request.refresh();
+            this.request();
         }
     };
 }

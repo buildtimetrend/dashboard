@@ -25,7 +25,7 @@
  * Checks if a variable is defined and not null.
  */
 function isEmpty(varName) {
-   return (varName === undefined || varName === null || varName === "");
+   return (varName === undefined || varName === null || varName === '');
 }
 
 /**
@@ -40,7 +40,7 @@ function defaultValue(arg, val) {
  * inspired by http://css-tricks.com/snippets/javascript/htmlentities-for-javascript/
  */
 function htmlEntities(str) {
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&quot;').replace(/'/g, '&#039;');
 }
 
 /**
@@ -90,25 +90,25 @@ function updateTitle() {
         title = htmlEntities(config.repoName);
     }
 
-    document.getElementById("title").innerHTML = title;
-    document.getElementsByTagName("title")[0].innerHTML = "Buildtime Trend - " + title;
+    document.getElementById('title').innerHTML = title;
+    document.getElementsByTagName('title')[0].innerHTML = 'Buildtime Trend - ' + title;
 }
 
 // Initialize link urls
 function initLinks() {
     // check if config.serviceUrl is set by something else than the default value
     if (!isEmpty(config.websiteUrl) && config.websiteUrl !== 'website_url') {
-        $("#title").attr('href', htmlEntities(config.websiteUrl));
+        $('#title').attr('href', htmlEntities(config.websiteUrl));
     }
 
     // link to project repo and display icon
     if (!isEmpty(config.repoName) && config.repoName !== 'repo_name') {
-        var repoUrl = "https://github.com/" + config.repoName;
-        $("#repo-url").attr('href', htmlEntities(repoUrl));
-        $("#repo-url").show();
+        var repoUrl = 'https://github.com/' + config.repoName;
+        $('#repo-url').attr('href', htmlEntities(repoUrl));
+        $('#repo-url').show();
     } else {
         // hide repo icon
-        $("#repo-url").hide();
+        $('#repo-url').hide();
     }
 }
 
@@ -116,11 +116,11 @@ function initLinks() {
 function initMessage() {
     // add message and display it
     if (!isEmpty(config.message)) {
-        $("#message").append(htmlEntities(config.message));
-        $("#message").show();
+        $('#message').append(htmlEntities(config.message));
+        $('#message').show();
     } else {
         // hide message
-        $("#message").hide();
+        $('#message').hide();
     }
 }
 
@@ -134,13 +134,13 @@ function populateProjects() {
 
         for (i = 0; i < config.projectList.length; i++) {
             projectRepo = htmlEntities(config.projectList[i]);
-            projectUrl = "/dashboard/" + projectRepo;
+            projectUrl = '/dashboard/' + projectRepo;
             badgeUrl = getBadgeUrl() + projectRepo;
 
             // add project link to dropdown menu
             projectLinkDropdown = '<li><a href="' + projectUrl + '">' +
               projectRepo + '</a></li>';
-            $("#projects.dropdown ul").append(projectLinkDropdown);
+            $('#projects.dropdown ul').append(projectLinkDropdown);
 
             // add project link to project overview
             projectLinkOverview = '<li class="list-group-item">' +
@@ -154,14 +154,14 @@ function populateProjects() {
               ' <a href="' + projectUrl + '"><img id="badge-url" src="' +
                   badgeUrl + '/passed" alt="Successful builds" /></a>' +
               '</li>';
-            $("#project-overview").append(projectLinkOverview);
+            $('#project-overview').append(projectLinkOverview);
         }
 
         // show projects dropdown menu
-        $("#projects.dropdown").show();
+        $('#projects.dropdown').show();
     } else {
         // hide projects dropdown menu
-        $("#projects.dropdown").hide();
+        $('#projects.dropdown').hide();
     }
 }
 
@@ -175,8 +175,8 @@ function getBadgeUrl() {
     }
 
     // add trailing slash if it is missing
-    if (serviceUrl.substr(-1) !== "/") {
-        serviceUrl += "/";
+    if (serviceUrl.substr(-1) !== '/') {
+        serviceUrl += '/';
     }
 
     return serviceUrl + 'badge/';

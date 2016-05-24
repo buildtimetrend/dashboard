@@ -21,15 +21,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-var TIMEFRAME_LAST_WEEK = "this_7_days";
-var TIMEFRAME_LAST_MONTH = "this_30_days";
-var TIMEFRAME_LAST_YEAR = "this_52_weeks";
+var TIMEFRAME_LAST_WEEK = 'this_7_days';
+var TIMEFRAME_LAST_MONTH = 'this_30_days';
+var TIMEFRAME_LAST_YEAR = 'this_52_weeks';
 
-var CAPTION_LAST_WEEK = "Last week";
-var CAPTION_LAST_MONTH = "Last month";
-var CAPTION_LAST_YEAR = "Last year";
+var CAPTION_LAST_WEEK = 'Last week';
+var CAPTION_LAST_MONTH = 'Last month';
+var CAPTION_LAST_YEAR = 'Last year';
 
-var TIMEZONE_SECS = "UTC"; // named timezone or offset in seconds, fe. GMT+1 = 3600
+var TIMEZONE_SECS = 'UTC'; // named timezone or offset in seconds, fe. GMT+1 = 3600
 
 // use Keen JS API default colors :
 // https://github.com/keen/keen-js/blob/master/src/dataviz/dataviz.js#L48
@@ -40,32 +40,32 @@ var BLUE = '#5a9eed';
 var LAVENDER = '#c879bb';
 
 // Timeframe button constants
-var BUTTON_TIMEFRAME_NAME = "timeframe";
-var BUTTON_TIMEFRAME_DEFAULT = "week";
+var BUTTON_TIMEFRAME_NAME = 'timeframe';
+var BUTTON_TIMEFRAME_DEFAULT = 'week';
 var BUTTONS_TIMEFRAME = {
-    "day": {
-        "caption": "Day",
-        "keenTimeframe": "today",
-        "keenInterval": "hourly",
-        "keenMaxAge": 300 // 5 min
+    'day': {
+        'caption': 'Day',
+        'keenTimeframe': 'today',
+        'keenInterval': 'hourly',
+        'keenMaxAge': 300 // 5 min
     },
-    "week": {
-        "caption": "Week",
-        "keenTimeframe": TIMEFRAME_LAST_WEEK,
-        "keenInterval": "daily",
-        "keenMaxAge": 600 // 10 min
+    'week': {
+        'caption': 'Week',
+        'keenTimeframe': TIMEFRAME_LAST_WEEK,
+        'keenInterval': 'daily',
+        'keenMaxAge': 600 // 10 min
     },
-    "month": {
-        "caption": "Month",
-        "keenTimeframe": TIMEFRAME_LAST_MONTH,
-        "keenInterval": "daily",
-        "keenMaxAge": 600 // 10 min
+    'month': {
+        'caption': 'Month',
+        'keenTimeframe': TIMEFRAME_LAST_MONTH,
+        'keenInterval': 'daily',
+        'keenMaxAge': 600 // 10 min
     },
-    "year": {
-        "caption": "Year",
-        "keenTimeframe": TIMEFRAME_LAST_YEAR,
-        "keenInterval": "weekly",
-        "keenMaxAge": 1800 // 30 min
+    'year': {
+        'caption': 'Year',
+        'keenTimeframe': TIMEFRAME_LAST_YEAR,
+        'keenInterval': 'weekly',
+        'keenMaxAge': 1800 // 30 min
    }
 };
 
@@ -86,10 +86,10 @@ var filterOptions = [];
 /* example, implemented in trends.js
 var filterOptions = [
     {
-        "selectId": "filter_", // id of html selection box
-        "queryField": "", // keen field to query on
-        "keenEventCollection": "build_jobs", // keen collection
-        "caption": "Build matrix" // title used in selection box
+        'selectId': 'filter_', // id of html selection box
+        'queryField': '', // keen field to query on
+        'keenEventCollection': 'build_jobs', // keen collection
+        'caption': 'Build matrix' // title used in selection box
     }
 ];*/
 
@@ -99,7 +99,7 @@ function getFilterList() {
 
     $.each(filterValues, function(index, value) {
         if (!isEmpty(value)) {
-            filterList.push({"property_name": index,"operator":"eq","property_value": value});
+            filterList.push({'property_name': index,'operator':'eq','property_value': value});
         }
     });
 
@@ -120,11 +120,11 @@ function updateFilter(parameter, value) {
 }
 
 function createFilterOptions() {
-    $("#filter_options").html("Filter on : ");
+    $('#filter_options').html('Filter on : ');
     $.each(filterOptions, function () {
         // create new select tag
-        $("#filter_options").append(
-            "<select id='" + this.selectId + "'></select>"
+        $('#filter_options').append(
+            '<select id="' + this.selectId + '"></select>'
         );
 
         // initialise select filter
@@ -164,7 +164,7 @@ function populateFilterOptions(filterParams, extraValue) {
     var currentValue = $('#' + filterParams.selectId).val();
     var valFound = false;
 
-    var querySelectUnique = new Keen.Query("select_unique", {
+    var querySelectUnique = new Keen.Query('select_unique', {
         eventCollection: filterParams.keenEventCollection,
         targetProperty: filterParams.queryField,
         timeframe: updatePeriod.keenTimeframe
@@ -204,7 +204,7 @@ function populateFilterOptions(filterParams, extraValue) {
                 $('#' + filterParams.selectId).val(currentValue);
             } else if (!isEmpty(currentValue)) {
                 // trigger change event to reset nonexistent value
-                $('#' + filterParams.selectId).trigger("change");
+                $('#' + filterParams.selectId).trigger('change');
             }
         }
     });
@@ -240,7 +240,7 @@ function updateCharts() {
     // refresh all updated query requests
     $.each(chartsUpdate, function () {
         this.chart.prepare();
-        this.request.refresh();
+        this.request();
     });
 
     // repopulate filter options
