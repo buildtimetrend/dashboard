@@ -500,7 +500,7 @@ function initCharts() {
         maxAge: keenMaxAge,
         targetProperty: 'stage.duration',
         groupBy: 'stage.name',
-        filters: chartStageDuration.filters.concat(filterList)
+        filters: chartStageFraction.filters.concat(filterList)
     }));
     chartsTimeframe.push(chartStageFraction);
 
