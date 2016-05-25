@@ -459,8 +459,8 @@ function initCharts() {
         .type('bar')
         .height(400)
         .attributes({
+            stacked: true,
             chartOptions: {
-                isStacked: true,
                 axis: {
                     y: {
                         label: 'duration [s]'
@@ -500,7 +500,7 @@ function initCharts() {
         maxAge: keenMaxAge,
         targetProperty: 'stage.duration',
         groupBy: 'stage.name',
-        filters: chartStageDuration.filters.concat(filterList)
+        filters: chartStageFraction.filters.concat(filterList)
     }));
     chartsTimeframe.push(chartStageFraction);
 
@@ -783,8 +783,8 @@ function initCharts() {
         .type('bar')
         .height(400)
         .attributes({
+            stacked: true,
             chartOptions: {
-                isStacked: true,
                 axis: {
                     y: {
                         label: 'build count'
@@ -875,8 +875,8 @@ function initCharts() {
         .type('bar')
         .height(400)
         .attributes({
+            stacked: true,
             chartOptions: {
-                isStacked: true,
                 axis: {
                     y: {
                         label: 'build job count'
