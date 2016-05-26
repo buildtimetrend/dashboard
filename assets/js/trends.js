@@ -195,7 +195,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(metricTotalBuildJobs);
 
@@ -260,7 +260,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(metricTotalBuildJobsPassed);
 
@@ -325,7 +325,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(metricTotalBuildJobsFailed);
 
@@ -369,7 +369,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(metricAverageBuildTime);
 
@@ -429,7 +429,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(metricDaysSinceLastFailed);
 
@@ -483,7 +483,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartStageDuration);
 
@@ -525,7 +525,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartStageFraction);
 
@@ -584,7 +584,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartStageDurationBuild);
 
@@ -643,7 +643,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartStageDurationBuildJob);
 
@@ -695,7 +695,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartJobDurationBranch);
 
@@ -755,7 +755,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartJobDurationBuildMatrix);
 
@@ -807,7 +807,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartBuildsPerBranch);
 
@@ -847,7 +847,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartTotalBuildsBranch);
 
@@ -904,7 +904,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartJobResult);
 
@@ -952,7 +952,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartJobResultMatrix);
 
@@ -1053,7 +1053,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartAvgBuildtimeHour);
 
@@ -1141,7 +1141,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartAvgBuildtimeWeekDay);
 
