@@ -8,6 +8,8 @@ v0.4 (not yet released)
 - [trends] issue buildtimetrend/python-lib#38 : Add 'days without fail' metric
 - [trends,stats] issue buildtimetrend/python-dashboard#3 : Show spinner when charts are being updated
 - issue buildtimetrend/python-lib#146 : improve constructing badgeUrl
+- issue buildtimetrend/python-lib#143 : convert to using seperate keen-dataviz
+and keen-analysis libraries, now using c3.js for charts
 - issue buildtimetrend/dashboard#8 : stack columns in charts
 
 v0.3 (released on 16Nov2015)
