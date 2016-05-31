@@ -11,6 +11,7 @@ v0.4 (not yet released)
 - issue buildtimetrend/python-lib#143 : convert to using seperate keen-dataviz
 and keen-analysis libraries, now using c3.js for charts
 - issue buildtimetrend/dashboard#8 : stack columns in charts
+- issue buildtimetrend/python-lib#39, buildtimetrend/dashboard#4 : Format buildtime duration (h m s)
 
 v0.3 (released on 16Nov2015)
 - issue buildtimetrend/python-lib#21 : add charts with build job results

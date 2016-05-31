@@ -463,7 +463,10 @@ function initCharts() {
             chartOptions: {
                 axis: {
                     y: {
-                        label: 'duration [s]'
+                        label: 'duration',
+                        tick: {
+                            format: function(d) { return formatDuration(d); }
+                        }
                     }
                 }
             }
@@ -564,7 +567,10 @@ function initCharts() {
                         label: 'build ID'
                     },
                     y: {
-                        label: 'duration [s]'
+                        label: 'duration',
+                        tick: {
+                            format: function(d) { return formatDuration(d); }
+                        }
                     }
                 }
             }
@@ -623,7 +629,10 @@ function initCharts() {
                         label: 'build job ID'
                     },
                     y: {
-                        label: 'duration [s]'
+                        label: 'duration',
+                        tick: {
+                            format: function(d) { return formatDuration(d); }
+                        }
                     }
                 }
             }
@@ -675,7 +684,10 @@ function initCharts() {
                         label: 'branch name'
                     },
                     y: {
-                        label: 'duration [s]'
+                        label: 'duration',
+                        tick: {
+                            format: function(d) { return formatDuration(d); }
+                        }
                     }
                 }
             }
@@ -735,7 +747,10 @@ function initCharts() {
                         label: 'build matrix parameters'
                     },
                     y: {
-                        label: 'duration [s]'
+                        label: 'duration',
+                        tick: {
+                            format: function(d) { return formatDuration(d); }
+                        }
                     }
                 }
             }
@@ -1016,7 +1031,10 @@ function initCharts() {
                         label: 'Time of day [24-hour format, UTC]'
                     },
                     y: {
-                        label: 'duration [s]'
+                        label: 'duration',
+                        tick: {
+                            format: function(d) { return formatDuration(d); }
+                        }
                     }
                 }
             }
@@ -1110,7 +1128,10 @@ function initCharts() {
                         label: 'Day of week'
                     },
                     y: {
-                        label: 'duration [s]'
+                        label: 'duration',
+                        tick: {
+                            format: function(d) { return formatDuration(d); }
+                        }
                     }
                 }
             }
