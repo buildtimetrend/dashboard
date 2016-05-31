@@ -113,7 +113,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(metricTotalRepos);
 
@@ -149,7 +149,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(metricTotalBuildJobs);
 
@@ -185,7 +185,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(metricTotalSubStages);
 
@@ -218,7 +218,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(metricTotalEvents);
 
@@ -262,7 +262,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartUniqueRepos);
 
@@ -306,7 +306,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartBuildsPerProject);
 
@@ -345,7 +345,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartBuildsPerProjectPie);
 
@@ -388,7 +388,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartStagesPerProject);
 
@@ -426,7 +426,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartStagesPerProjectPie);
 
@@ -480,7 +480,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartEventsPerProject);
 
@@ -529,7 +529,7 @@ function initCharts() {
                         .render();
                 }
             }
-        )
+        );
     };
     chartsUpdate.push(chartEventsPerProjectPie);
 
